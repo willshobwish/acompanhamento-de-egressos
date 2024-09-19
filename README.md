@@ -7,3 +7,4 @@ Projeto para acompanhar a trajetória academico e profissional dos egressos do c
 - Maven
 - JDK 17
 - SonarQube
+- SonarLint
