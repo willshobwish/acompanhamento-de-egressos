@@ -1,4 +1,7 @@
+package  Model;
+
 import java.util.List;
+import Model.Serializable;
 
 public class UserSerializable implements Serializable {
 
