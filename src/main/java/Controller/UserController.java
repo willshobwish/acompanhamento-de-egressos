@@ -1,5 +1,7 @@
-package  Controller;
+package Controller;
 
+
+import Model.User;
 import java.util.ArrayList;
 import java.util.List;
 

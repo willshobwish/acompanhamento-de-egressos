@@ -1,0 +1,7 @@
+Model\UserSerializable.class
+Controller\UserController.class
+Model\Serializable.class
+Model\User.class
+Model\Administrator.class
+Model\Egress.class
+View\Main.class

@@ -1,7 +1,12 @@
-package  View;
+package View;
 
+import Controller.UserController;
+import Model.Egress;
+import Model.User;
+import Model.UserSerializable;
 import java.util.ArrayList;
 import java.util.Date;
+
 
 public class Main {
     public static void main(String[] args) {

@@ -1,6 +1,4 @@
-package  Model;
-
-import Model.User.User;
+package Model;
 
 public interface Serializable {
     boolean emailCheck(String email, java.util.List<User> users);
