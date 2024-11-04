@@ -1,7 +1,7 @@
 package  Model;
 
 import java.util.List;
-import Model.Serializable;
+import java.util.Date;
 
 public class UserSerializable implements Serializable {
 
@@ -23,5 +23,50 @@ public class UserSerializable implements Serializable {
         } else {
             System.out.println("Email ja existe: " + user.getEmail());
         }
+    }
+ 
+    @Override
+    public void login(String email, String password, List<User> users) {
+        for (User user : users) {
+            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                System.out.println("login realizado com sucesso: " + user.getName());
+                return;
+            }
+        }
+        System.out.println("Falha: login ou senha invalidos.");
+    }
+
+    @Override
+    public void updateEgress(Date birthDate, Date startDate, Date endDate, String[] socialMedia, boolean visibility, List<User> users) {
+        for (User user : users) {
+            if (user instanceof Egress) {
+                Egress egressUser = (Egress) user;
+                egressUser.setBirthDate(birthDate);
+                egressUser.setStartDate(startDate);
+                egressUser.setEndDate(endDate);
+                egressUser.setSocialMedias(List.of(socialMedia));
+                egressUser.setPerfilType(visibility ? "public" : "private");
+                System.out.println("Egresso " + egressUser.getName() + " updated successfullyatualizado com sucesso.");
+                return;
+            }
+        }
+        System.out.println("Egresso não encontrado.");
+    }
+
+    @Override
+    public void updateEgress(String email, String password, Date birthDate, Date startDate, Date endDate, String[] socialMedia, boolean visibility, List<User> users) {
+        for (User user : users) {
+            if (user instanceof Egress && user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                Egress egressUser = (Egress) user;
+                egressUser.setBirthDate(birthDate);
+                egressUser.setStartDate(startDate);
+                egressUser.setEndDate(endDate);
+                egressUser.setSocialMedias(List.of(socialMedia));
+                egressUser.setPerfilType(visibility ? "public" : "private");
+                System.out.println("Egresso " + egressUser.getName() + " atualizado com sucesso.");
+                return;
+            }
+        }
+        System.out.println("Egress nao encontrado ou credenciais invalidas.");
     }
 }
