@@ -156,7 +156,7 @@ public class createEgress extends javax.swing.JFrame {
     UserSerializable serializable = new UserSerializable();
     serializable.addUser(newEgress, userController.getUsers());
 
-    javax.swing.JOptionPane.showMessageDialog(this, "Egress added successfully!");
+    javax.swing.JOptionPane.showMessageDialog(this, "Egresso adicionado com sucesso!");
     tfName1.setText("");
     tfEmail.setText("");
     tfPassword.setText("");
