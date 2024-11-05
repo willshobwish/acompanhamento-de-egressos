@@ -4,15 +4,10 @@
  */
 package View;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.ArrayList;
-
 import Model.Egress;
 import Model.UserSerializable;
-import Model.User;
 import Controller.UserController;
 
 /**

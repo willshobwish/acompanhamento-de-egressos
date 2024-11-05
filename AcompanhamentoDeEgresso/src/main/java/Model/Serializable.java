@@ -7,7 +7,7 @@ public interface Serializable {
 
     void addUser(User user, java.util.List<User> users);
     
-    void login(String email, String password, List<User> users);
+    boolean login(String email, String password, List<User> users);
     
     void updateEgress(Date birthDate, Date startDate, Date endDate, String[] socialMedia, boolean visibility, List<User> users);
     

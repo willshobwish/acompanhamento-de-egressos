@@ -26,14 +26,15 @@ public class UserSerializable implements Serializable {
     }
  
     @Override
-    public void login(String email, String password, List<User> users) {
+    public boolean login(String email, String password, List<User> users) {
         for (User user : users) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 System.out.println("login realizado com sucesso: " + user.getName());
-                return;
+                return true;
             }
         }
         System.out.println("Falha: login ou senha invalidos.");
+        return false;
     }
 
     @Override
