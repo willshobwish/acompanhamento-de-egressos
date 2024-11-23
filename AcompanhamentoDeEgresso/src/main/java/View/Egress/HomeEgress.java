@@ -201,10 +201,6 @@ public class HomeEgress extends javax.swing.JFrame {
         form.setAlwaysOnTop(false);
         form.setLocationRelativeTo(null);
         form.setVisible(true);
-
-        // avisar o usuário que após edição deve esperar o adm validar e pa
-        // e que quando ele entrar no sistema os dados apareceram atualizados caso o 
-        // adm tenha aprovado
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**

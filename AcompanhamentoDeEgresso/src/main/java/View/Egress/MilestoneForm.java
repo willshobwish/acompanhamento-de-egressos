@@ -15,21 +15,22 @@ public class MilestoneForm extends javax.swing.JDialog {
 
     private final Milestone initialData;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     /**
      * Creates new form MilestoneForm2
      */
     public MilestoneForm(java.awt.Frame parent, boolean modal, Milestone initialData) {
         super(parent, modal);
-         this.initialData = initialData;
-        
+        this.initialData = initialData;
+
         initComponents();
         if (initialData != null) {
             title.setText("Editar marco");
             initData();
         }
     }
-    
-     private void initData() {
+
+    private void initData() {
         role.setText(initialData.getRole());
         description.setText(initialData.getDescription());
         startDate.setText(initialData.getStartDate().format(formatter));
@@ -117,6 +118,11 @@ public class MilestoneForm extends javax.swing.JDialog {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Salvar");
         jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -216,6 +222,19 @@ public class MilestoneForm extends javax.swing.JDialog {
     private void insituitionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insituitionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_insituitionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (initialData != null) {
+            // controller.updateMilestone(role.getText()...);
+        } else {
+            // controller.createMilestone(role.getText()...);
+
+        }
+
+        // avisar o usuário que após edição deve esperar o adm validar e pa
+        // e que quando ele entrar no sistema os dados apareceram atualizados caso o 
+        // adm tenha aprovado
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
