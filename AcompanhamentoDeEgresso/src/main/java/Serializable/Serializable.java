@@ -1,17 +1,20 @@
-package Model;
+package Serializable;
 
+import Model.Administrator;
+import Model.Egress;
+import Model.Milestone;
+import Model.PendentMilestone;
+import Model.User;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class UserSerializable implements Serializable {
+public class Serializable {
     private List<User> users = new ArrayList<>();
     private List<PendentMilestone> pendentMilestones = new ArrayList<>();
     private User userSession;
 
     // User Management
-
-    @Override
     public void createUser(String name, String email, char type) {
         if (emailExist(email)) {
             System.out.println("Error: Email already exists.");
@@ -20,7 +23,7 @@ public class UserSerializable implements Serializable {
 
         User newUser;
         if (type == 'E') {
-            newUser = new Egress(name, email, "default123", null, null, null, new ArrayList<>(), "private");
+            newUser = new Egress(name, email, "default123", null, null, null, new ArrayList<>(), false);
         } else if (type == 'A') {
             newUser = new Administrator(name, email, "admin");
         } else {
@@ -32,7 +35,6 @@ public class UserSerializable implements Serializable {
         System.out.println("User created successfully: " + name);
     }
 
-    @Override
     public boolean emailExist(String email) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
@@ -42,7 +44,6 @@ public class UserSerializable implements Serializable {
         return false;
     }
 
-    @Override
     public void login(String email, String password) {
         for (User user : users) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
@@ -55,9 +56,7 @@ public class UserSerializable implements Serializable {
     }
 
     // Egress Management
-
-    @Override
-    public void updateEgress(Date birthDate, Date startDate, Date endDate, List<String> socialMedia, boolean isPublic) {
+    public void updateEgress(LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedia, boolean isPublic) {
         if (!(userSession instanceof Egress)) {
             System.out.println("Error: Logged-in user is not an Egress.");
             return;
@@ -68,12 +67,11 @@ public class UserSerializable implements Serializable {
         egress.setStartDate(startDate);
         egress.setEndDate(endDate);
         egress.setSocialMedias(socialMedia);
-        egress.setPerfilType(isPublic ? "public" : "private");
+        egress.setIsPublic(isPublic);
 
         System.out.println("Egress updated successfully: " + egress.getName());
     }
 
-    @Override
     public void saveEgress(Egress egress) {
         if (!users.contains(egress)) {
             users.add(egress);
@@ -84,8 +82,6 @@ public class UserSerializable implements Serializable {
     }
 
     // Password Management
-
-    @Override
     public boolean updatePassword(String newPassword) {
         if (userSession == null) {
             System.out.println("Error: No user logged in.");
@@ -98,9 +94,7 @@ public class UserSerializable implements Serializable {
     }
 
     // Milestone Management
-
-    @Override
-    public void createMilestone(String institution, String description, String role, Date startDate, Date finishDate, boolean current) {
+    public void createMilestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
         if (!(userSession instanceof Egress)) {
             System.out.println("Error: Logged-in user is not an Egress.");
             return;
@@ -111,8 +105,7 @@ public class UserSerializable implements Serializable {
         System.out.println("Milestone created successfully for: " + egress.getName());
     }
 
-    @Override
-    public void updateMilestone(String id, String institution, String description, String role, Date startDate, Date finishDate, boolean current) {
+    public void updateMilestone(String id, String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
         if (!(userSession instanceof Egress)) {
             System.out.println("Error: Logged-in user is not an Egress.");
             return;
@@ -123,7 +116,6 @@ public class UserSerializable implements Serializable {
         System.out.println("Milestone updated successfully for: " + egress.getName());
     }
 
-    @Override
     public void deleteMilestone(String id) {
         if (!(userSession instanceof Egress)) {
             System.out.println("Error: Logged-in user is not an Egress.");
@@ -136,8 +128,6 @@ public class UserSerializable implements Serializable {
     }
 
     // Validation and Pending Milestone Management
-
-    @Override
     public void validateMilestone(Milestone newMilestone, Egress egress, boolean approved) {
         if (egress == null || newMilestone == null) {
             System.out.println("Error: Invalid Egress or Milestone.");
@@ -154,7 +144,6 @@ public class UserSerializable implements Serializable {
         pendentMilestones.removeIf(pm -> pm.getNewMilestone().equals(newMilestone));
     }
 
-    @Override
     public List<Milestone> listPendentsMilestones() {
         List<Milestone> milestones = new ArrayList<>();
         for (PendentMilestone pm : pendentMilestones) {
@@ -163,7 +152,6 @@ public class UserSerializable implements Serializable {
         return milestones;
     }
 
-    @Override
     public void removePendentMilestoneFromList(Milestone milestone) {
         pendentMilestones.removeIf(pm -> pm.getNewMilestone().equals(milestone));
         System.out.println("Milestone removed from pending list.");

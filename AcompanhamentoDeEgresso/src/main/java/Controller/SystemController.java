@@ -1,9 +1,9 @@
 package Controller;
 
-import Model.*;
+import Serializable.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
-import java.util.Date;
-import java.util.List;
 
 public class SystemController {
     private Serializable serializable;
@@ -21,11 +21,11 @@ public class SystemController {
         serializable.login(email, password);
     }
 
-    public void updateEgress(Date birthDate, Date startDate, Date endDate, List<String> socialMedia, boolean isPublic) {
+    public void updateEgress(LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedia, boolean isPublic) {
         serializable.updateEgress(birthDate, startDate, endDate, socialMedia, isPublic);
     }
     
-    public void createMilestone(String institution, String description, String role, Date startDate, Date finishDate, boolean current) {
+    public void createMilestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
         serializable.createMilestone(institution, description, role, startDate, finishDate, current);
     }
 
