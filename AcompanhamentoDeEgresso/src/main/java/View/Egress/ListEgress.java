@@ -39,7 +39,7 @@ public class ListEgress extends javax.swing.JPanel {
     }
 
     private void initEgressList() {
-        //ArrayList<Egress> egress = controller.getAllEgress();
+        //ArrayList<Egress> egress = this.hasAccess ? controller.getAllEgress() : controller.getPublicEgress();
         ArrayList<Egress> egressList = new ArrayList<>();
 
         // to test
@@ -57,8 +57,7 @@ public class ListEgress extends javax.swing.JPanel {
         traj.addMilestone("UNESP", "aprendendendo e se fodendo", "Estudante de ciência da computação", LocalDate.now(), null, true);
         egressList.getFirst().setTrajectory(traj);
         egressList.forEach(egress -> {
-            System.out.println(egress.isPublic());
-            if (egress.isFirstAccess() || (!egress.isPublic() && !this.hasAccess)) {
+            if (egress.isFirstAccess()) {
                 return;
             }
 
