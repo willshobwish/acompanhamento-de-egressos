@@ -1,11 +1,10 @@
 package Model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
 
 public class Trajectory {
-    private List<Milestone> milestones;
+    private ArrayList<Milestone> milestones;
 
     // Constructor
     public Trajectory() {
@@ -13,12 +12,12 @@ public class Trajectory {
     }
 
     // Get all milestones
-    public List<Milestone> getMilestones() {
+    public ArrayList<Milestone> getMilestones() {
         return milestones;
     }
 
     // Set milestones
-    public void setMilestones(List<Milestone> milestones) {
+    public void setMilestones(ArrayList<Milestone> milestones) {
         if (milestones == null) {
             throw new IllegalArgumentException("Milestones list cannot be null.");
         }
@@ -27,7 +26,7 @@ public class Trajectory {
 
     // Add a new milestone
     public void addMilestone(String institution, String description, String role, 
-                             Date startDate, Date finishDate, boolean current) {
+                             LocalDate startDate, LocalDate finishDate, boolean current) {
         Milestone newMilestone = new Milestone(institution, description, role, startDate, finishDate, current);
         milestones.add(newMilestone);
         System.out.println("Milestone added successfully: " + institution);
@@ -35,7 +34,7 @@ public class Trajectory {
 
     // Update an existing milestone by ID
     public void updateMilestone(String id, String institution, String description, String role, 
-                                Date startDate, Date finishDate, boolean current) {
+                                LocalDate startDate, LocalDate finishDate, boolean current) {
         for (Milestone milestone : milestones) {
             if (milestone.getId().equals(id)) {
                 milestone.setInstitution(institution);

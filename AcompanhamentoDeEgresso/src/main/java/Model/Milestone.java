@@ -1,18 +1,19 @@
 package Model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Milestone {
+
     private String id;
     private String institution;
     private String description;
     private String role;
-    private Date startDate;
-    private Date finishDate;
+    private LocalDate startDate;
+    private LocalDate finishDate;
     private boolean current;
 
-    public Milestone(String institution, String description, String role, Date startDate, Date finishDate, boolean current) {
+    public Milestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
         this.id = UUID.randomUUID().toString(); // Generate a unique ID
         this.institution = institution;
         this.description = description;
@@ -21,7 +22,6 @@ public class Milestone {
         this.finishDate = finishDate;
         this.current = current;
     }
-
 
     public String getId() {
         return id;
@@ -51,19 +51,19 @@ public class Milestone {
         this.role = role;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getFinishDate() {
+    public LocalDate getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(Date finishDate) {
+    public void setFinishDate(LocalDate finishDate) {
         this.finishDate = finishDate;
     }
 

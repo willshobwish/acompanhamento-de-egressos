@@ -1,17 +1,13 @@
 package View;
 
-import Model.*;
-import Model.Egress;
-import Model.Milestone;
-import Model.Trajectory;
-import Model.UserSerializable;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
+import View.Core.Home;
+import javax.swing.JFrame;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class Main {
     public static void main(String[] args) {
         // inicializar UserSerializable e Trajectory
+        /*
         UserSerializable userSerializable = new UserSerializable();
         Trajectory trajectory = new Trajectory();
 
@@ -94,5 +90,14 @@ public class Main {
         for (Milestone pending : pendingMilestones) {
             System.out.println("Instituicao: " + pending.getInstitution() + ", Funcao: " + pending.getRole());
         }
+        */
+        
+        JFrame frame = new Home();
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setAlwaysOnTop(false);
+        frame.setLocationRelativeTo(null);
+
+        frame.setVisible(true);
     }
 }
