@@ -4,7 +4,7 @@
  */
 package View.Egress;
 
-import Controller.Prototype;
+import Controller.SystemController;
 import java.time.LocalDate;
 import Model.*;
 import Model.Milestone;
@@ -14,7 +14,7 @@ public class MilestoneForm extends javax.swing.JDialog {
 
     private final Milestone initialData;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    Prototype session = Prototype.getInstance();
+    SystemController session = SystemController.getInstance();
 
     /**
      * Creates new form MilestoneForm2
@@ -233,7 +233,7 @@ public class MilestoneForm extends javax.swing.JDialog {
             Trajectory traj = session.getEgressByEmail(session.getUserSession().getEmail()).getTrajectory();
             traj.addMilestone(insituition.getText(), description.getText(), role.getText(),
                     LocalDate.from(formatter.parse(startDate.getText())),
-                    LocalDate.from(formatter.parse(endDate.getText())),
+                    !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected());
             ((Egress) session.getEgressByEmail(session.getUserSession().getEmail())).setTrajectory(traj);
             this.dispose();

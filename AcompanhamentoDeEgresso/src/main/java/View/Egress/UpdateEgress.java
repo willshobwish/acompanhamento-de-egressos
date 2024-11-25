@@ -4,7 +4,7 @@
  */
 package View.Egress;
 
-import Controller.Prototype;
+import Controller.SystemController;
 import Interface.Callback;
 import Model.Egress;
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ public class UpdateEgress extends javax.swing.JPanel {
     private final Callback onSuccess;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    Prototype session = Prototype.getInstance();
+    SystemController session = SystemController.getInstance();
 
     /**
      * Creates new form UpdateEgress
@@ -222,7 +222,8 @@ public class UpdateEgress extends javax.swing.JPanel {
             list1.add(social2.getText());
             list1.add(social3.getText());
             session.updateEgress(LocalDate.now(), LocalDate.from(formatter1.parse(startDate.getText())),
-                    LocalDate.from(formatter1.parse(endDate.getText())), list1, true);
+                    LocalDate.from(formatter1.parse(endDate.getText())), list1, isPublic.isSelected());
+           
 
             if (onSuccess != null) {
                 onSuccess.execute();

@@ -4,7 +4,7 @@
  */
 package View.Egress;
 
-import Controller.Prototype;
+import Controller.SystemController;
 import Model.Egress;
 import Model.Trajectory;
 import java.awt.Color;
@@ -38,7 +38,7 @@ public class ListEgress extends javax.swing.JPanel {
     private void initEgressList() {
         //ArrayList<Egress> egress = this.hasAccess ? controller.getAllEgress() : controller.getPublicEgress();
         
-        Prototype session = Prototype.getInstance();
+        SystemController session = SystemController.getInstance();
         ArrayList<Egress> egressList = new ArrayList<>();
         egressList.addAll(session.getEgresses()); // NAO TA FUNCIONANDO
 
@@ -58,8 +58,8 @@ public class ListEgress extends javax.swing.JPanel {
         //egressList.getFirst().setTrajectory(traj);
         
         egressList.forEach(egress -> {
-            if (egress.isFirstAccess()) {
-                //return;
+            if (egress.isFirstAccess() || (!egress.isPublic() && !hasAccess)) {
+                return;
             }
 
             JLabel labelName = new JLabel(egress.getName());

@@ -4,7 +4,7 @@
  */
 package View.Core;
 
-import Controller.Prototype;
+import Controller.SystemController;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -73,7 +73,7 @@ public class UpdatePassword extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Prototype session = Prototype.getInstance();
+        SystemController session = SystemController.getInstance();
         
         if (passwordField.getText().isEmpty()){
             System.out.println("campo vazio");

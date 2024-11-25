@@ -4,7 +4,7 @@
  */
 package View.Core;
 
-import Controller.Prototype;
+import Controller.SystemController;
 import View.User.HomeCommonUser;
 import View.Egress.ListEgress;
 import View.Egress.HomeEgress;
@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import Controller.Prototype;
+import Controller.SystemController;
 
 public class Home extends javax.swing.JFrame {
 
     /**
      * Creates new form Home
      */
-    Prototype session = Prototype.getInstance();
+    SystemController session = SystemController.getInstance();
     public Home() {
         initComponents();
         ListEgress form = new ListEgress(false);

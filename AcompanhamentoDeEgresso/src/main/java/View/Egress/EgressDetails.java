@@ -4,17 +4,8 @@
  */
 package View.Egress;
 
-import View.Egress.ListMilestones;
 import Model.Egress;
-import Model.Milestone;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 

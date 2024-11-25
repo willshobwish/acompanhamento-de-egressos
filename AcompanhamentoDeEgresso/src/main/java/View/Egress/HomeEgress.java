@@ -4,21 +4,19 @@
  */
 package View.Egress;
 
-import View.Egress.UpdateEgress;
 import Model.Egress;
-import Model.Trajectory;
 import View.Core.UpdatePassword;
 import java.awt.BorderLayout;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JPanel;
 import Controller.*;
+import View.Core.Home;
+import javax.swing.JFrame;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class HomeEgress extends javax.swing.JFrame {
 
     private Egress userSession;
-    Prototype session = Prototype.getInstance();
+    SystemController session = SystemController.getInstance();
 
     /**
      * Creates new form HomeEgress
@@ -41,8 +39,8 @@ public class HomeEgress extends javax.swing.JFrame {
         Trajectory traj = new Trajectory();
         traj.addMilestone("UNESP", "aprendendendo e se fodendo", "Estudante de ciência da computação", LocalDate.now(), null, true);
         ((Egress) userSession).setTrajectory(traj);
-        */
-        
+         */
+
         if (userSession.isFirstAccess()) {
             UpdateEgress form = new UpdateEgress(userSession, () -> {
                 this.menuAccount.setEnabled(true);
@@ -77,6 +75,7 @@ public class HomeEgress extends javax.swing.JFrame {
         menuAccount = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         menuTrajectory = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -127,6 +126,14 @@ public class HomeEgress extends javax.swing.JFrame {
             }
         });
         menuAccount.add(jMenuItem2);
+
+        jMenuItem5.setText("Sair");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        menuAccount.add(jMenuItem5);
 
         jMenuBar1.add(menuAccount);
 
@@ -204,6 +211,18 @@ public class HomeEgress extends javax.swing.JFrame {
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        session.logout();
+        JFrame frame = new Home();
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setAlwaysOnTop(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -246,6 +265,7 @@ public class HomeEgress extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenu menuAccount;
     private javax.swing.JMenu menuEgress;

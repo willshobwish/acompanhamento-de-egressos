@@ -4,9 +4,7 @@
  */
 package View.Adm;
 
-import Controller.Prototype;
-import java.util.ArrayList;
-import java.util.Arrays;
+import Controller.SystemController;
 import javax.swing.JOptionPane;
 
 public class CreateUser extends javax.swing.JPanel {
@@ -117,7 +115,7 @@ public class CreateUser extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Prototype session = Prototype.getInstance();
+        SystemController session = SystemController.getInstance();
         
         if (nameField.getText().isEmpty() || emailField.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Campos em branco, preencha o nome e email",
@@ -128,11 +126,11 @@ public class CreateUser extends javax.swing.JPanel {
             "Erro", JOptionPane.ERROR_MESSAGE);
         }
         else if (userType == 'U'){
-            session.createUser(nameField.getText(), emailField.getText(), 'U');
-            JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            String password = session.createUser(nameField.getText(), emailField.getText(), 'U');
+            JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso. A senha é: " + password, "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else if (userType == 'E'){
-            session.createEgress(nameField.getText(), emailField.getText(), 'E');
-            JOptionPane.showMessageDialog(null, "Egresso cadastrado com sucesso", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+             String password = session.createEgress(nameField.getText(), emailField.getText(), 'E');
+            JOptionPane.showMessageDialog(null, "Egresso cadastrado com sucesso. A senha é: " + password, "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

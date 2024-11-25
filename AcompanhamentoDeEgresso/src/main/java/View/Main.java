@@ -3,7 +3,7 @@ package View;
 import View.Core.Home;
 import javax.swing.JFrame;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import Controller.Prototype;
+import Controller.SystemController;
 import Model.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        Prototype session = Prototype.getInstance();
+        SystemController session = SystemController.getInstance();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         ArrayList<String> list1 = new ArrayList<>();
         list1.add("social_media1");
@@ -35,7 +35,7 @@ public class Main {
                 LocalDate.from(formatter.parse("15/02/2007")),
                 LocalDate.from(formatter.parse("25/10/2013")),
                 list1,
-                true);
+                false);
         
         JFrame frame = new Home();
         frame.setResizable(false);

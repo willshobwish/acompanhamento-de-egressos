@@ -4,13 +4,17 @@
  */
 package View.Adm;
 
+import Controller.SystemController;
+import View.Core.Home;
 import View.Egress.ListEgress;
 import View.Core.UpdatePassword;
-import View.Egress.UpdateEgress;
 import java.awt.BorderLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class HomeAdm extends javax.swing.JFrame {
+    SystemController session = SystemController.getInstance();
 
     /**
      * Creates new form HomeAdm
@@ -40,6 +44,7 @@ public class HomeAdm extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,7 +74,7 @@ public class HomeAdm extends javax.swing.JFrame {
         });
         jMenu1.add(menuNewEgress);
 
-        jMenuItem2.setText("Atualizar Egresso");
+        jMenuItem2.setText("Atualizações pendentes");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -108,6 +113,14 @@ public class HomeAdm extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem3);
+
+        jMenuItem5.setText("Sair");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem5);
 
         jMenuBar1.add(jMenu3);
 
@@ -151,6 +164,18 @@ public class HomeAdm extends javax.swing.JFrame {
         //UpdateEgress form = new UpdateEgress();
         //showForm(form);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        session.logout();
+        JFrame frame = new Home();
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setAlwaysOnTop(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void showForm(JPanel form) {
         content.removeAll();
@@ -207,6 +232,7 @@ public class HomeAdm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem menuNewEgress;
     // End of variables declaration//GEN-END:variables
 }
