@@ -7,8 +7,8 @@ public class Administrator extends User {
     private List<PendentMilestone> pendentMilestones;
 
     // Constructor
-    public Administrator(String name, String email, String password) {
-        super(name, email, password);
+    public Administrator() {
+        super("admin", "admin", "admin");
         this.pendentMilestones = new ArrayList<>();
     }
 

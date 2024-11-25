@@ -27,7 +27,7 @@ public class Egress extends User {
 
         public LocalDate getBirthDate() {
         return birthDate;
-    }
+    }   
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;

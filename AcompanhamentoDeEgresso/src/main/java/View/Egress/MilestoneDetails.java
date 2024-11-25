@@ -7,10 +7,6 @@ package View.Egress;
 import Model.Milestone;
 import java.time.format.DateTimeFormatter;
 
-/**
- *
- * @author Karol
- */
 public class MilestoneDetails extends javax.swing.JDialog {
 
     final private Milestone milestone;

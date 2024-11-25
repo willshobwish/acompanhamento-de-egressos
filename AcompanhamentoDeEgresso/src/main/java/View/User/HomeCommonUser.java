@@ -9,10 +9,6 @@ import View.Core.UpdatePassword;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Karol
- */
 public class HomeCommonUser extends javax.swing.JFrame {
 
     /**

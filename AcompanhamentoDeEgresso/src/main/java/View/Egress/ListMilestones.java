@@ -16,10 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Karol
- */
 public class ListMilestones extends javax.swing.JPanel {
 
     final private ArrayList<Milestone> milestones;

@@ -4,6 +4,7 @@
  */
 package View.Core;
 
+import Controller.Prototype;
 import View.User.HomeCommonUser;
 import View.Egress.ListEgress;
 import View.Egress.HomeEgress;
@@ -18,16 +19,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import Controller.Prototype;
 
-/**
- *
- * @author Karol
- */
 public class Home extends javax.swing.JFrame {
 
     /**
      * Creates new form Home
      */
+    Prototype session = Prototype.getInstance();
     public Home() {
         initComponents();
         ListEgress form = new ListEgress(false);
@@ -132,6 +131,7 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        
         Login login = new Login(this, true);
         login.setResizable(false);
         login.setAlwaysOnTop(false);
@@ -139,9 +139,10 @@ public class Home extends javax.swing.JFrame {
         login.setVisible(true);
 
         // get from controller the user session
-        // the code bellow is just to test
-        User userSession = new Egress("karolyne domiciano marques", 
-                "karolyne.d.marques@unesp.br", 
+        // teste
+        /*
+        User userSession = new Egress("teste", 
+                "teste@teste.com", 
                 "", 
                 LocalDate.now(), 
                 LocalDate.now(), 
@@ -152,14 +153,18 @@ public class Home extends javax.swing.JFrame {
         Trajectory traj = new Trajectory();
         traj.addMilestone("UNESP", "aprendendendo e se fodendo", "Estudante de ciência da computação", LocalDate.now(), null, true);
         ((Egress)userSession).setTrajectory(traj);
+        */
         
-        if (userSession != null) {
+        if (session.getUserSession() != null) {
             JFrame userHome;
-            if (userSession instanceof Administrator) {
+            if (session.getUserSession() instanceof Administrator) {
+                System.out.println("instance of adm");
                 userHome = new HomeAdm();
-            } else if (userSession instanceof Egress) {
+            } else if (session.getUserSession() instanceof Egress) {
+                System.out.println("instance of egress");
                 userHome = new HomeEgress();
             } else {
+                System.out.println("instance of user");
                 userHome = new HomeCommonUser();
             }
 

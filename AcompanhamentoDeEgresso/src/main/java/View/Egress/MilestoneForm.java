@@ -4,17 +4,17 @@
  */
 package View.Egress;
 
+import Controller.Prototype;
+import java.time.LocalDate;
+import Model.*;
 import Model.Milestone;
 import java.time.format.DateTimeFormatter;
 
-/**
- *
- * @author Karol
- */
 public class MilestoneForm extends javax.swing.JDialog {
 
     private final Milestone initialData;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    Prototype session = Prototype.getInstance();
 
     /**
      * Creates new form MilestoneForm2
@@ -224,11 +224,19 @@ public class MilestoneForm extends javax.swing.JDialog {
     }//GEN-LAST:event_insituitionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         if (initialData != null) {
             // controller.updateMilestone(role.getText()...);
+            
         } else {
             // controller.createMilestone(role.getText()...);
-
+            Trajectory traj = session.getEgressByEmail(session.getUserSession().getEmail()).getTrajectory();
+            traj.addMilestone(insituition.getText(), description.getText(), role.getText(),
+                    LocalDate.from(formatter.parse(startDate.getText())),
+                    LocalDate.from(formatter.parse(endDate.getText())),
+                    current.isSelected());
+            ((Egress) session.getEgressByEmail(session.getUserSession().getEmail())).setTrajectory(traj);
+            this.dispose();
         }
 
         // avisar o usuário que após edição deve esperar o adm validar e pa

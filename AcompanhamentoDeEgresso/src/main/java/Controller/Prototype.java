@@ -1,4 +1,4 @@
-package Serializable;
+package Controller;
 
 import Model.Administrator;
 import Model.Egress;
@@ -6,13 +6,45 @@ import Model.Milestone;
 import Model.PendentMilestone;
 import Model.User;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class Serializable {
+// SINGLETON PROTOTYPE, NOT FINAL
+public class Prototype {
+    private static Prototype instance;
+    
     private List<User> users = new ArrayList<>();
+    private List<Egress> egresses = new ArrayList<>();
     private List<PendentMilestone> pendentMilestones = new ArrayList<>();
-    private User userSession;
+    private User userSession = null;
+    private Administrator admin = new Administrator();
+    
+    private Prototype() {}
+    public static Prototype getInstance() {
+        if (instance == null) {
+            instance = new Prototype();
+        }
+        return instance;
+    }
+
+    public User getUserSession() {
+        return userSession;
+    }
+    
+    public List<Egress> getEgresses() {
+        for (Egress egress : egresses) {
+        }
+        return egresses;
+    } 
+    
+    public static String generatePassword() {
+        Random random = new Random();
+        int randomNumber = 10000 + random.nextInt(90000);
+        System.out.println("Senha gerada: " + randomNumber);
+        return String.valueOf(randomNumber);
+    }
 
     // User Management
     public void createUser(String name, String email, char type) {
@@ -22,18 +54,71 @@ public class Serializable {
         }
 
         User newUser;
-        if (type == 'E') {
-            newUser = new Egress(name, email, "default123", null, null, null, new ArrayList<>(), false);
-        } else if (type == 'A') {
-            newUser = new Administrator(name, email, "admin");
+        if (type == 'U') {
+            newUser = new User(name, email, generatePassword());
         } else {
             System.out.println("Error: Invalid user type.");
             return;
         }
 
         users.add(newUser);
-        System.out.println("User created successfully: " + name);
+        System.out.println("Usuario criado: " + name + " / " + email);
     }
+    
+    public Egress getEgressByEmail (String email) {
+        for (Egress egress : egresses) {
+            if (egress.getEmail().equals(email)){
+                return (egress);
+            }
+        }
+        return null;
+    }
+    
+    public void createEgress(String name, String email, char type) {
+        if (emailExist(email)) {
+            System.out.println("Error: Email already exists.");
+            return;
+        }
+
+        Egress newUser;
+        if (type == 'E') {
+            ArrayList<String> lst = new ArrayList<>();
+            lst.add(" ");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            newUser = new Egress(name, email, generatePassword(),
+                    LocalDate.from(formatter.parse("01/01/1899")),
+                    LocalDate.from(formatter.parse("01/01/1899")),
+                    LocalDate.from(formatter.parse("01/01/1899")),
+                    lst,
+                    false);
+        } else {
+            System.out.println("Error: Invalid user type.");
+            return;
+        }
+
+        egresses.add(newUser);
+        System.out.println("Usuario criado: " + name + " / " + email);
+    }
+    
+    public void createEgressFull(String name, String email, char type, LocalDate birthDate,
+            LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedia, boolean isPublic) {
+        if (emailExist(email)) {
+            System.out.println("Error: Email already exists.");
+            return;
+        }
+
+        Egress newUser;
+        if (type == 'E') {
+            newUser = new Egress(name, email, generatePassword(), birthDate, startDate, endDate, socialMedia, isPublic);
+        } else {
+            System.out.println("Error: Invalid user type.");
+            return;
+        }
+
+        egresses.add(newUser);
+        System.out.println("Usuario criado: " + name + " / " + email);
+    }
+    
 
     public boolean emailExist(String email) {
         for (User user : users) {
@@ -45,10 +130,25 @@ public class Serializable {
     }
 
     public void login(String email, String password) {
+        System.out.println(email + " " + password);
+        if (admin.getEmail().equals(email) && admin.getPassword().equals(password)){
+            userSession = admin;
+            System.out.println("Administrator Login Successful");
+            return;
+        }
         for (User user : users) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 userSession = user;
+                System.out.println(userSession.getEmail());
                 System.out.println("Login successful for: " + user.getName());
+                return;
+            }
+        }
+        for (Egress egress : egresses) {
+            if (egress.getEmail().equals(email) && egress.getPassword().equals(password)) {
+                userSession = egress;
+                System.out.println(userSession.getEmail());
+                System.out.println("Login successful for: " + egress.getName());
                 return;
             }
         }
@@ -63,6 +163,20 @@ public class Serializable {
         }
 
         Egress egress = (Egress) userSession;
+        egress.setBirthDate(birthDate);
+        egress.setStartDate(startDate);
+        egress.setEndDate(endDate);
+        egress.setSocialMedias(socialMedia);
+        egress.setIsPublic(isPublic);
+
+        System.out.println("Egress updated successfully: " + egress.getName());
+    }
+    
+    public void admUpdateEgress(Egress egress, LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedia, boolean isPublic) {
+        if (!(userSession instanceof Egress)) {
+            System.out.println("Error: Logged-in user is not an Egress.");
+            return;
+        }
         egress.setBirthDate(birthDate);
         egress.setStartDate(startDate);
         egress.setEndDate(endDate);

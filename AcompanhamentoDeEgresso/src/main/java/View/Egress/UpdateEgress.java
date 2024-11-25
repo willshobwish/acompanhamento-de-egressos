@@ -4,21 +4,22 @@
  */
 package View.Egress;
 
+import Controller.Prototype;
 import Interface.Callback;
 import Model.Egress;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;  
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author Karol
- */
 public class UpdateEgress extends javax.swing.JPanel {
 
     private final Egress initialData;
     private final Callback onSuccess;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    Prototype session = Prototype.getInstance();
 
     /**
      * Creates new form UpdateEgress
@@ -26,6 +27,8 @@ public class UpdateEgress extends javax.swing.JPanel {
      * @param initialData
      */
     public UpdateEgress(Egress initialData, Callback onSuccess) {
+        
+        initialData = session.getEgressByEmail(session.getUserSession().getEmail());
         this.onSuccess = onSuccess;
         this.initialData = initialData;
         initComponents();
@@ -208,8 +211,22 @@ public class UpdateEgress extends javax.swing.JPanel {
         // não esqueça de mostrar se deu sucesso ou não com o joptionpanel
         // não esqueça dentro de updateEgress de setar isFirstAccess como falso caso seja true
         // chamar apenas se o update foi um sucesso!
-        if (onSuccess != null) {
-            onSuccess.execute();
+        if(startDate.getText().isEmpty() || endDate.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Preencha as datas inicial e final",
+            "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            ArrayList<String> list1 = new ArrayList<>();
+            list1.add(social1.getText());
+            list1.add(social2.getText());
+            list1.add(social3.getText());
+            session.updateEgress(LocalDate.now(), LocalDate.from(formatter1.parse(startDate.getText())),
+                    LocalDate.from(formatter1.parse(endDate.getText())), list1, true);
+
+            if (onSuccess != null) {
+                onSuccess.execute();
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
