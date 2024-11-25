@@ -6,13 +6,10 @@ package View.Adm;
 
 import View.Egress.ListEgress;
 import View.Core.UpdatePassword;
+import View.Egress.UpdateEgress;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Karol
- */
 public class HomeAdm extends javax.swing.JFrame {
 
     /**
@@ -72,7 +69,12 @@ public class HomeAdm extends javax.swing.JFrame {
         });
         jMenu1.add(menuNewEgress);
 
-        jMenuItem2.setText("Atualizações pendentes");
+        jMenuItem2.setText("Atualizar Egresso");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem4.setText("Listar egressos");
@@ -144,6 +146,11 @@ public class HomeAdm extends javax.swing.JFrame {
         ListEgress form = new ListEgress(true);
         showForm(form);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        //UpdateEgress form = new UpdateEgress();
+        //showForm(form);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void showForm(JPanel form) {
         content.removeAll();

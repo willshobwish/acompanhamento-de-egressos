@@ -6,11 +6,11 @@ package View.Core;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import Controller.*;
+import View.Adm.*;
+import View.Egress.*;
+import View.User.*;
 
-/**
- *
- * @author Karol
- */
 public class Login extends javax.swing.JDialog {
 
     /**
@@ -114,15 +114,17 @@ public class Login extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        //SystemController controller = new SystemController();
-        //controller.login(emailField.getText(), passwordField.getText());
-
-        //if(userSession == null)
-        //     JOptionPane.showMessageDialog(null, "Email ou senha incorretos",
-        //         "Não autorizado", JOptionPane.ERROR_MESSAGE);
-        //else {     
+        Prototype session = Prototype.getInstance();
+        
+        session.login(emailField.getText(), passwordField.getText());
+        
+        if(session.getUserSession() == null) {
+            JOptionPane.showMessageDialog(null, "Email ou senha incorretos",
+            "Não autorizado", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
             this.dispose();
-        //        }
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**

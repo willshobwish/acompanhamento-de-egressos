@@ -4,6 +4,7 @@
  */
 package View.Egress;
 
+import Controller.Prototype;
 import Model.Egress;
 import Model.Trajectory;
 import java.awt.Color;
@@ -19,10 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-/**
- *
- * @author Karol
- */
 public class ListEgress extends javax.swing.JPanel {
     private final boolean hasAccess;
 
@@ -40,25 +37,29 @@ public class ListEgress extends javax.swing.JPanel {
 
     private void initEgressList() {
         //ArrayList<Egress> egress = this.hasAccess ? controller.getAllEgress() : controller.getPublicEgress();
+        
+        Prototype session = Prototype.getInstance();
         ArrayList<Egress> egressList = new ArrayList<>();
+        egressList.addAll(session.getEgresses()); // NAO TA FUNCIONANDO
 
-        // to test
-        egressList.add(new Egress("karolyne domiciano marques", 
-                "karolyne.d.marques@unesp.br", 
+        // teste
+        /*egressList.add(new Egress("Egresso teste", 
+                "teste@teste.com", 
                 "", 
                 LocalDate.now(), 
                 LocalDate.now(), 
                 LocalDate.now(), 
-                new ArrayList<>(Arrays.asList("https://linkedin.com/in/karoldm")), 
+                new ArrayList<>(Arrays.asList("https://linkedin.com/")), 
                 true
-        ));
+        ));*/
         egressList.getFirst().setFirstAccess(false);
-        Trajectory traj = new Trajectory();
-        traj.addMilestone("UNESP", "aprendendendo e se fodendo", "Estudante de ciência da computação", LocalDate.now(), null, true);
-        egressList.getFirst().setTrajectory(traj);
+        //Trajectory traj = new Trajectory();
+        //traj.addMilestone("UNESP", "Passa eu Dr. Rogério", "Estudante de ciência da computação", LocalDate.now(), null, true);
+        //egressList.getFirst().setTrajectory(traj);
+        
         egressList.forEach(egress -> {
             if (egress.isFirstAccess()) {
-                return;
+                //return;
             }
 
             JLabel labelName = new JLabel(egress.getName());

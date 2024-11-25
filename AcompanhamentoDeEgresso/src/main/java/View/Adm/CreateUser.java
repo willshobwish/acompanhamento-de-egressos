@@ -4,14 +4,11 @@
  */
 package View.Adm;
 
+import Controller.Prototype;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Karol
- */
 public class CreateUser extends javax.swing.JPanel {
 
     /*
@@ -120,13 +117,23 @@ public class CreateUser extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //response = controller.createUser(nameField.getText(), emailField.getText(), this.userType);
-        /*if (response == "dados vazios") {
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos para continuar.",
-                    "Dados vazios", JOptionPane.ERROR_MESSAGE);
-            return;
-          else if...
-        }*/
+        Prototype session = Prototype.getInstance();
+        
+        if (nameField.getText().isEmpty() || emailField.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campos em branco, preencha o nome e email",
+            "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        else if (session.emailExist(emailField.getText())){
+            JOptionPane.showMessageDialog(null, "Email ja cadastrado",
+            "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        else if (userType == 'U'){
+            session.createUser(nameField.getText(), emailField.getText(), 'U');
+            JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        } else if (userType == 'E'){
+            session.createEgress(nameField.getText(), emailField.getText(), 'E');
+            JOptionPane.showMessageDialog(null, "Egresso cadastrado com sucesso", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

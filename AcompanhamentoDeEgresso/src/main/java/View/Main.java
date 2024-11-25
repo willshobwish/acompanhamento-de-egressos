@@ -3,101 +3,45 @@ package View;
 import View.Core.Home;
 import javax.swing.JFrame;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import Controller.Prototype;
+import Model.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        // inicializar UserSerializable e Trajectory
-        /*
-        UserSerializable userSerializable = new UserSerializable();
-        Trajectory trajectory = new Trajectory();
-
-        // teste criação de usuario
-        System.out.println("=== Criacao de Usuario ===");
-        userSerializable.createUser("Admin", "admin@exemplo.com", 'A');
-        userSerializable.createUser("Bob", "bob@exemplo.com", 'E');
-        userSerializable.createUser("Admin", "admin@exemplo.com", 'E'); // email duplicado
-
-        // teste Login
-        System.out.println("\n=== Login ===");
-        userSerializable.login("admin@exemplo.com", "wrongpassword"); // senha errada
-        userSerializable.login("admin@exemplo.com", "admin");  // login certo
-
-        // teste gerenciamento de egresso
-        System.out.println("\n=== Gerenciamento de Egresso ===");
-        Egress egress = new Egress(
-            "Alice", 
-            "alice@exemplo.com", 
-            "senha123", 
-            new Date(1990, 1, 1), 
-            new Date(2010, 8, 15), 
-            new Date(2014, 5, 30), 
-            List.of("LinkedIn", "GitHub"), 
-            "public"
-        );
-        userSerializable.saveEgress(egress);
-
-        userSerializable.updateEgress(
-            new Date(1990, 1, 2), 
-            new Date(2010, 8, 16), 
-            new Date(2014, 5, 31), 
-            List.of("LinkedIn", "Twitter"), 
-            true
-        );
-
-        // teste Milestone
-        System.out.println("\n=== Gerenciamento de Milestone ===");
-        trajectory.addMilestone("Unesp", "Graduação", "Estudante", new Date(2010, 8, 15), new Date(2014, 5, 30), false);
-        trajectory.addMilestone("Nasa", "Estagio", "Estagiario", new Date(2015, 1, 1), new Date(2016, 12, 31), false);
-
-        // listar milestones
-        System.out.println("\n--- Milestones ---");
-        for (Milestone milestone : trajectory.getMilestones()) {
-            System.out.println("Instituicao: " + milestone.getInstitution() + ", Funcao: " + milestone.getRole());
-        }
-
-        // update milestone
-        Milestone milestoneToUpdate = trajectory.getMilestones().get(0);
-        trajectory.updateMilestone(
-            milestoneToUpdate.getId(), 
-            "Unesp", 
-            "Graduado", 
-            "Graduado", 
-            new Date(2010, 8, 15), 
-            new Date(2014, 5, 30), 
-            false
-        );
-
-        // Deletar milestone
-        Milestone milestoneToDelete = trajectory.getMilestones().get(1);
-        trajectory.deleteMilestone(milestoneToDelete.getId());
-
-        // lista milestones depois do update e delete
-        System.out.println("\n--- Milestones Depois do Update/Delete ---");
-        for (Milestone milestone : trajectory.getMilestones()) {
-            System.out.println("Instituicao: " + milestone.getInstitution() + ", Funcao: " + milestone.getRole());
-        }
-
-        // Teste Administrator Validation
-        System.out.println("\n=== Validacao de Administrador ===");
-        Administrator admin = new Administrator("Admin", "admin@exemplo.com", "admin123");
-        Milestone pendingMilestone = new Milestone("Valve", "Software Developer", "Developer", new Date(), new Date(), false);
-        PendentMilestone pendentMilestone = new PendentMilestone(egress, pendingMilestone);
-        admin.validateMilestone(pendentMilestone, true); // Aprovar milestone
-        
-        // Listar milestones pendentes
-        System.out.println("\n--- Milestones Pendentes ---");
-        List<Milestone> pendingMilestones = userSerializable.listPendentsMilestones();
-        for (Milestone pending : pendingMilestones) {
-            System.out.println("Instituicao: " + pending.getInstitution() + ", Funcao: " + pending.getRole());
-        }
-        */
+        Prototype session = Prototype.getInstance();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        ArrayList<String> list1 = new ArrayList<>();
+        list1.add("social_media1");
+        session.createEgressFull("Billy", "billy@email.com", 'E',
+                LocalDate.from(formatter.parse("05/06/1990")),
+                LocalDate.from(formatter.parse("10/10/2010")),
+                LocalDate.from(formatter.parse("11/11/2011")),
+                list1,
+                true);
+        Trajectory traj = new Trajectory();
+        traj.addMilestone("UNESP", "Passa eu Dr. Rogério", "Estudante de ciência da computação", LocalDate.now(), null, true);
+        session.getEgresses().getFirst().setTrajectory(traj);
+        session.createEgressFull("Adalberto", "adalberto@email.com", 'E',
+                LocalDate.from(formatter.parse("12/12/2002")),
+                LocalDate.from(formatter.parse("31/09/2023")),
+                LocalDate.from(formatter.parse("01/05/2024")),
+                list1,
+                true);
+        session.createEgressFull("Sonia", "sonia@email.com", 'E',
+                LocalDate.from(formatter.parse("17/10/2000")),
+                LocalDate.from(formatter.parse("15/02/2007")),
+                LocalDate.from(formatter.parse("25/10/2013")),
+                list1,
+                true);
         
         JFrame frame = new Home();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setAlwaysOnTop(false);
         frame.setLocationRelativeTo(null);
-
         frame.setVisible(true);
     }
 }

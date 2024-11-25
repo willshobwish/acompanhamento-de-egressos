@@ -18,10 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-/**
- *
- * @author Karol
- */
 public class EgressDetails extends javax.swing.JDialog {
 
     private final Egress egress;

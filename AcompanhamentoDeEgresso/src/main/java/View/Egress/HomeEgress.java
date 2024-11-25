@@ -13,14 +13,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JPanel;
+import Controller.*;
 
-/**
- *
- * @author Karol
- */
 public class HomeEgress extends javax.swing.JFrame {
 
     private Egress userSession;
+    Prototype session = Prototype.getInstance();
 
     /**
      * Creates new form HomeEgress
@@ -29,8 +27,10 @@ public class HomeEgress extends javax.swing.JFrame {
         initComponents();
 
         // to test
-        userSession = new Egress("karolyne domiciano marques",
-                "karolyne.d.marques@unesp.br",
+        userSession = session.getEgressByEmail(session.getUserSession().getEmail());
+        /*
+        userSession = new Egress("teste",
+                "teste@teste.com",
                 "",
                 LocalDate.now(),
                 LocalDate.now(),
@@ -41,7 +41,8 @@ public class HomeEgress extends javax.swing.JFrame {
         Trajectory traj = new Trajectory();
         traj.addMilestone("UNESP", "aprendendendo e se fodendo", "Estudante de ciência da computação", LocalDate.now(), null, true);
         ((Egress) userSession).setTrajectory(traj);
-
+        */
+        
         if (userSession.isFirstAccess()) {
             UpdateEgress form = new UpdateEgress(userSession, () -> {
                 this.menuAccount.setEnabled(true);

@@ -4,10 +4,11 @@
  */
 package View.Core;
 
-/**
- *
- * @author Karol
- */
+import Controller.Prototype;
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 public class UpdatePassword extends javax.swing.JPanel {
 
     /**
@@ -72,7 +73,17 @@ public class UpdatePassword extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //response = controller.updatePassword(passwordField.getText());
+        Prototype session = Prototype.getInstance();
+        
+        if (passwordField.getText().isEmpty()){
+            System.out.println("campo vazio");
+            JOptionPane.showMessageDialog(null, "Campo em branco, preencha sua senha",
+            "Erro", JOptionPane.ERROR_MESSAGE);
+        } else {
+            session.updatePassword(passwordField.getText());
+            JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+        //response = session.updatePassword(passwordField.getText());
         /*if (response == "dados vazios") {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos para continuar.",
                     "Dados vazios", JOptionPane.ERROR_MESSAGE);
