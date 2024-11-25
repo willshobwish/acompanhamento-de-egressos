@@ -224,13 +224,11 @@ public class MilestoneForm extends javax.swing.JDialog {
     }//GEN-LAST:event_insituitionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        Trajectory traj = session.getEgressByEmail(session.getUserSession().getEmail()).getTrajectory();
+
         if (initialData != null) {
-            // controller.updateMilestone(role.getText()...);
-            
+            //update here
         } else {
-            // controller.createMilestone(role.getText()...);
-            Trajectory traj = session.getEgressByEmail(session.getUserSession().getEmail()).getTrajectory();
             traj.addMilestone(insituition.getText(), description.getText(), role.getText(),
                     LocalDate.from(formatter.parse(startDate.getText())),
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
