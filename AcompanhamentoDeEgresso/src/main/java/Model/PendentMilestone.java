@@ -1,6 +1,8 @@
 package Model;
 
-public class PendentMilestone {
+import java.io.Serializable;
+
+public class PendentMilestone implements Serializable {
     private Egress egress;
     private Milestone newMilestone;
 

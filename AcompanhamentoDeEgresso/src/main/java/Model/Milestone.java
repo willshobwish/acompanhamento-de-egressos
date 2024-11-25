@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Milestone {
+public class Milestone implements Serializable {
 
     private String id;
     private String institution;

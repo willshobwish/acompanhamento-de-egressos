@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Trajectory {
+public class Trajectory implements Serializable{
     private ArrayList<Milestone> milestones;
 
     // Constructor
