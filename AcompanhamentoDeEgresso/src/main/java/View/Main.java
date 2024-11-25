@@ -1,28 +1,47 @@
-package  View;
+package View;
 
-import Controller.UserController;
-import Model.Egress;
-import Model.User;
-import Model.UserSerializable;
+import View.Core.Home;
+import javax.swing.JFrame;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import Controller.SystemController;
+import Model.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
-        UserController userController = new UserController();
-        UserSerializable serializable = new UserSerializable();
-
-        User user1 = new User("William", "william@unesp.com", "senha123");
-        Egress egress1 = new Egress("Karol", "karol@unesp.com", "senha456", new Date(), new Date(), new Date(),
-                new ArrayList<>(), "public");
-
-        serializable.addUser(user1, userController.getUsers());
-        serializable.addUser(egress1, userController.getUsers());
-
-        User user2 = new User("rogerio", "karol@unesp.com", "senha789");
-        serializable.addUser(user2, userController.getUsers());
+        SystemController session = SystemController.getInstance();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        ArrayList<String> list1 = new ArrayList<>();
+        list1.add("social_media1");
+        session.createEgressFull("Billy", "billy@email.com", 'E',
+                LocalDate.from(formatter.parse("05/06/1990")),
+                LocalDate.from(formatter.parse("10/10/2010")),
+                LocalDate.from(formatter.parse("11/11/2011")),
+                list1,
+                true);
+        Trajectory traj = new Trajectory();
+        traj.addMilestone("UNESP", "Passa eu Dr. Rogério", "Estudante de ciência da computação", LocalDate.now(), null, true);
+        session.getEgresses().getFirst().setTrajectory(traj);
+        session.createEgressFull("Adalberto", "adalberto@email.com", 'E',
+                LocalDate.from(formatter.parse("12/12/2002")),
+                LocalDate.from(formatter.parse("31/09/2023")),
+                LocalDate.from(formatter.parse("01/05/2024")),
+                list1,
+                true);
+        session.createEgressFull("Sonia", "sonia@email.com", 'E',
+                LocalDate.from(formatter.parse("17/10/2000")),
+                LocalDate.from(formatter.parse("15/02/2007")),
+                LocalDate.from(formatter.parse("25/10/2013")),
+                list1,
+                false);
         
-        MainFrame myFrame = new MainFrame();
-        myFrame.init();
+        JFrame frame = new Home();
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setAlwaysOnTop(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
