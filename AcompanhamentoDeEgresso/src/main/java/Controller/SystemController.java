@@ -57,21 +57,12 @@ public class SystemController {
         return String.valueOf(randomNumber);
     }
 
-    // User Management
     public String createUser(String name, String email, char type) {
         if (emailExist(email)) {
             logger.info("Error: Email already exists.");
             return "";
         }
-
-//        User newUser;
         String password = generatePassword();
-//        if (type == 'U') {
-//            newUser = new User(name, email, password);
-//        } else {
-//            logger.info("Error: Invalid user type.");
-//            return "";
-//        }
         ArrayList<User> users = serializableSystem.loadUser();
         users.add(new User(name, email, password));
         logger.info("Usuario criado: " + name + " / " + email);
@@ -99,8 +90,6 @@ public class SystemController {
 
         Egress newUser;
         String password = generatePassword();
-//        if (type == 'E') {
-//            password = generatePassword();
         ArrayList<String> lst = new ArrayList<>();
         lst.add(" ");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -110,10 +99,6 @@ public class SystemController {
                 LocalDate.from(formatter.parse("01/01/1899")),
                 lst,
                 false);
-//        } else {
-//            logger.info("Error: Invalid user type.");
-//            return "";
-//        }
         ArrayList<User> egresses = serializableSystem.loadUser();
         egresses.add(newUser);
         serializableSystem.saveUsers(egresses);

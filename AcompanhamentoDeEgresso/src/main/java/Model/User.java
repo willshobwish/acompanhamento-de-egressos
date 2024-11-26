@@ -2,6 +2,7 @@ package Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class User implements Serializable {
 
@@ -14,6 +15,7 @@ public class User implements Serializable {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.milestones = new ArrayList<>();
     }
 
     public String getName() {
@@ -50,7 +52,12 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "name=" + name + ", email=" + email + ", password=" + password + '}';
+        String string = """
+              Name: %s
+              Email: %s
+              Password: %s
+              Milestones: %s
+              """.formatted(name, email, password, Arrays.toString(milestones.toArray()));
+        return string;
     }
-
 }

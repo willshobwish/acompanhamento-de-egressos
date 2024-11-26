@@ -2,9 +2,12 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Administrator extends User {
+
     private List<PendentMilestone> pendentMilestones;
+    private static final Logger logger = Logger.getLogger(Administrator.class.getName());
 
     // Constructor
     public Administrator() {
@@ -24,7 +27,7 @@ public class Administrator extends User {
     // Method to validate a milestone
     public void validateMilestone(PendentMilestone pendentMilestone, boolean approved) {
         if (pendentMilestone == null) {
-            System.out.println("Error: PendentMilestone is null.");
+            logger.info("Error: PendentMilestone is null.");
             return;
         }
 
@@ -32,25 +35,23 @@ public class Administrator extends User {
         Milestone milestone = pendentMilestone.getNewMilestone();
 
         if (egress == null || milestone == null) {
-            System.out.println("Error: Egress or Milestone is missing.");
+            logger.info("Error: Egress or Milestone is missing.");
             return;
         }
 
         if (approved) {
             egress.getTrajectory().addMilestone(
-                milestone.getInstitution(),
-                milestone.getDescription(),
-                milestone.getRole(),
-                milestone.getStartDate(),
-                milestone.getFinishDate(),
-                milestone.isCurrent()
+                    milestone.getInstitution(),
+                    milestone.getDescription(),
+                    milestone.getRole(),
+                    milestone.getStartDate(),
+                    milestone.getFinishDate(),
+                    milestone.isCurrent()
             );
-            System.out.println("Milestone approved and added to egress: " + egress.getName());
+            logger.info("Milestone approved and added to egress: " + egress.getName());
         } else {
-            System.out.println("Milestone rejected for egress: " + egress.getName());
+            logger.info("Milestone rejected for egress: " + egress.getName());
         }
-
-        // Remove the validated milestone from the pending list
         pendentMilestones.remove(pendentMilestone);
     }
 }
