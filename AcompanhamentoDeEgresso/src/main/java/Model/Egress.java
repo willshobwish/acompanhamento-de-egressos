@@ -2,32 +2,31 @@ package Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Egress extends User {
+
     private LocalDate birthDate;
     private LocalDate startDate;
     private LocalDate endDate;
     private ArrayList<String> socialMedias;
     private boolean firstAccess;
-    private boolean isPublic;
+    private boolean publicProfile;
     private Trajectory trajectory;
 
-    public Egress(String name, String email, String password, LocalDate birthDate, LocalDate startDate, LocalDate endDate,
-                  ArrayList<String> socialMedias, boolean isPublic) {
+    public Egress(String name, String email, String password, LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedias, boolean isPublic) {
         super(name, email, password);
         this.birthDate = birthDate;
         this.startDate = startDate;
         this.endDate = endDate;
         this.socialMedias = socialMedias;
-        this.isPublic = isPublic;
+        this.publicProfile = isPublic;
         this.firstAccess = true;
         this.trajectory = new Trajectory();
     }
 
-        public LocalDate getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
-    }   
+    }
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -56,12 +55,12 @@ public class Egress extends User {
     public void setSocialMedias(ArrayList<String> socialMedias) {
         this.socialMedias = socialMedias;
     }
-    
+
     public Trajectory getTrajectory() {
         return trajectory;
     }
-    
-    public void setTrajectory (Trajectory trajectory) {
+
+    public void setTrajectory(Trajectory trajectory) {
         this.trajectory = trajectory;
     }
 
@@ -78,11 +77,11 @@ public class Egress extends User {
     }
 
     public boolean isPublic() {
-        return isPublic;
+        return publicProfile;
     }
 
-    public void setIsPublic(boolean isPublic) {
-        this.isPublic = isPublic;
+    public void setPublicProfile(boolean publicProfile) {
+        this.publicProfile = publicProfile;
     }
 
     public boolean isFirstAccess() {
@@ -92,6 +91,21 @@ public class Egress extends User {
     public void setFirstAccess(boolean firstAccess) {
         this.firstAccess = firstAccess;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(super.toString());
+//        StringBuilder sb = new StringBuilder();;
+        sb.append("Egress\n");
+        sb.append("birthDate=").append(birthDate);
+        sb.append("\nstartDate=").append(startDate);
+        sb.append("\nendDate=").append(endDate);
+        sb.append("\nsocialMedias=").append(socialMedias);
+        sb.append("\nfirstAccess=").append(firstAccess);
+        sb.append("\npublicProfile=").append(publicProfile);
+        sb.append("\ntrajectory=").append(trajectory);
+        sb.append("\n\n");
+        return sb.toString();
+    }
+
 }

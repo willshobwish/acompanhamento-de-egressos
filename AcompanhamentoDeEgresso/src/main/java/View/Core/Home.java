@@ -5,21 +5,15 @@
 package View.Core;
 
 import Controller.SystemController;
-import View.User.HomeCommonUser;
-import View.Egress.ListEgress;
-import View.Egress.HomeEgress;
-import View.Adm.HomeAdm;
 import Model.Administrator;
 import Model.Egress;
-import Model.Trajectory;
-import Model.User;
+import View.Adm.HomeAdm;
+import View.Egress.HomeEgress;
+import View.Egress.ListEgress;
+import View.User.HomeCommonUser;
 import java.awt.BorderLayout;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import Controller.SystemController;
 
 public class Home extends javax.swing.JFrame {
 
@@ -27,6 +21,7 @@ public class Home extends javax.swing.JFrame {
      * Creates new form Home
      */
     SystemController session = SystemController.getInstance();
+
     public Home() {
         initComponents();
         ListEgress form = new ListEgress(false);
@@ -131,7 +126,7 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        
+
         Login login = new Login(this, true);
         login.setResizable(false);
         login.setAlwaysOnTop(false);
@@ -141,20 +136,19 @@ public class Home extends javax.swing.JFrame {
         // get from controller the user session
         // teste
         /*
-        User userSession = new Egress("teste", 
-                "teste@teste.com", 
-                "", 
-                LocalDate.now(), 
-                LocalDate.now(), 
-                LocalDate.now(), 
-                new ArrayList<>(Arrays.asList("https://linkedin.com/in/karoldm")), 
+        User userSession = new Egress("teste",
+                "teste@teste.com",
+                "",
+                LocalDate.now(),
+                LocalDate.now(),
+                LocalDate.now(),
+                new ArrayList<>(Arrays.asList("https://linkedin.com/in/karoldm")),
                 true
         );
         Trajectory traj = new Trajectory();
         traj.addMilestone("UNESP", "aprendendendo e se fodendo", "Estudante de ciência da computação", LocalDate.now(), null, true);
         ((Egress)userSession).setTrajectory(traj);
-        */
-        
+         */
         if (session.getUserSession() != null) {
             JFrame userHome;
             if (session.getUserSession() instanceof Administrator) {
@@ -184,7 +178,7 @@ public class Home extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

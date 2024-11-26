@@ -1,11 +1,14 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
+
     private String name;
     private String email;
     private String password;
+    private ArrayList<Milestone> milestones;
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -36,4 +39,18 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public ArrayList<Milestone> getMilestones() {
+        return milestones;
+    }
+
+    public void setMilestones(ArrayList<Milestone> milestones) {
+        this.milestones = milestones;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "name=" + name + ", email=" + email + ", password=" + password + '}';
+    }
+
 }

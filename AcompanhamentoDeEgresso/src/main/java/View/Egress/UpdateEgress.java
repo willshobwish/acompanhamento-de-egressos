@@ -10,7 +10,6 @@ import Model.Egress;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.text.SimpleDateFormat;  
 import javax.swing.JOptionPane;
 
 public class UpdateEgress extends javax.swing.JPanel {
@@ -27,7 +26,7 @@ public class UpdateEgress extends javax.swing.JPanel {
      * @param initialData
      */
     public UpdateEgress(Egress initialData, Callback onSuccess) {
-        
+
         initialData = session.getEgressByEmail(session.getUserSession().getEmail());
         this.onSuccess = onSuccess;
         this.initialData = initialData;
@@ -211,26 +210,21 @@ public class UpdateEgress extends javax.swing.JPanel {
         // não esqueça de mostrar se deu sucesso ou não com o joptionpanel
         // não esqueça dentro de updateEgress de setar isFirstAccess como falso caso seja true
         // chamar apenas se o update foi um sucesso!
-        if(startDate.getText().isEmpty() || endDate.getText().isEmpty()) {
+        if (startDate.getText().isEmpty() || endDate.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Preencha as datas inicial e final",
-            "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-        else {
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        } else {
             DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             ArrayList<String> list1 = new ArrayList<>();
             list1.add(social1.getText());
             list1.add(social2.getText());
             list1.add(social3.getText());
-            session.updateEgress(LocalDate.now(), LocalDate.from(formatter1.parse(startDate.getText())),
-                    LocalDate.from(formatter1.parse(endDate.getText())), list1, isPublic.isSelected());
-           
-
+            session.updateEgress(LocalDate.now(), LocalDate.from(formatter1.parse(startDate.getText())), LocalDate.from(formatter1.parse(endDate.getText())), list1, isPublic.isSelected());
             if (onSuccess != null) {
                 onSuccess.execute();
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField endDate;

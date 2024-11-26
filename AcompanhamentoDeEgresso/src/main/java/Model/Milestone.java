@@ -12,6 +12,7 @@ public class Milestone implements Serializable {
     private String role;
     private LocalDate startDate;
     private LocalDate finishDate;
+    private boolean validate;
     private boolean current;
 
     public Milestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
@@ -74,5 +75,13 @@ public class Milestone implements Serializable {
 
     public void setCurrent(boolean current) {
         this.current = current;
+    }
+
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void setValidate(boolean validate) {
+        this.validate = validate;
     }
 }

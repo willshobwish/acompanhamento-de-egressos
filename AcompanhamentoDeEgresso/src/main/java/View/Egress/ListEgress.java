@@ -6,10 +6,8 @@ package View.Egress;
 
 import Controller.SystemController;
 import Model.Egress;
-import Model.Trajectory;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.Box;
@@ -21,10 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 public class ListEgress extends javax.swing.JPanel {
+
     private final boolean hasAccess;
 
     /**
      * Creates new form ListEgress
+     *
      * @param hasAccess
      */
     public ListEgress(boolean hasAccess) {
@@ -37,26 +37,13 @@ public class ListEgress extends javax.swing.JPanel {
 
     private void initEgressList() {
         //ArrayList<Egress> egress = this.hasAccess ? controller.getAllEgress() : controller.getPublicEgress();
-        
+
         SystemController session = SystemController.getInstance();
         ArrayList<Egress> egressList = new ArrayList<>();
-        egressList.addAll(session.getEgresses()); // NAO TA FUNCIONANDO
-
-        // teste
-        /*egressList.add(new Egress("Egresso teste", 
-                "teste@teste.com", 
-                "", 
-                LocalDate.now(), 
-                LocalDate.now(), 
-                LocalDate.now(), 
-                new ArrayList<>(Arrays.asList("https://linkedin.com/")), 
-                true
-        ));*/
-        egressList.getFirst().setFirstAccess(false);
-        //Trajectory traj = new Trajectory();
-        //traj.addMilestone("UNESP", "Passa eu Dr. Rogério", "Estudante de ciência da computação", LocalDate.now(), null, true);
-        //egressList.getFirst().setTrajectory(traj);
-        
+//        egressList.addAll(session.getEgresses()); // NAO TA FUNCIONANDO
+//        egressList.getFirst().setFirstAccess(false);
+        egressList = session.getEgresses();
+        System.out.println(Arrays.toString(egressList.toArray()));
         egressList.forEach(egress -> {
             if (egress.isFirstAccess() || (!egress.isPublic() && !hasAccess)) {
                 return;
@@ -69,7 +56,6 @@ public class ListEgress extends javax.swing.JPanel {
             JButton buttonViewDetails = new JButton("Ver dados");
 
             JPanel rowLayout = new JPanel();
-            //rowLayout.setBackground(Color.white);
             Dimension buttonDimension = new Dimension(80, 24);
 
             buttonViewDetails.addActionListener(e -> {
@@ -91,8 +77,8 @@ public class ListEgress extends javax.swing.JPanel {
 
             dataPanel.add(rowLayout);
             dataPanel.add(Box.createVerticalStrut(5));
-        });
 
+        });
         scrollPanelEgress.setViewportView(dataPanel);
     }
 
@@ -148,7 +134,6 @@ public class ListEgress extends javax.swing.JPanel {
             .addComponent(scrollPanelEgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel dataPanel;
