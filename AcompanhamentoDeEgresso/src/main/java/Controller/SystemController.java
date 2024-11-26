@@ -155,14 +155,6 @@ public class SystemController {
                 return;
             }
         }
-//        for (Egress egress : egresses) {
-//            if (egress.getEmail().equals(email) && egress.getPassword().equals(password)) {
-//                userSession = egress;
-//                logger.info(userSession.getEmail());
-//                logger.info("Login successful for: " + egress.getName());
-//                return;
-//            }
-//        }
         logger.info("Error: Invalid email or password.");
     }
 
