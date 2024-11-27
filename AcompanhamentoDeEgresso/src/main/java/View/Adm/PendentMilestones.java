@@ -27,15 +27,18 @@ import javax.swing.table.JTableHeader;
  * @author Karol
  */
 public class PendentMilestones extends javax.swing.JPanel {
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
-    
+
     /**
      * Creates new form PendentMilestones
      */
     public PendentMilestones() {
         initComponents();
         this.tableModel = (DefaultTableModel) dataTable.getModel();
+        this.scrollTable.getViewport().setBackground(Color.WHITE);
+
         initPendentList();
     }
 
@@ -142,7 +145,7 @@ public class PendentMilestones extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollTable = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
         currentPageLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -185,7 +188,7 @@ public class PendentMilestones extends javax.swing.JPanel {
         dataTable.setRowHeight(40);
         dataTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
         dataTable.setSelectionForeground(new java.awt.Color(36, 36, 36));
-        jScrollPane1.setViewportView(dataTable);
+        scrollTable.setViewportView(dataTable);
 
         currentPageLabel.setText("1");
 
@@ -242,7 +245,7 @@ public class PendentMilestones extends javax.swing.JPanel {
                                 .addComponent(filterButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(countLabel))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -260,7 +263,7 @@ public class PendentMilestones extends javax.swing.JPanel {
                     .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(filterButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(currentPageLabel)
@@ -286,6 +289,6 @@ public class PendentMilestones extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane scrollTable;
     // End of variables declaration//GEN-END:variables
 }

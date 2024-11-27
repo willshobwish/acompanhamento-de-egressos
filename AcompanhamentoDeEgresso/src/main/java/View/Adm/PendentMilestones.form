@@ -46,7 +46,7 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="countLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" min="-2" pref="706" max="-2" attributes="0"/>
+                          <Component id="scrollTable" min="-2" pref="706" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -70,7 +70,7 @@
                   <Component id="filterButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="263" max="-2" attributes="0"/>
+              <Component id="scrollTable" min="-2" pref="263" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="currentPageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -83,7 +83,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="scrollTable">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>

@@ -61,16 +61,19 @@ public class ContactsModal extends javax.swing.JDialog {
         jTextField1.setEditable(false);
         jTextField1.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        jTextField1.setPreferredSize(new java.awt.Dimension(64, 30));
 
         jLabel2.setText("Redes sociais");
 
         jTextField2.setEditable(false);
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
         jTextField2.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        jTextField2.setPreferredSize(new java.awt.Dimension(64, 30));
 
         jTextField3.setEditable(false);
         jTextField3.setBackground(new java.awt.Color(255, 255, 255));
         jTextField3.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        jTextField3.setPreferredSize(new java.awt.Dimension(64, 30));
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -80,22 +83,35 @@ public class ContactsModal extends javax.swing.JDialog {
         jTextField4.setEditable(false);
         jTextField4.setBackground(new java.awt.Color(255, 255, 255));
         jTextField4.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        jTextField4.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jButton1.setText("jButton1");
+        jButton1.setBackground(new java.awt.Color(142, 214, 243));
+        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\copy.png")); // NOI18N
+        jButton1.setToolTipText("");
 
-        jButton2.setText("jButton1");
+        jButton2.setBackground(new java.awt.Color(142, 214, 243));
+        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\open.png")); // NOI18N
 
-        jButton3.setText("jButton1");
+        jButton3.setBackground(new java.awt.Color(142, 214, 243));
+        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\open.png")); // NOI18N
 
-        jButton4.setText("jButton1");
+        jButton4.setBackground(new java.awt.Color(142, 214, 243));
+        jButton4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\copy.png")); // NOI18N
+        jButton4.setToolTipText("");
 
-        jButton5.setText("jButton1");
+        jButton5.setBackground(new java.awt.Color(142, 214, 243));
+        jButton5.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\copy.png")); // NOI18N
+        jButton5.setToolTipText("");
 
-        jButton6.setText("jButton1");
+        jButton6.setBackground(new java.awt.Color(142, 214, 243));
+        jButton6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\open.png")); // NOI18N
 
-        jButton7.setText("jButton1");
+        jButton7.setBackground(new java.awt.Color(142, 214, 243));
+        jButton7.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\copy.png")); // NOI18N
+        jButton7.setToolTipText("");
 
-        jButton8.setText("jButton1");
+        jButton8.setBackground(new java.awt.Color(142, 214, 243));
+        jButton8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\open.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,10 +122,10 @@ public class ContactsModal extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                    .addComponent(jTextField4))
+                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -138,27 +154,27 @@ public class ContactsModal extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4)
-                        .addComponent(jButton3))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton5)
-                        .addComponent(jButton6))
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton7)
-                        .addComponent(jButton8))
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
