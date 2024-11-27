@@ -3,12 +3,12 @@ package Controller;
 import Model.Administrator;
 import Model.Egress;
 import Model.Milestone;
+import Model.PendentMilestone;
 import Model.User;
 import Serializables.SerializableSystem;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -17,9 +17,9 @@ public class SystemController {
 
     private static final Logger logger = Logger.getLogger(SystemController.class.getName());
     private static SystemController instance;
-    private static SerializableSystem serializableSystem = SerializableSystem.getInstance();
+    private static final SerializableSystem serializableSystem = SerializableSystem.getInstance();
     private User userSession = null;
-    private Administrator admin = new Administrator();
+    private final Administrator admin = new Administrator();
 
     private SystemController() {
     }
@@ -235,7 +235,18 @@ public class SystemController {
         }
 
         Egress egress = (Egress) userSession;
-        egress.getTrajectory().addMilestone(institution, description, role, startDate, finishDate, current);
+
+        ArrayList<User> users = serializableSystem.loadUser();
+
+        for (User user : users) {
+            if (user instanceof Administrator adm) {
+                adm.createPendentMilestone(
+                        null,
+                        new Milestone(institution, description, role, startDate, finishDate, current),
+                        egress);
+            }
+        }
+
         logger.info("Milestone created successfully for: " + egress.getName());
     }
 
@@ -246,7 +257,18 @@ public class SystemController {
         }
 
         Egress egress = (Egress) userSession;
-        egress.getTrajectory().updateMilestone(id, institution, description, role, startDate, finishDate, current);
+
+        ArrayList<User> users = serializableSystem.loadUser();
+
+        for (User user : users) {
+            if (user instanceof Administrator adm) {
+                adm.createPendentMilestone(
+                        egress.getTrajectory().getMilestoneById(id),
+                        new Milestone(institution, description, role, startDate, finishDate, current),
+                        egress);
+            }
+        }
+
         logger.info("Milestone updated successfully for: " + egress.getName());
     }
 
@@ -277,24 +299,30 @@ public class SystemController {
 //        pendentMilestones.removeIf(pm -> pm.getNewMilestone().equals(newMilestone));
     }
 
-    public List<Milestone> listPendentsMilestones() {
+    public ArrayList<PendentMilestone> listPendentsMilestones() {
         ArrayList<User> users = serializableSystem.loadUser();
-        ArrayList<Milestone> milestones = new ArrayList<>();
-        ArrayList<Milestone> pendentMilestone = new ArrayList<>();
 
         for (User user : users) {
-            if (user instanceof Egress) {
-                milestones = user.getMilestones();
+            if (user instanceof Administrator administrator) {
+                return administrator.getPendentMilestones();
             }
         }
-//        List<Milestone> milestones = new ArrayList<>();
-        for (Milestone pendent : milestones) {
-            if (!pendent.isValidate()) {
-                pendentMilestone.add(pendent);
-            }
 
+        return new ArrayList<>();
+    }
+
+    public ArrayList<PendentMilestone> listPendentsMilestonesByEgress() {
+        ArrayList<PendentMilestone> egressPendentMilestones = new ArrayList<>();
+
+        ArrayList<PendentMilestone> allPendentMilestones = listPendentsMilestones();
+
+        for (PendentMilestone milestone : allPendentMilestones) {
+            if (milestone.getEgress().getEmail().equals(this.userSession.getEmail())) {
+                egressPendentMilestones.add(milestone);
+            }
         }
-        return milestones;
+
+        return egressPendentMilestones;
     }
 
     public void removePendentMilestoneFromList(Milestone milestone) {

@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package View.Egress;
+package View.Adm;
 
 import Controller.SystemController;
+import Model.Administrator;
 import Model.Egress;
-import Model.Milestone;
+import Model.PendentMilestone;
+import View.Egress.ContactsModal;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -24,31 +26,25 @@ import javax.swing.table.JTableHeader;
  *
  * @author Karol
  */
-public class ListMilestones extends javax.swing.JPanel {
+public class PendentMilestones extends javax.swing.JPanel {
 
-    private final Egress egress;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
 
     /**
-     * Creates new form ListMilestones
-     *
-     * @param egress
+     * Creates new form PendentMilestones
      */
-    public ListMilestones(Egress egress) {
-        this.egress = egress;
+    public PendentMilestones() {
         initComponents();
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         this.scrollTable.getViewport().setBackground(Color.WHITE);
 
-        initMilestonesList();
-
-        title.setText(egress.getName() + " de " + egress.getStartDate().format(formatter) + " à " + egress.getEndDate().format(formatter));
+        initPendentList();
     }
 
-    private void initMilestonesList() {
+    private void initPendentList() {
         SystemController controller = SystemController.getInstance();
-        ArrayList<Milestone> milestones = this.egress.getTrajectory().getMilestones();
+        ArrayList<PendentMilestone> pendentList = controller.listPendentsMilestones();
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -63,21 +59,19 @@ public class ListMilestones extends javax.swing.JPanel {
         JTableHeader header = dataTable.getTableHeader();
         header.setDefaultRenderer(headerRenderer);
 
-        milestones.forEach(milestone -> {
+        pendentList.forEach(milestone -> {
 
             ArrayList<Object> rowData = new ArrayList<>();
 
-            rowData.add(milestone.getInstitution());
-            rowData.add(milestone.getRole());
-            rowData.add(milestone.getStartDate().format(formatter));
-            rowData.add(milestone.getFinishDate().format(formatter));
-            rowData.add("Ver detalhes");
-            rowData.add("Editar");
+            rowData.add(milestone.getEgress().getName());
+            rowData.add(milestone.getCreatedAt().format(formatter));
+            rowData.add("Ver modificações");
+            rowData.add("Contatos");
 
             this.tableModel.addRow(rowData.toArray());
         });
 
-        dataTable.getColumnModel().getColumn(4).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+        dataTable.getColumnModel().getColumn(2).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             panel.setBackground(Color.WHITE);
             JButton button = new JButton(value.toString());
@@ -90,7 +84,7 @@ public class ListMilestones extends javax.swing.JPanel {
             return panel;
         });
 
-        dataTable.getColumnModel().getColumn(5).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+        dataTable.getColumnModel().getColumn(3).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             panel.setBackground(Color.WHITE);
             JButton button = new JButton(value.toString());
@@ -115,10 +109,10 @@ public class ListMilestones extends javax.swing.JPanel {
                 int row = dataTable.rowAtPoint(evt.getPoint());
                 int col = dataTable.columnAtPoint(evt.getPoint());
                 if (row >= 0) {
-                    if (col == 4) {
-                        openModalDescription(milestones.get(row));
-                    } else if (col == 5) {
-                        openModalEdit(milestones.get(row));
+                    if (col == 2) {
+                        openModifications(pendentList.get(row));
+                    } else if (col == 3) {
+                        openContacts(pendentList.get(row).getEgress());
                     }
 
                 }
@@ -126,16 +120,16 @@ public class ListMilestones extends javax.swing.JPanel {
         });
     }
 
-    private void openModalDescription(Milestone milestone) {
-        DescriptionModal modal = new DescriptionModal(null, false, milestone.getDescription());
+    private void openModifications(PendentMilestone pendentMilestone) {
+        MilestonePendentModifications modal = new MilestonePendentModifications(null, false, pendentMilestone);
         modal.setResizable(false);
         modal.setAlwaysOnTop(false);
         modal.setLocationRelativeTo(null);
         modal.setVisible(true);
     }
 
-    private void openModalEdit(Milestone milestone) {
-        MilestoneForm modal = new MilestoneForm(null, false, milestone);
+    private void openContacts(Egress egress) {
+        ContactsModal modal = new ContactsModal(null, false, egress);
         modal.setResizable(false);
         modal.setAlwaysOnTop(false);
         modal.setLocationRelativeTo(null);
@@ -159,9 +153,12 @@ public class ListMilestones extends javax.swing.JPanel {
         countLabel = new javax.swing.JLabel();
         filterField = new javax.swing.JTextField();
         filterButton = new javax.swing.JButton();
-        title = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(252, 252, 252));
+        setPreferredSize(new java.awt.Dimension(716, 456));
 
         dataTable.setForeground(new java.awt.Color(36, 36, 36));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -169,14 +166,14 @@ public class ListMilestones extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Instituição", "Função", "Ínicio", "Término", "Descrição", "Ações"
+                "Nome", "Data da modificação", "Modificações", "Entre em contato"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -217,17 +214,23 @@ public class ListMilestones extends javax.swing.JPanel {
 
         filterButton.setText("Filtrar");
 
-        title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        title.setForeground(new java.awt.Color(36, 36, 36));
-        title.setText("jLabel1");
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("Atualizações pendentes");
+
+        jLabel2.setText("Os novos dados inseridos pelos egressos sobre seus marcos de trajetória precisam ser validados, não esqueça de aprovar");
+
+        jLabel3.setText("ou recusar caso tenha alguma inconsistência ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,25 +238,26 @@ public class ListMilestones extends javax.swing.JPanel {
                             .addComponent(currentPageLabel)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(filterButton)))
-                            .addGap(316, 316, 316)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(countLabel)
-                        .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filterButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(countLabel))
+                            .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(title)
-                .addGap(18, 18, 18)
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel3)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(countLabel)
                     .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,7 +269,7 @@ public class ListMilestones extends javax.swing.JPanel {
                     .addComponent(currentPageLabel)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -282,7 +286,9 @@ public class ListMilestones extends javax.swing.JPanel {
     private javax.swing.JTextField filterField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane scrollTable;
-    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
