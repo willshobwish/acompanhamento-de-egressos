@@ -73,8 +73,10 @@ public class UpdateEgress extends javax.swing.JPanel {
         social1 = new javax.swing.JTextField();
         social2 = new javax.swing.JTextField();
         social3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         isPublic = new javax.swing.JCheckBox();
+        jButton2 = new javax.swing.JButton();
+        birth = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -83,46 +85,36 @@ public class UpdateEgress extends javax.swing.JPanel {
 
         name.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         name.setToolTipText("");
-        name.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
+        name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel2.setText("Data ingresso");
 
         startDate.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         startDate.setToolTipText("dd/MM/yyyy");
-        startDate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
+        startDate.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel3.setText("Data de egresso");
 
         endDate.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         endDate.setToolTipText("dd/MM/yyyy");
-        endDate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
+        endDate.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel4.setText("Redes sociais");
 
         social1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         social1.setToolTipText("");
-        social1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
+        social1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         social2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         social2.setToolTipText("");
-        social2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
+        social2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         social3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         social3.setToolTipText("");
-        social3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
-
-        jButton1.setBackground(new java.awt.Color(51, 102, 255));
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Salvar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        social3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         isPublic.setBackground(new java.awt.Color(255, 255, 255));
         isPublic.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -134,39 +126,64 @@ public class UpdateEgress extends javax.swing.JPanel {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(134, 241, 128));
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Salvar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        birth.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        birth.setToolTipText("dd/MM/yyyy");
+        birth.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel5.setText("Datade nascimento");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
-                    .addComponent(name)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(endDate, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))
-                    .addComponent(social1)
-                    .addComponent(social2)
-                    .addComponent(social3)
-                    .addComponent(isPublic)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1)
+                            .addComponent(name)
+                            .addComponent(social1)
+                            .addComponent(social2)
+                            .addComponent(social3)
+                            .addComponent(isPublic)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(endDate, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))
+                            .addComponent(birth))))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(birth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
@@ -184,9 +201,9 @@ public class UpdateEgress extends javax.swing.JPanel {
                 .addComponent(social3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(isPublic)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -205,35 +222,38 @@ public class UpdateEgress extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_isPublicActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //controller.updateEgress(name.getText()....);
-        // não esqueça de mostrar se deu sucesso ou não com o joptionpanel
-        // não esqueça dentro de updateEgress de setar isFirstAccess como falso caso seja true
-        // chamar apenas se o update foi um sucesso!
-        if (startDate.getText().isEmpty() || endDate.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Preencha as datas inicial e final",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-        } else {
-            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            ArrayList<String> list1 = new ArrayList<>();
-            list1.add(social1.getText());
-            list1.add(social2.getText());
-            list1.add(social3.getText());
-            session.updateEgress(LocalDate.now(), LocalDate.from(formatter1.parse(startDate.getText())), LocalDate.from(formatter1.parse(endDate.getText())), list1, isPublic.isSelected());
-            if (onSuccess != null) {
-                onSuccess.execute();
-            }
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SystemController controller = SystemController.getInstance();
+
+        ArrayList<String> socialMedias = new ArrayList<>();
+
+        socialMedias.add(social1.getText());
+        socialMedias.add(social2.getText());
+        socialMedias.add(social3.getText());
+
+        controller.updateEgress(
+                LocalDate.parse(birth.getText(), formatter),
+                LocalDate.parse(startDate.getText(), formatter),
+                LocalDate.parse(endDate.getText(), formatter),
+                socialMedias,
+                isPublic.isSelected()
+        );
+
+        JOptionPane.showMessageDialog(null, "Dados atualizados com sucesso", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+        onSuccess.execute();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField birth;
     private javax.swing.JTextField endDate;
     private javax.swing.JCheckBox isPublic;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField name;
     private javax.swing.JTextField social1;

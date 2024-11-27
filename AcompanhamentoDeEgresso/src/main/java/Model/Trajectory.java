@@ -73,4 +73,14 @@ public class Trajectory implements Serializable{
         milestones.add(newMilestone);
         System.out.println("New milestone added directly: " + newMilestone.getInstitution());
     }
+    
+    public Milestone getMilestoneById(String id){
+        for(Milestone milestone: milestones){
+            if(milestone.getId().equals(id)){
+                return milestone;
+            }
+        }
+        
+        return null;
+    }
 }

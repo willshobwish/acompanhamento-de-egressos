@@ -1,12 +1,12 @@
 package Model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class Administrator extends User {
 
-    private List<PendentMilestone> pendentMilestones;
+    private ArrayList<PendentMilestone> pendentMilestones;
     private static final Logger logger = Logger.getLogger(Administrator.class.getName());
 
     // Constructor
@@ -16,12 +16,21 @@ public class Administrator extends User {
     }
 
     // Getters and Setters
-    public List<PendentMilestone> getPendentMilestones() {
+    public ArrayList<PendentMilestone> getPendentMilestones() {
         return pendentMilestones;
     }
 
-    public void setPendentMilestones(List<PendentMilestone> pendentMilestones) {
+    public void setPendentMilestones(ArrayList<PendentMilestone> pendentMilestones) {
         this.pendentMilestones = pendentMilestones;
+    }
+    
+    public void createPendentMilestone(Milestone oldMilestone, Milestone newMilestone, Egress egress) {
+        PendentMilestone pendentMilestone = new PendentMilestone(egress, newMilestone, oldMilestone, LocalDate.now(), "Pendente");
+        addPendentMilestone(pendentMilestone);
+    }
+    
+    public void addPendentMilestone(PendentMilestone pendentMilestone){
+        this.pendentMilestones.add(pendentMilestone);
     }
 
     // Method to validate a milestone
@@ -40,6 +49,7 @@ public class Administrator extends User {
         }
 
         if (approved) {
+            // aqui precisa substituir a milestone usando o id de pendentMilestone.getOldMilestone() e não criar uma nova
             egress.getTrajectory().addMilestone(
                     milestone.getInstitution(),
                     milestone.getDescription(),
