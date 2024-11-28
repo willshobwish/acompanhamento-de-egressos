@@ -47,7 +47,7 @@ public class ListMilestonesEditable extends javax.swing.JPanel {
         populateTable(egress.getTrajectory().getMilestones());
 
         title.setText(egress.getName() + " de " + egress.getStartDate().format(formatter) + " à " + egress.getEndDate().format(formatter));
-        countLabel.setText(egress.getTrajectory().getMilestones().size());
+        countLabel.setText(egress.getTrajectory().getMilestones().size() + " marcos encontrados");
     }
     
     private void populateTable(ArrayList<Milestone> milestones) {
