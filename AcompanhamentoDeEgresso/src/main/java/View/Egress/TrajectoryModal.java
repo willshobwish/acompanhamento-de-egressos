@@ -180,6 +180,7 @@ public class TrajectoryModal extends javax.swing.JDialog {
         scrollTable.setViewportView(dataTable);
 
         currentPageLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        currentPageLabel.setForeground(new java.awt.Color(36, 36, 36));
         currentPageLabel.setText("1");
 
         jButton1.setBackground(new java.awt.Color(200, 200, 200));
@@ -200,9 +201,11 @@ public class TrajectoryModal extends javax.swing.JDialog {
         });
 
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        countLabel.setForeground(new java.awt.Color(36, 36, 36));
         countLabel.setText("Encontrados 45");
 
         filterField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        filterField.setForeground(new java.awt.Color(36, 36, 36));
         filterField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
         filterButton.setBackground(new java.awt.Color(193, 193, 193));
@@ -250,7 +253,7 @@ public class TrajectoryModal extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(countLabel)
                     .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
