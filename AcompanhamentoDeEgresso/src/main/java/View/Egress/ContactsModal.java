@@ -23,13 +23,13 @@ import javax.swing.JOptionPane;
  */
 public class ContactsModal extends javax.swing.JDialog {
 
-    private final Egress egress;       
+    private final Egress egress;
     private final ArrayList<String> socialMedias;
     private final int size;
 
-    
     /**
      * Creates new form ContatsModal
+     *
      * @param parent
      * @param modal
      * @param egress
@@ -40,18 +40,22 @@ public class ContactsModal extends javax.swing.JDialog {
         this.socialMedias = egress.getSocialMedias();
         this.size = this.socialMedias.size();
         initComponents();
-        
+
         initDate();
     }
-    
-    private void initDate(){
+
+    private void initDate() {
         email.setText(egress.getEmail());
         contactOne.setText(socialMedias.get(0));
-        if(size >= 2) contactTwo.setText(socialMedias.get(1));    
-        if(size >= 3) contactThree.setText(socialMedias.get(2));
+        if (size >= 2) {
+            contactTwo.setText(socialMedias.get(1));
+        }
+        if (size >= 3) {
+            contactThree.setText(socialMedias.get(2));
+        }
 
     }
-    
+
     private void openURL(String url) {
         try {
             Desktop desktop = Desktop.getDesktop();
@@ -62,9 +66,11 @@ public class ContactsModal extends javax.swing.JDialog {
             }
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Tivemos um problema ao abrir esse link", "Link inválido", JOptionPane.ERROR_MESSAGE);
+
         }
     }
-    
+
     private void copyToClipboard(String text) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Clipboard clipboard = toolkit.getSystemClipboard();
@@ -307,15 +313,17 @@ public class ContactsModal extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-         copyToClipboard(socialMedias.get(0));
+        copyToClipboard(socialMedias.get(0));
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if(size >= 2) copyToClipboard(socialMedias.get(1));
+        if (size >= 2)
+            copyToClipboard(socialMedias.get(1));
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-         if(size >= 3) copyToClipboard(socialMedias.get(2));
+        if (size >= 3)
+            copyToClipboard(socialMedias.get(2));
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -323,15 +331,17 @@ public class ContactsModal extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       openURL(socialMedias.get(0));
+        openURL(socialMedias.get(0));
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-      if(size >= 2) openURL(socialMedias.get(1));
+        if (size >= 2)
+            openURL(socialMedias.get(1));
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if(size >= 3) openURL(socialMedias.get(2));
+        if (size >= 3)
+            openURL(socialMedias.get(2));
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
