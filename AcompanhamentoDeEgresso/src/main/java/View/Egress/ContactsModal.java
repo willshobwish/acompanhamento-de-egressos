@@ -5,6 +5,8 @@
 package View.Egress;
 
 import Model.Egress;
+import View.CustomComponents.RoundedBorder;
+import java.awt.Color;
 
 /**
  *
@@ -56,22 +58,35 @@ public class ContactsModal extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(252, 252, 252));
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Email");
 
         jTextField1.setEditable(false);
         jTextField1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(36, 36, 36));
+        jTextField1.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         jTextField1.setDisabledTextColor(new java.awt.Color(36, 36, 36));
         jTextField1.setPreferredSize(new java.awt.Dimension(64, 30));
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(36, 36, 36));
         jLabel2.setText("Redes sociais");
 
         jTextField2.setEditable(false);
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jTextField2.setForeground(new java.awt.Color(36, 36, 36));
+        jTextField2.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         jTextField2.setDisabledTextColor(new java.awt.Color(36, 36, 36));
         jTextField2.setPreferredSize(new java.awt.Dimension(64, 30));
 
         jTextField3.setEditable(false);
         jTextField3.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jTextField3.setForeground(new java.awt.Color(36, 36, 36));
+        jTextField3.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         jTextField3.setDisabledTextColor(new java.awt.Color(36, 36, 36));
         jTextField3.setPreferredSize(new java.awt.Dimension(64, 30));
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +97,9 @@ public class ContactsModal extends javax.swing.JDialog {
 
         jTextField4.setEditable(false);
         jTextField4.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jTextField4.setForeground(new java.awt.Color(36, 36, 36));
+        jTextField4.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         jTextField4.setDisabledTextColor(new java.awt.Color(36, 36, 36));
         jTextField4.setPreferredSize(new java.awt.Dimension(64, 30));
 

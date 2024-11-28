@@ -7,6 +7,7 @@ package View.Egress;
 import Controller.SystemController;
 import Model.Egress;
 import Model.Milestone;
+import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -163,6 +164,7 @@ public class ListMilestones extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(252, 252, 252));
 
+        dataTable.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         dataTable.setForeground(new java.awt.Color(36, 36, 36));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -193,6 +195,8 @@ public class ListMilestones extends javax.swing.JPanel {
         dataTable.setSelectionForeground(new java.awt.Color(36, 36, 36));
         scrollTable.setViewportView(dataTable);
 
+        currentPageLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        currentPageLabel.setForeground(new java.awt.Color(36, 36, 36));
         currentPageLabel.setText("1");
 
         jButton1.setBackground(new java.awt.Color(200, 200, 200));
@@ -213,8 +217,16 @@ public class ListMilestones extends javax.swing.JPanel {
         });
 
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        countLabel.setForeground(new java.awt.Color(36, 36, 36));
         countLabel.setText("Encontrados 45");
 
+        filterField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        filterField.setForeground(new java.awt.Color(36, 36, 36));
+        filterField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+
+        filterButton.setBackground(new java.awt.Color(193, 193, 193));
+        filterButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        filterButton.setForeground(new java.awt.Color(255, 255, 255));
         filterButton.setText("Filtrar");
 
         title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -257,7 +269,7 @@ public class ListMilestones extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(countLabel)
                     .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filterButton))
+                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)

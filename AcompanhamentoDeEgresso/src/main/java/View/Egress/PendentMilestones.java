@@ -5,9 +5,9 @@
 package View.Egress;
 
 import Controller.SystemController;
-import Model.Egress;
 import Model.PendentMilestone;
 import View.Adm.MilestonePendentModifications;
+import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -154,7 +154,8 @@ public class PendentMilestones extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(252, 252, 252));
 
-        dataTable.setForeground(new java.awt.Color(36, 36, 36));
+        dataTable.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        dataTable.setForeground(null);
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -184,6 +185,8 @@ public class PendentMilestones extends javax.swing.JPanel {
         dataTable.setSelectionForeground(new java.awt.Color(36, 36, 36));
         jScrollPane1.setViewportView(dataTable);
 
+        currentPageLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        currentPageLabel.setForeground(null);
         currentPageLabel.setText("1");
 
         jButton1.setBackground(new java.awt.Color(200, 200, 200));
@@ -209,15 +212,28 @@ public class PendentMilestones extends javax.swing.JPanel {
         });
 
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        countLabel.setForeground(new java.awt.Color(36, 36, 36));
         countLabel.setText("Encontrados 45");
 
+        filterField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        filterField.setForeground(null);
+        filterField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+
+        filterButton.setBackground(new java.awt.Color(193, 193, 193));
+        filterButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        filterButton.setForeground(java.awt.Color.white);
         filterButton.setText("Filtrar");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Atualizações pendentes");
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setForeground(null);
         jLabel2.setText("Os novos dados precisam ser aprovados pelo admnistrador antes de ficarem disponíveis no seu perfil, por favor aguarde ");
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel3.setForeground(null);
         jLabel3.setText("a validação das mudanças e caso tenha alguma dúvida entre em contato com coordenacao@unesp.br");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -260,7 +276,7 @@ public class PendentMilestones extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(countLabel)
                     .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filterButton))
+                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)

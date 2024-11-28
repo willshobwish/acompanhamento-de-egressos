@@ -5,9 +5,9 @@
 package View.Adm;
 
 import Controller.SystemController;
-import Model.Administrator;
 import Model.Egress;
 import Model.PendentMilestone;
+import View.CustomComponents.RoundedBorder;
 import View.Egress.ContactsModal;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -160,6 +160,7 @@ public class PendentMilestones extends javax.swing.JPanel {
         setBackground(new java.awt.Color(252, 252, 252));
         setPreferredSize(new java.awt.Dimension(716, 456));
 
+        dataTable.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         dataTable.setForeground(new java.awt.Color(36, 36, 36));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -190,6 +191,8 @@ public class PendentMilestones extends javax.swing.JPanel {
         dataTable.setSelectionForeground(new java.awt.Color(36, 36, 36));
         scrollTable.setViewportView(dataTable);
 
+        currentPageLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        currentPageLabel.setForeground(new java.awt.Color(36, 36, 36));
         currentPageLabel.setText("1");
 
         jButton1.setBackground(new java.awt.Color(200, 200, 200));
@@ -210,15 +213,28 @@ public class PendentMilestones extends javax.swing.JPanel {
         });
 
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        countLabel.setForeground(new java.awt.Color(36, 36, 36));
         countLabel.setText("Encontrados 45");
 
+        filterField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        filterField.setForeground(new java.awt.Color(36, 36, 36));
+        filterField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+
+        filterButton.setBackground(new java.awt.Color(193, 193, 193));
+        filterButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        filterButton.setForeground(new java.awt.Color(255, 255, 255));
         filterButton.setText("Filtrar");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Atualizações pendentes");
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(36, 36, 36));
         jLabel2.setText("Os novos dados inseridos pelos egressos sobre seus marcos de trajetória precisam ser validados, não esqueça de aprovar");
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(36, 36, 36));
         jLabel3.setText("ou recusar caso tenha alguma inconsistência ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -251,7 +267,7 @@ public class PendentMilestones extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
@@ -261,7 +277,7 @@ public class PendentMilestones extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(countLabel)
                     .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filterButton))
+                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)

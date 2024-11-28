@@ -7,6 +7,8 @@ package View.Egress;
 import Controller.SystemController;
 import java.time.LocalDate;
 import Model.Milestone;
+import View.CustomComponents.RoundedBorder;
+import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 
@@ -74,30 +76,45 @@ public class MilestoneForm extends javax.swing.JDialog {
 
         panel.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Cargo ou  principal atividade");
 
         role.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        role.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        role.setForeground(new java.awt.Color(36, 36, 36));
+        role.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(36, 36, 36));
         jLabel2.setText("Data de início");
 
         startDate.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        startDate.setForeground(new java.awt.Color(36, 36, 36));
         startDate.setToolTipText("dd/MM/yyyy");
-        startDate.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        startDate.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(36, 36, 36));
         jLabel3.setText("Data de término/saída");
 
         endDate.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        endDate.setForeground(new java.awt.Color(36, 36, 36));
         endDate.setToolTipText("dd/MM/yyyy");
-        endDate.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        endDate.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(36, 36, 36));
         jLabel4.setText("Descrição das atividades, projetos e pesquisas");
 
         description.setColumns(20);
+        description.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        description.setForeground(new java.awt.Color(36, 36, 36));
         description.setRows(5);
-        description.setBorder(null);
+        description.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         jScrollPane1.setViewportView(description);
 
+        current.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        current.setForeground(new java.awt.Color(36, 36, 36));
         current.setText("Atualmente");
         current.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,11 +122,14 @@ public class MilestoneForm extends javax.swing.JDialog {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(36, 36, 36));
         jLabel5.setText("Instituição/Empresa/Entidade");
 
         insituition.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        insituition.setForeground(new java.awt.Color(36, 36, 36));
         insituition.setToolTipText("");
-        insituition.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        insituition.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         insituition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insituitionActionPerformed(evt);
@@ -117,6 +137,7 @@ public class MilestoneForm extends javax.swing.JDialog {
         });
 
         title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        title.setForeground(new java.awt.Color(36, 36, 36));
         title.setText("Novo marco");
 
         jButton1.setBackground(new java.awt.Color(134, 241, 128));
@@ -181,19 +202,19 @@ public class MilestoneForm extends javax.swing.JDialog {
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addComponent(title)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(role, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(insituition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -201,16 +222,16 @@ public class MilestoneForm extends javax.swing.JDialog {
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(current)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -226,7 +247,7 @@ public class MilestoneForm extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
+            .addGap(0, 490, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
