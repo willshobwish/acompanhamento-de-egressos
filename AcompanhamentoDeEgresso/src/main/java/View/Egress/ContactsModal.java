@@ -7,6 +7,15 @@ package View.Egress;
 import Model.Egress;
 import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,7 +23,10 @@ import java.awt.Color;
  */
 public class ContactsModal extends javax.swing.JDialog {
 
-    private final Egress egress;
+    private final Egress egress;       
+    private final ArrayList<String> socialMedias;
+    private final int size;
+
     
     /**
      * Creates new form ContatsModal
@@ -25,7 +37,40 @@ public class ContactsModal extends javax.swing.JDialog {
     public ContactsModal(java.awt.Frame parent, boolean modal, Egress egress) {
         super(parent, modal);
         this.egress = egress;
+        this.socialMedias = egress.getSocialMedias();
+        this.size = this.socialMedias.size();
         initComponents();
+        
+        initDate();
+    }
+    
+    private void initDate(){
+        email.setText(egress.getEmail());
+        contactOne.setText(socialMedias.get(0));
+        if(size >= 2) contactTwo.setText(socialMedias.get(1));    
+        if(size >= 3) contactThree.setText(socialMedias.get(2));
+
+    }
+    
+    private void openURL(String url) {
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
+                desktop.browse(new URI(url));
+            } else {
+                System.out.println("Desktop browsing is not supported on this system.");
+            }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void copyToClipboard(String text) {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Clipboard clipboard = toolkit.getSystemClipboard();
+        StringSelection stringSelection = new StringSelection(text);
+        clipboard.setContents(stringSelection, null);
+        JOptionPane.showMessageDialog(null, "Texto copiado para área de transferência", "Copiado", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -39,11 +84,11 @@ public class ContactsModal extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        contactOne = new javax.swing.JTextField();
+        contactTwo = new javax.swing.JTextField();
+        contactThree = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -62,74 +107,114 @@ public class ContactsModal extends javax.swing.JDialog {
         jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Email");
 
-        jTextField1.setEditable(false);
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(36, 36, 36));
-        jTextField1.setBorder(new RoundedBorder(8, new Color(193,193,193)));
-        jTextField1.setDisabledTextColor(new java.awt.Color(36, 36, 36));
-        jTextField1.setPreferredSize(new java.awt.Dimension(64, 30));
+        email.setEditable(false);
+        email.setBackground(new java.awt.Color(255, 255, 255));
+        email.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        email.setForeground(new java.awt.Color(36, 36, 36));
+        email.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        email.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        email.setPreferredSize(new java.awt.Dimension(64, 30));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(36, 36, 36));
         jLabel2.setText("Redes sociais");
 
-        jTextField2.setEditable(false);
-        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(36, 36, 36));
-        jTextField2.setBorder(new RoundedBorder(8, new Color(193,193,193)));
-        jTextField2.setDisabledTextColor(new java.awt.Color(36, 36, 36));
-        jTextField2.setPreferredSize(new java.awt.Dimension(64, 30));
+        contactOne.setEditable(false);
+        contactOne.setBackground(new java.awt.Color(255, 255, 255));
+        contactOne.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        contactOne.setForeground(new java.awt.Color(36, 36, 36));
+        contactOne.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        contactOne.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        contactOne.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextField3.setEditable(false);
-        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(36, 36, 36));
-        jTextField3.setBorder(new RoundedBorder(8, new Color(193,193,193)));
-        jTextField3.setDisabledTextColor(new java.awt.Color(36, 36, 36));
-        jTextField3.setPreferredSize(new java.awt.Dimension(64, 30));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        contactTwo.setEditable(false);
+        contactTwo.setBackground(new java.awt.Color(255, 255, 255));
+        contactTwo.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        contactTwo.setForeground(new java.awt.Color(36, 36, 36));
+        contactTwo.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        contactTwo.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        contactTwo.setPreferredSize(new java.awt.Dimension(64, 30));
+        contactTwo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                contactTwoActionPerformed(evt);
             }
         });
 
-        jTextField4.setEditable(false);
-        jTextField4.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(36, 36, 36));
-        jTextField4.setBorder(new RoundedBorder(8, new Color(193,193,193)));
-        jTextField4.setDisabledTextColor(new java.awt.Color(36, 36, 36));
-        jTextField4.setPreferredSize(new java.awt.Dimension(64, 30));
+        contactThree.setEditable(false);
+        contactThree.setBackground(new java.awt.Color(255, 255, 255));
+        contactThree.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        contactThree.setForeground(new java.awt.Color(36, 36, 36));
+        contactThree.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        contactThree.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        contactThree.setPreferredSize(new java.awt.Dimension(64, 30));
 
         jButton1.setBackground(new java.awt.Color(142, 214, 243));
         jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\copy.png")); // NOI18N
         jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(142, 214, 243));
         jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\open.png")); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(142, 214, 243));
         jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\open.png")); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(142, 214, 243));
         jButton4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\copy.png")); // NOI18N
         jButton4.setToolTipText("");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setBackground(new java.awt.Color(142, 214, 243));
         jButton5.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\copy.png")); // NOI18N
         jButton5.setToolTipText("");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(142, 214, 243));
         jButton6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\open.png")); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(142, 214, 243));
         jButton7.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\copy.png")); // NOI18N
         jButton7.setToolTipText("");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setBackground(new java.awt.Color(142, 214, 243));
         jButton8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\faculdade\\ESII\\Projeto01\\sprint 3\\acompanhamento-de-egressos\\AcompanhamentoDeEgresso\\src\\main\\java\\Assets\\open.png")); // NOI18N
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -140,10 +225,10 @@ public class ContactsModal extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(contactOne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(contactTwo, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                    .addComponent(contactThree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -171,7 +256,7 @@ public class ContactsModal extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -181,19 +266,19 @@ public class ContactsModal extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(contactOne, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(contactTwo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(contactThree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -213,9 +298,41 @@ public class ContactsModal extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void contactTwoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactTwoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_contactTwoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        copyToClipboard(egress.getEmail());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+         copyToClipboard(socialMedias.get(0));
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if(size >= 2) copyToClipboard(socialMedias.get(1));
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+         if(size >= 3) copyToClipboard(socialMedias.get(2));
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        openURL("https://mail.google.com/mail/?view=cm&fs=1&to=" + egress.getEmail());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       openURL(socialMedias.get(0));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+      if(size >= 2) openURL(socialMedias.get(1));
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        if(size >= 3) openURL(socialMedias.get(2));
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,6 +378,10 @@ public class ContactsModal extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField contactOne;
+    private javax.swing.JTextField contactThree;
+    private javax.swing.JTextField contactTwo;
+    private javax.swing.JTextField email;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -272,9 +393,5 @@ public class ContactsModal extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }
