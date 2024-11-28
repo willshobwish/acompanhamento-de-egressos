@@ -25,7 +25,7 @@ import javax.swing.table.JTableHeader;
  *
  * @author Karol
  */
-public class PendentMilestones extends javax.swing.JPanel {
+public class ListPendentMilestones extends javax.swing.JPanel {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
@@ -33,7 +33,7 @@ public class PendentMilestones extends javax.swing.JPanel {
     /**
      * Creates new form PendentMilestones
      */
-    public PendentMilestones() {
+    public ListPendentMilestones() {
         initComponents();
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         initPendentList();

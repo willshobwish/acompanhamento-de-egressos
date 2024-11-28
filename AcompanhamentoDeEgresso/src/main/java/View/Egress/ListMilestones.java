@@ -30,6 +30,7 @@ public class ListMilestones extends javax.swing.JPanel {
     private final Egress egress;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
+    private final SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form ListMilestones
@@ -42,28 +43,13 @@ public class ListMilestones extends javax.swing.JPanel {
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         this.scrollTable.getViewport().setBackground(Color.WHITE);
 
-        initMilestonesList();
+        initTable();
+        populateTable(egress.getTrajectory().getMilestones());
 
         title.setText(egress.getName() + " de " + egress.getStartDate().format(formatter) + " à " + egress.getEndDate().format(formatter));
     }
-
-    private void initMilestonesList() {
-        SystemController controller = SystemController.getInstance();
-        ArrayList<Milestone> milestones = this.egress.getTrajectory().getMilestones();
-
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
-        headerRenderer.setBackground(new Color(255, 255, 255));
-        headerRenderer.setForeground(new Color(36, 36, 36));
-        headerRenderer.setPreferredSize(new Dimension(450, 32));
-        headerRenderer.setBorder(BorderFactory.createLineBorder(new Color(193, 193, 193)));
-        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        JTableHeader header = dataTable.getTableHeader();
-        header.setDefaultRenderer(headerRenderer);
-
+    
+    private void populateTable(ArrayList<Milestone> milestones) {
         milestones.forEach(milestone -> {
 
             ArrayList<Object> rowData = new ArrayList<>();
@@ -77,6 +63,41 @@ public class ListMilestones extends javax.swing.JPanel {
 
             this.tableModel.addRow(rowData.toArray());
         });
+    
+         dataTable.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt
+            ) {
+                int row = dataTable.rowAtPoint(evt.getPoint());
+                int col = dataTable.columnAtPoint(evt.getPoint());
+                if (row >= 0) {
+                    if (col == 4) {
+                        openModalDescription(milestones.get(row));
+                    } else if (col == 5) {
+                        openModalEdit(milestones.get(row));
+                    }
+
+                }
+            }
+        });
+    
+    }
+
+    private void initTable() {
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(new Color(255, 255, 255));
+        headerRenderer.setForeground(new Color(36, 36, 36));
+        headerRenderer.setPreferredSize(new Dimension(450, 32));
+        headerRenderer.setBorder(BorderFactory.createLineBorder(new Color(193, 193, 193)));
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JTableHeader header = dataTable.getTableHeader();
+        header.setDefaultRenderer(headerRenderer);
 
         dataTable.getColumnModel().getColumn(4).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -107,26 +128,14 @@ public class ListMilestones extends javax.swing.JPanel {
         for (int i = 1; i < dataTable.getColumnCount() - 2; i++) {
             dataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-
-        dataTable.addMouseListener(
-                new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt
-            ) {
-                int row = dataTable.rowAtPoint(evt.getPoint());
-                int col = dataTable.columnAtPoint(evt.getPoint());
-                if (row >= 0) {
-                    if (col == 4) {
-                        openModalDescription(milestones.get(row));
-                    } else if (col == 5) {
-                        openModalEdit(milestones.get(row));
-                    }
-
-                }
-            }
-        });
     }
 
+     private void clearTable() {
+        for (int i = this.tableModel.getRowCount()-1; i >= 0; i--) {
+            this.tableModel.removeRow(i);
+        }
+    }
+    
     private void openModalDescription(Milestone milestone) {
         DescriptionModal modal = new DescriptionModal(null, false, milestone.getDescription());
         modal.setResizable(false);
@@ -228,6 +237,11 @@ public class ListMilestones extends javax.swing.JPanel {
         filterButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         filterButton.setForeground(new java.awt.Color(255, 255, 255));
         filterButton.setText("Filtrar");
+        filterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterButtonActionPerformed(evt);
+            }
+        });
 
         title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         title.setForeground(new java.awt.Color(36, 36, 36));
@@ -284,6 +298,23 @@ public class ListMilestones extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
+         clearTable();
+        ArrayList<Milestone> filtered = new ArrayList<>();
+        String filter = filterField.getText();
+
+        for (Milestone milestone : egress.getTrajectory().getMilestones()) {
+            if (milestone.getRole().contains(filter)
+                    || milestone.getInstitution().contains(filter)
+                    || milestone.getDescription().contains(filter)
+                    || milestone.getStartDate().format(formatter).contains(filter)
+                    || milestone.getFinishDate().format(formatter).contains(filter)) {
+                filtered.add(milestone);
+            }
+        }
+        populateTable(filtered);
+    }//GEN-LAST:event_filterButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
