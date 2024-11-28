@@ -30,6 +30,7 @@ public class PendentMilestones extends javax.swing.JPanel {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
+    private final SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form PendentMilestones
@@ -39,13 +40,44 @@ public class PendentMilestones extends javax.swing.JPanel {
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         this.scrollTable.getViewport().setBackground(Color.WHITE);
 
-        initPendentList();
+        initTable();
+        populateTable(controller.listPendentsMilestones());
+
     }
 
-    private void initPendentList() {
-        SystemController controller = SystemController.getInstance();
-        ArrayList<PendentMilestone> pendentList = controller.listPendentsMilestones();
+    private void populateTable(ArrayList<PendentMilestone> pendentList) {
+        pendentList.forEach(milestone -> {
 
+            ArrayList<Object> rowData = new ArrayList<>();
+
+            rowData.add(milestone.getEgress().getName());
+            rowData.add(milestone.getCreatedAt().format(formatter));
+            rowData.add("Ver modificações");
+            rowData.add("Contatos");
+
+            this.tableModel.addRow(rowData.toArray());
+        });
+
+        dataTable.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt
+            ) {
+                int row = dataTable.rowAtPoint(evt.getPoint());
+                int col = dataTable.columnAtPoint(evt.getPoint());
+                if (row >= 0) {
+                    if (col == 2) {
+                        openModifications(pendentList.get(row));
+                    } else if (col == 3) {
+                        openContacts(pendentList.get(row).getEgress());
+                    }
+
+                }
+            }
+        });
+    }
+
+    private void initTable() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -58,18 +90,6 @@ public class PendentMilestones extends javax.swing.JPanel {
 
         JTableHeader header = dataTable.getTableHeader();
         header.setDefaultRenderer(headerRenderer);
-
-        pendentList.forEach(milestone -> {
-
-            ArrayList<Object> rowData = new ArrayList<>();
-
-            rowData.add(milestone.getEgress().getName());
-            rowData.add(milestone.getCreatedAt().format(formatter));
-            rowData.add("Ver modificações");
-            rowData.add("Contatos");
-
-            this.tableModel.addRow(rowData.toArray());
-        });
 
         dataTable.getColumnModel().getColumn(2).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -101,23 +121,12 @@ public class PendentMilestones extends javax.swing.JPanel {
             dataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        dataTable.addMouseListener(
-                new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt
-            ) {
-                int row = dataTable.rowAtPoint(evt.getPoint());
-                int col = dataTable.columnAtPoint(evt.getPoint());
-                if (row >= 0) {
-                    if (col == 2) {
-                        openModifications(pendentList.get(row));
-                    } else if (col == 3) {
-                        openContacts(pendentList.get(row).getEgress());
-                    }
+    }
 
-                }
-            }
-        });
+    private void clearTable() {
+        for (int i = this.tableModel.getRowCount() - 1; i >= 0; i--) {
+            this.tableModel.removeRow(i);
+        }
     }
 
     private void openModifications(PendentMilestone pendentMilestone) {
@@ -224,6 +233,11 @@ public class PendentMilestones extends javax.swing.JPanel {
         filterButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         filterButton.setForeground(new java.awt.Color(255, 255, 255));
         filterButton.setText("Filtrar");
+        filterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(36, 36, 36));
@@ -292,6 +306,20 @@ public class PendentMilestones extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
+        clearTable();
+        ArrayList<PendentMilestone> filtered = new ArrayList<>();
+        String filter = filterField.getText();
+
+        for (PendentMilestone milestone : controller.listPendentsMilestonesByEgress()) {
+            if (milestone.getStatus().contains(filter)
+                    || milestone.getCreatedAt().format(formatter).contains(filter)) {
+                filtered.add(milestone);
+            }
+        }
+        populateTable(filtered);
+    }//GEN-LAST:event_filterButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

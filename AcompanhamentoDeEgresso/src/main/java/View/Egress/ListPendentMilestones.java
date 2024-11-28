@@ -5,6 +5,7 @@
 package View.Egress;
 
 import Controller.SystemController;
+import Model.Milestone;
 import Model.PendentMilestone;
 import View.Adm.MilestonePendentModifications;
 import View.CustomComponents.RoundedBorder;
@@ -29,6 +30,7 @@ public class ListPendentMilestones extends javax.swing.JPanel {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
+    private final SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form PendentMilestones
@@ -37,12 +39,10 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         initComponents();
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         initPendentList();
+        populateTable(controller.listPendentsMilestonesByEgress());
     }
 
     private void initPendentList() {
-        SystemController controller = SystemController.getInstance();
-        ArrayList<PendentMilestone> pendentList = controller.listPendentsMilestonesByEgress();
-
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -55,17 +55,6 @@ public class ListPendentMilestones extends javax.swing.JPanel {
 
         JTableHeader header = dataTable.getTableHeader();
         header.setDefaultRenderer(headerRenderer);
-
-        pendentList.forEach(milestone -> {
-
-            ArrayList<Object> rowData = new ArrayList<>();
-
-            rowData.add(milestone.getCreatedAt().format(formatter));
-            rowData.add("Ver modificações");
-            rowData.add(milestone.getStatus());
-
-            this.tableModel.addRow(rowData.toArray());
-        });
 
         dataTable.getColumnModel().getColumn(1).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -95,6 +84,20 @@ public class ListPendentMilestones extends javax.swing.JPanel {
 
         dataTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 
+    }
+
+    private void populateTable(ArrayList<PendentMilestone> pendentList) {
+        pendentList.forEach(milestone -> {
+
+            ArrayList<Object> rowData = new ArrayList<>();
+
+            rowData.add(milestone.getCreatedAt().format(formatter));
+            rowData.add("Ver modificações");
+            rowData.add(milestone.getStatus());
+
+            this.tableModel.addRow(rowData.toArray());
+        });
+
         dataTable.addMouseListener(
                 new java.awt.event.MouseAdapter() {
             @Override
@@ -116,10 +119,10 @@ public class ListPendentMilestones extends javax.swing.JPanel {
             case "Pendente":
                 return new Color(227, 132, 0);
             case "Aprovado":
-                return new Color(134,241,128);
+                return new Color(134, 241, 128);
             case "Recusado":
             default:
-                return new Color(243,111,111);
+                return new Color(243, 111, 111);
         }
     }
 
@@ -129,6 +132,12 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         modal.setAlwaysOnTop(false);
         modal.setLocationRelativeTo(null);
         modal.setVisible(true);
+    }
+
+    private void clearTable() {
+        for (int i = this.tableModel.getRowCount() - 1; i >= 0; i--) {
+            this.tableModel.removeRow(i);
+        }
     }
 
     /**
@@ -155,7 +164,6 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         setBackground(new java.awt.Color(252, 252, 252));
 
         dataTable.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        dataTable.setForeground(null);
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -186,7 +194,6 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         jScrollPane1.setViewportView(dataTable);
 
         currentPageLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        currentPageLabel.setForeground(null);
         currentPageLabel.setText("1");
 
         jButton1.setBackground(new java.awt.Color(200, 200, 200));
@@ -216,24 +223,26 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         countLabel.setText("Encontrados 45");
 
         filterField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        filterField.setForeground(null);
         filterField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
         filterButton.setBackground(new java.awt.Color(193, 193, 193));
         filterButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         filterButton.setForeground(java.awt.Color.white);
         filterButton.setText("Filtrar");
+        filterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Atualizações pendentes");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel2.setForeground(null);
         jLabel2.setText("Os novos dados precisam ser aprovados pelo admnistrador antes de ficarem disponíveis no seu perfil, por favor aguarde ");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel3.setForeground(null);
         jLabel3.setText("a validação das mudanças e caso tenha alguma dúvida entre em contato com coordenacao@unesp.br");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -295,6 +304,20 @@ public class ListPendentMilestones extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
+        clearTable();
+        ArrayList<PendentMilestone> filtered = new ArrayList<>();
+        String filter = filterField.getText();
+
+        for (PendentMilestone milestone : controller.listPendentsMilestonesByEgress()) {
+            if (milestone.getStatus().contains(filter)
+                    || milestone.getCreatedAt().format(formatter).contains(filter)) {
+                filtered.add(milestone);
+            }
+        }
+        populateTable(filtered);
+    }//GEN-LAST:event_filterButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -47,15 +47,14 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         this.scrollTable.getViewport().setBackground(Color.WHITE);
 
-        initMilestonesList();
+        initTable();
+        populateTable(egress.getTrajectory().getMilestones());
 
         title.setText(egress.getName() + " de " + egress.getStartDate().format(formatter) + " à " + egress.getEndDate().format(formatter));
         countLabel.setText(egress.getTrajectory().getMilestones().size() + " marcos encontrados");
     }
 
-    private void initMilestonesList() {
-        SystemController controller = SystemController.getInstance();
-        ArrayList<Milestone> milestones = this.egress.getTrajectory().getMilestones();
+    private void initTable() {
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -69,19 +68,6 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
 
         JTableHeader header = dataTable.getTableHeader();
         header.setDefaultRenderer(headerRenderer);
-
-        milestones.forEach(milestone -> {
-
-            ArrayList<Object> rowData = new ArrayList<>();
-
-            rowData.add(milestone.getInstitution());
-            rowData.add(milestone.getRole());
-            rowData.add(milestone.getStartDate().format(formatter));
-            rowData.add(milestone.getFinishDate().format(formatter));
-            rowData.add("Ver detalhes");
-
-            this.tableModel.addRow(rowData.toArray());
-        });
 
         dataTable.getColumnModel().getColumn(4).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -100,6 +86,28 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
             dataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
+    }
+
+    private void clearTable() {
+        for (int i = this.tableModel.getRowCount() - 1; i >= 0; i--) {
+            this.tableModel.removeRow(i);
+        }
+    }
+
+    private void populateTable(ArrayList<Milestone> milestones) {
+        milestones.forEach(milestone -> {
+
+            ArrayList<Object> rowData = new ArrayList<>();
+
+            rowData.add(milestone.getInstitution());
+            rowData.add(milestone.getRole());
+            rowData.add(milestone.getStartDate().format(formatter));
+            rowData.add(milestone.getFinishDate().format(formatter));
+            rowData.add("Ver detalhes");
+
+            this.tableModel.addRow(rowData.toArray());
+        });
+
         dataTable.addMouseListener(
                 new java.awt.event.MouseAdapter() {
             @Override
@@ -116,6 +124,8 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
             }
         });
     }
+    
+    
 
     private void openModalDescription(Milestone milestone) {
         DescriptionModal modal = new DescriptionModal(null, false, milestone.getDescription());
@@ -214,6 +224,11 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
         filterButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         filterButton.setForeground(new java.awt.Color(255, 255, 255));
         filterButton.setText("Filtrar");
+        filterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterButtonActionPerformed(evt);
+            }
+        });
 
         title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         title.setForeground(new java.awt.Color(36, 36, 36));
@@ -286,6 +301,23 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
+       clearTable();
+        ArrayList<Milestone> filtered = new ArrayList<>();
+        String filter = filterField.getText();
+
+        for (Milestone milestone : egress.getTrajectory().getMilestones()) {
+            if (milestone.getInstitution().contains(filter)
+                    || milestone.getRole().contains(filter)
+                    || milestone.getDescription().contains(filter)
+                    || milestone.getStartDate().format(formatter).contains(filter)
+                    || milestone.getFinishDate().format(formatter).contains(filter)) {
+                filtered.add(milestone);
+            }
+        }
+        populateTable(filtered);
+    }//GEN-LAST:event_filterButtonActionPerformed
 
     /**
      * @param args the command line arguments

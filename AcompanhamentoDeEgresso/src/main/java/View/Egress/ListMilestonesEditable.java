@@ -49,7 +49,7 @@ public class ListMilestonesEditable extends javax.swing.JPanel {
         title.setText(egress.getName() + " de " + egress.getStartDate().format(formatter) + " à " + egress.getEndDate().format(formatter));
         countLabel.setText(egress.getTrajectory().getMilestones().size() + " marcos encontrados");
     }
-    
+
     private void populateTable(ArrayList<Milestone> milestones) {
         milestones.forEach(milestone -> {
 
@@ -64,8 +64,8 @@ public class ListMilestonesEditable extends javax.swing.JPanel {
 
             this.tableModel.addRow(rowData.toArray());
         });
-    
-         dataTable.addMouseListener(
+
+        dataTable.addMouseListener(
                 new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt
@@ -82,7 +82,7 @@ public class ListMilestonesEditable extends javax.swing.JPanel {
                 }
             }
         });
-    
+
     }
 
     private void initTable() {
@@ -131,12 +131,12 @@ public class ListMilestonesEditable extends javax.swing.JPanel {
         }
     }
 
-     private void clearTable() {
-        for (int i = this.tableModel.getRowCount()-1; i >= 0; i--) {
+    private void clearTable() {
+        for (int i = this.tableModel.getRowCount() - 1; i >= 0; i--) {
             this.tableModel.removeRow(i);
         }
     }
-    
+
     private void openModalDescription(Milestone milestone) {
         DescriptionModal modal = new DescriptionModal(null, false, milestone.getDescription());
         modal.setResizable(false);
@@ -302,7 +302,7 @@ public class ListMilestonesEditable extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
-         clearTable();
+        clearTable();
         ArrayList<Milestone> filtered = new ArrayList<>();
         String filter = filterField.getText();
 
