@@ -25,7 +25,7 @@ import javax.swing.table.JTableHeader;
  *
  * @author Karol
  */
-public class ListMilestones extends javax.swing.JPanel {
+public class ListMilestonesEditable extends javax.swing.JPanel {
 
     private final Egress egress;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -37,7 +37,7 @@ public class ListMilestones extends javax.swing.JPanel {
      *
      * @param egress
      */
-    public ListMilestones(Egress egress) {
+    public ListMilestonesEditable(Egress egress) {
         this.egress = egress;
         initComponents();
         this.tableModel = (DefaultTableModel) dataTable.getModel();
@@ -47,6 +47,7 @@ public class ListMilestones extends javax.swing.JPanel {
         populateTable(egress.getTrajectory().getMilestones());
 
         title.setText(egress.getName() + " de " + egress.getStartDate().format(formatter) + " à " + egress.getEndDate().format(formatter));
+        countLabel.setText(egress.getTrajectory().getMilestones().size());
     }
     
     private void populateTable(ArrayList<Milestone> milestones) {
@@ -227,7 +228,9 @@ public class ListMilestones extends javax.swing.JPanel {
 
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         countLabel.setForeground(new java.awt.Color(36, 36, 36));
+        countLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         countLabel.setText("Encontrados 45");
+        countLabel.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         filterField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         filterField.setForeground(new java.awt.Color(36, 36, 36));
@@ -269,21 +272,20 @@ public class ListMilestones extends javax.swing.JPanel {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(filterButton)))
                             .addGap(316, 316, 316)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(countLabel)
-                        .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(countLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addComponent(title)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(countLabel)
                     .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(countLabel))
                 .addGap(18, 18, 18)
                 .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -291,7 +293,7 @@ public class ListMilestones extends javax.swing.JPanel {
                     .addComponent(currentPageLabel)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGap(13, 13, 13))
         );
     }// </editor-fold>//GEN-END:initComponents
 
