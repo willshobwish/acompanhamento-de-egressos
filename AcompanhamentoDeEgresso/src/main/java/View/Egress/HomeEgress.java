@@ -214,7 +214,7 @@ public class HomeEgress extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        ListMilestones form = new ListMilestones(userSession);
+        ListMilestonesEditable form = new ListMilestonesEditable(userSession);
         showForm(form);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
@@ -239,7 +239,7 @@ public class HomeEgress extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        PendentMilestones form = new PendentMilestones();
+        ListPendentMilestones form = new ListPendentMilestones();
         showForm(form);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 

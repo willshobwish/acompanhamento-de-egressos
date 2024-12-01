@@ -4,12 +4,10 @@
  */
 package View.Core;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import Controller.*;
-import View.Adm.*;
-import View.Egress.*;
-import View.User.*;
+import View.CustomComponents.RoundedBorder;
+import java.awt.Color;
 
 public class Login extends javax.swing.JDialog {
 
@@ -43,15 +41,21 @@ public class Login extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(252, 252, 252));
 
-        jLabel1.setForeground(new java.awt.Color(12, 12, 12));
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Email");
 
-        jLabel2.setForeground(new java.awt.Color(12, 12, 12));
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(36, 36, 36));
         jLabel2.setText("Senha");
 
-        emailField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        emailField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        emailField.setForeground(new java.awt.Color(36, 36, 36));
+        emailField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
-        passwordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        passwordField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        passwordField.setForeground(new java.awt.Color(36, 36, 36));
+        passwordField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
         loginButton.setBackground(new java.awt.Color(142, 214, 243));
         loginButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -119,7 +123,7 @@ public class Login extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
 

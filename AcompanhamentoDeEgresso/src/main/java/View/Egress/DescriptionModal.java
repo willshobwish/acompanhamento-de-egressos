@@ -42,11 +42,15 @@ public class DescriptionModal extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(252, 252, 252));
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Descrição das atividades");
 
         field.setEditable(false);
         field.setBackground(new java.awt.Color(255, 255, 255));
         field.setColumns(20);
+        field.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        field.setForeground(new java.awt.Color(36, 36, 36));
         field.setRows(5);
         field.setDisabledTextColor(new java.awt.Color(36, 36, 36));
         jScrollPane1.setViewportView(field);

@@ -5,6 +5,8 @@
 package View.Adm;
 
 import Controller.SystemController;
+import View.CustomComponents.RoundedBorder;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 public class CreateUser extends javax.swing.JPanel {
@@ -48,13 +50,21 @@ public class CreateUser extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(760, 266));
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Nome");
 
-        nameField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        nameField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        nameField.setForeground(new java.awt.Color(36, 36, 36));
+        nameField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(36, 36, 36));
         jLabel2.setText("Email");
 
-        emailField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        emailField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        emailField.setForeground(new java.awt.Color(36, 36, 36));
+        emailField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
         jButton1.setBackground(new java.awt.Color(134, 241, 128));
         jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -68,6 +78,7 @@ public class CreateUser extends javax.swing.JPanel {
         });
 
         title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        title.setForeground(new java.awt.Color(36, 36, 36));
         title.setText("Novo ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -77,7 +88,7 @@ public class CreateUser extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(226, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel2)
                         .addComponent(title)
@@ -89,7 +100,7 @@ public class CreateUser extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(title)
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
@@ -100,8 +111,8 @@ public class CreateUser extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

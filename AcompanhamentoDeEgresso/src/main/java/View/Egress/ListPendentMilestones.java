@@ -5,7 +5,9 @@
 package View.Egress;
 
 import Controller.SystemController;
-import Model.Egress;
+import Model.Milestone;
+import Model.PendentMilestone;
+import View.Adm.MilestonePendentModifications;
 import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,29 +22,27 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-public class ListEgress extends javax.swing.JPanel {
+/**
+ *
+ * @author Karol
+ */
+public class ListPendentMilestones extends javax.swing.JPanel {
 
-    private final boolean hasAccess;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
-
     private final SystemController controller = SystemController.getInstance();
 
     /**
-     * Creates new form ListEgress
-     *
-     * @param hasAccess
+     * Creates new form PendentMilestones
      */
-    public ListEgress(boolean hasAccess) {
+    public ListPendentMilestones() {
         initComponents();
-        this.hasAccess = hasAccess;
         this.tableModel = (DefaultTableModel) dataTable.getModel();
-        this.scrollTable.getViewport().setBackground(Color.WHITE);
-        initTable();
-        populateTable(controller.getEgresses());
+        initPendentList();
+        populateTable(controller.listPendentsMilestonesByEgress());
     }
 
-    private void initTable() {
+    private void initPendentList() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -56,7 +56,7 @@ public class ListEgress extends javax.swing.JPanel {
         JTableHeader header = dataTable.getTableHeader();
         header.setDefaultRenderer(headerRenderer);
 
-        dataTable.getColumnModel().getColumn(4).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+        dataTable.getColumnModel().getColumn(1).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             panel.setBackground(Color.WHITE);
             JButton button = new JButton(value.toString());
@@ -69,11 +69,11 @@ public class ListEgress extends javax.swing.JPanel {
             return panel;
         });
 
-        dataTable.getColumnModel().getColumn(5).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+        dataTable.getColumnModel().getColumn(2).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             panel.setBackground(Color.WHITE);
             JButton button = new JButton(value.toString());
-            button.setBackground(new Color(146, 214, 243));
+            button.setBackground(getBackgroundByStatus(value.toString()));
             button.setForeground(Color.WHITE);
             button.setFocusPainted(false);
             button.setPreferredSize(new Dimension(100, 20));
@@ -82,30 +82,22 @@ public class ListEgress extends javax.swing.JPanel {
             return panel;
         });
 
-        for (int i = 1; i < dataTable.getColumnCount() - 2; i++) {
-            dataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
+        dataTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+
     }
 
-    private void populateTable(ArrayList<Egress> egressList) {
-        egressList.forEach(egress -> {
-            System.out.println("user: " + egress.getEmail() + " senha: " + egress.getPassword());
-            if (egress.isFirstAccess() || (!egress.isPublic() && !hasAccess)) {
-                return;
-            }
+    private void populateTable(ArrayList<PendentMilestone> pendentList) {
+        pendentList.forEach(milestone -> {
 
             ArrayList<Object> rowData = new ArrayList<>();
 
-            rowData.add(egress.getName());
-            rowData.add(egress.getBirthDate().format(formatter));
-            rowData.add(egress.getStartDate().format(formatter));
-            rowData.add(egress.getEndDate().format(formatter));
-            rowData.add("Ver trajetória");
-            rowData.add("Contatos");
+            rowData.add(milestone.getCreatedAt().format(formatter));
+            rowData.add("Ver modificações");
+            rowData.add(milestone.getStatus());
 
             this.tableModel.addRow(rowData.toArray());
         });
-        
+
         dataTable.addMouseListener(
                 new java.awt.event.MouseAdapter() {
             @Override
@@ -114,39 +106,38 @@ public class ListEgress extends javax.swing.JPanel {
                 int row = dataTable.rowAtPoint(evt.getPoint());
                 int col = dataTable.columnAtPoint(evt.getPoint());
                 if (row >= 0) {
-                    if (col == 4) {
-                        openTrajectory(egressList.get(row));
-                    } else if (col == 5) {
-                        openContacts(egressList.get(row));
+                    if (col == 1) {
+                        openModifications(pendentList.get(row));
                     }
-
                 }
             }
         });
-        
-        countLabel.setText(Integer.toString(this.tableModel.getRowCount()) + " egressos encontrados");
     }
 
-    private void clearTable() {
-        for (int i = this.tableModel.getRowCount()-1; i >= 0; i--) {
-            this.tableModel.removeRow(i);
+    private Color getBackgroundByStatus(String status) {
+        switch (status) {
+            case "Pendente":
+                return new Color(227, 132, 0);
+            case "Aprovado":
+                return new Color(134, 241, 128);
+            case "Recusado":
+            default:
+                return new Color(243, 111, 111);
         }
     }
 
-    private void openTrajectory(Egress egress) {
-        ListTrajectoryModal modal = new ListTrajectoryModal(null, false, egress);
+    private void openModifications(PendentMilestone pendentMilestone) {
+        MilestonePendentModifications modal = new MilestonePendentModifications(null, false, pendentMilestone);
         modal.setResizable(false);
         modal.setAlwaysOnTop(false);
         modal.setLocationRelativeTo(null);
         modal.setVisible(true);
     }
 
-    private void openContacts(Egress egress) {
-        ContactsModal modal = new ContactsModal(null, false, egress);
-        modal.setResizable(false);
-        modal.setAlwaysOnTop(false);
-        modal.setLocationRelativeTo(null);
-        modal.setVisible(true);
+    private void clearTable() {
+        for (int i = this.tableModel.getRowCount() - 1; i >= 0; i--) {
+            this.tableModel.removeRow(i);
+        }
     }
 
     /**
@@ -158,7 +149,7 @@ public class ListEgress extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scrollTable = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
         currentPageLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -166,28 +157,26 @@ public class ListEgress extends javax.swing.JPanel {
         countLabel = new javax.swing.JLabel();
         filterField = new javax.swing.JTextField();
         filterButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(252, 252, 252));
-        setMaximumSize(new java.awt.Dimension(610, 367));
-        setMinimumSize(new java.awt.Dimension(610, 367));
-        setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(716, 367));
 
         dataTable.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        dataTable.setForeground(new java.awt.Color(36, 36, 36));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "Nascimento", "Ingresso", "Egresso", "Trajetória", "Entre em contato"
+                "Data da modificação", "Modificações", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -202,10 +191,9 @@ public class ListEgress extends javax.swing.JPanel {
         dataTable.setRowHeight(40);
         dataTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
         dataTable.setSelectionForeground(new java.awt.Color(36, 36, 36));
-        scrollTable.setViewportView(dataTable);
+        jScrollPane1.setViewportView(dataTable);
 
         currentPageLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        currentPageLabel.setForeground(new java.awt.Color(36, 36, 36));
         currentPageLabel.setText("1");
 
         jButton1.setBackground(new java.awt.Color(200, 200, 200));
@@ -213,6 +201,11 @@ public class ListEgress extends javax.swing.JPanel {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("<");
         jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(200, 200, 200));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -227,17 +220,14 @@ public class ListEgress extends javax.swing.JPanel {
 
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         countLabel.setForeground(new java.awt.Color(36, 36, 36));
-        countLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         countLabel.setText("Encontrados 45");
-        countLabel.setAlignmentY(0.0F);
 
         filterField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        filterField.setForeground(new java.awt.Color(36, 36, 36));
         filterField.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
         filterButton.setBackground(new java.awt.Color(193, 193, 193));
         filterButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        filterButton.setForeground(new java.awt.Color(255, 255, 255));
+        filterButton.setForeground(java.awt.Color.white);
         filterButton.setText("Filtrar");
         filterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -245,46 +235,65 @@ public class ListEgress extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
+        jLabel1.setText("Atualizações pendentes");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setText("Os novos dados precisam ser aprovados pelo admnistrador antes de ficarem disponíveis no seu perfil, por favor aguarde ");
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel3.setText("a validação das mudanças e caso tenha alguma dúvida entre em contato com coordenacao@unesp.br");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currentPageLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(filterButton)
-                            .addGap(18, 18, 18)
-                            .addComponent(countLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(4, Short.MAX_VALUE))
+                            .addComponent(currentPageLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filterButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(countLabel))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(countLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel3)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(countLabel)
+                    .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(currentPageLabel)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -292,22 +301,24 @@ public class ListEgress extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
         clearTable();
-        ArrayList<Egress> filtered = new ArrayList<>();
+        ArrayList<PendentMilestone> filtered = new ArrayList<>();
         String filter = filterField.getText();
 
-        for (Egress egress : controller.getEgresses()) {
-            if (egress.getName().contains(filter)
-                    || egress.getEmail().contains(filter)
-                    || egress.getBirthDate().format(formatter).contains(filter)
-                    || egress.getStartDate().format(formatter).contains(filter)
-                    || egress.getEndDate().format(formatter).contains(filter)) {
-                filtered.add(egress);
+        for (PendentMilestone milestone : controller.listPendentsMilestonesByEgress()) {
+            if (milestone.getStatus().contains(filter)
+                    || milestone.getCreatedAt().format(formatter).contains(filter)) {
+                filtered.add(milestone);
             }
         }
         populateTable(filtered);
     }//GEN-LAST:event_filterButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel countLabel;
@@ -317,6 +328,9 @@ public class ListEgress extends javax.swing.JPanel {
     private javax.swing.JTextField filterField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JScrollPane scrollTable;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

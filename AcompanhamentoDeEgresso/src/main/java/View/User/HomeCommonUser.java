@@ -48,16 +48,17 @@ public class HomeCommonUser extends javax.swing.JFrame {
         content.setBackground(new java.awt.Color(255, 255, 255));
         content.setMaximumSize(new java.awt.Dimension(610, 328));
         content.setMinimumSize(new java.awt.Dimension(610, 328));
+        content.setPreferredSize(new java.awt.Dimension(760, 367));
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGap(0, 760, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 328, Short.MAX_VALUE)
+            .addGap(0, 367, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Egressos");

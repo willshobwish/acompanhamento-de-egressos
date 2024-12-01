@@ -46,7 +46,7 @@ public class RoundedBorder implements Border {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(this.borderColor);
-        g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+        g.drawRoundRect(x, y, width - 2, height - 2, radius, radius);
     }
 
 }
