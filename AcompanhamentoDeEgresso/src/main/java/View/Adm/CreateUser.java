@@ -15,10 +15,11 @@ public class CreateUser extends javax.swing.JPanel {
     * E -> Egress
     * U -> Common User
      */
-    private char userType;
+    private final char userType;
 
     /**
      * Creates new form NewEgress
+     * @param userType
      */
     public CreateUser(char userType) {
         initComponents();
@@ -134,7 +135,9 @@ public class CreateUser extends javax.swing.JPanel {
 
         String message = session.createUser(nameField.getText(), emailField.getText(), userType == 'E');
         JOptionPane.showMessageDialog(null, message, "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
-
+        
+        nameField.setText("");
+        emailField.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

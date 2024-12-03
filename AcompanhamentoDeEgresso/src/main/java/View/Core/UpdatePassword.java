@@ -90,14 +90,7 @@ public class UpdatePassword extends javax.swing.JPanel {
             session.updatePassword(passwordField.getText());
             JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
-        //response = session.updatePassword(passwordField.getText());
-        /*if (response == "dados vazios") {
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos para continuar.",
-                    "Dados vazios", JOptionPane.ERROR_MESSAGE);
-            return;
-          else if...
-        }*/
-        // if success
+        
         passwordField.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
