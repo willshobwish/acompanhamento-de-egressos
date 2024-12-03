@@ -9,13 +9,12 @@ public class Administrator extends User {
     private ArrayList<PendentMilestone> pendentMilestones;
     private static final Logger logger = Logger.getLogger(Administrator.class.getName());
 
-    // Constructor
     public Administrator() {
         super("admin", "admin");
+        this.setPassword("admin");
         this.pendentMilestones = new ArrayList<>();
     }
 
-    // Getters and Setters
     public ArrayList<PendentMilestone> getPendentMilestones() {
         return pendentMilestones;
     }
