@@ -255,6 +255,7 @@ public class UpdateEgress extends javax.swing.JPanel {
         socialMedias.add(social3.getText());
 
         controller.updateEgress(
+                name.getText(),
                 LocalDate.parse(birth.getText(), formatter),
                 LocalDate.parse(startDate.getText(), formatter),
                 LocalDate.parse(endDate.getText(), formatter),
