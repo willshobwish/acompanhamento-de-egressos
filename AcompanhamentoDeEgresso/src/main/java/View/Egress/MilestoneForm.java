@@ -273,14 +273,14 @@ public class MilestoneForm extends javax.swing.JDialog {
         if (originalMilestone != null) {
             String message = controller.updateMilestone(originalMilestone,
                     insituition.getText(), description.getText(), role.getText(),
-                    LocalDate.from(formatter.parse(startDate.getText())),
+                    !startDate.getText().isBlank() ? LocalDate.from(formatter.parse(startDate.getText())) : null,
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected()
             );
             JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
         } else {
             String message = controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
-                    LocalDate.from(formatter.parse(startDate.getText())),
+                    !startDate.getText().isBlank() ? LocalDate.from(formatter.parse(startDate.getText())) : null,
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected());
 

@@ -168,12 +168,12 @@ public class HomeAdm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuNewEgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNewEgressActionPerformed
-        CreateUser form = new CreateUser('E');
+        CreateEgress form = new CreateEgress();
         showForm(form);
     }//GEN-LAST:event_menuNewEgressActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        CreateUser form = new CreateUser('U');
+        CreateUser form = new CreateUser();
         showForm(form);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

@@ -24,6 +24,7 @@ public class Egress extends User {
         this.endDate = endDate;
         this.firstAccess = true;
         this.trajectory = new Trajectory();
+        this.socialMedias = new ArrayList<>();
     }
 
     public LocalDate getBirthDate() {

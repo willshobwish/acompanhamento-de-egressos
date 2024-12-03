@@ -69,8 +69,8 @@ public final class SystemController {
         HashMap<String, String> fields = new HashMap<>();
         fields.put("Nome", name);
         fields.put("Email", email);
-        fields.put("Data de ingresso", startDate.toString());
-        fields.put("Data de egresso", endDate.toString());
+        fields.put("Data de ingresso", startDate == null ? "" : startDate.toString());
+        fields.put("Data de egresso", endDate == null ? "" : endDate.toString());
 
         String emptyFields = emptyDataCheck(fields);
         if (!emptyFields.isBlank()) {
@@ -156,7 +156,7 @@ public final class SystemController {
     public String updateEgress(String name, LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
         HashMap<String, String> fields = new HashMap<>();
         fields.put("Nome", name);
-        fields.put("Data de nascimento", birthDate.toString());
+        fields.put("Data de nascimento", birthDate == null ? "" : birthDate.toString());
         fields.put("Primeira social media", socialMedias.get(0));
         fields.put("Perfil público", Boolean.toString(publicProfile));
 
@@ -240,9 +240,9 @@ public final class SystemController {
         fields.put("Instituição", institution);
         fields.put("Cargo/atividades", role);
         fields.put("Descrição das atividades", description);
-        fields.put("Data de ínicio", startDate.toString());
+        fields.put("Data de ínicio", startDate == null ? "" : startDate.toString());
         if (!current) {
-            fields.put("Data de término", finishDate.toString());
+            fields.put("Data de término", finishDate == null ? "" : finishDate.toString());
         }
 
         String emptyFields = emptyDataCheck(fields);
@@ -274,7 +274,7 @@ public final class SystemController {
         Milestone newMilestone = pendentMilestone.getNewMilestone();
         Milestone oldMilestone = pendentMilestone.getOldMilestone();
         Egress egress = pendentMilestone.getEgress();
-        
+
         if (approved && oldMilestone == null) {
             egress.addMilestone(newMilestone);
         }
@@ -293,8 +293,9 @@ public final class SystemController {
     public ArrayList<MilestoneSubmission> listPendentsMilestones() {
         if (userSession instanceof Administrator) {
             return storage.loadPendentMilestonesSubmissions();
+        } else {
+            return new ArrayList<>();
         }
-        else return new ArrayList<>();
     }
 
     public ArrayList<MilestoneSubmission> listPendentsMilestonesByEgress() {

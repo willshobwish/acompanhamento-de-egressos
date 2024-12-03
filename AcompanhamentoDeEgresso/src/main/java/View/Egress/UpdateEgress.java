@@ -267,7 +267,7 @@ public class UpdateEgress extends javax.swing.JPanel {
         } else {
             String message = controller.updateEgress(
                     name.getText(),
-                    LocalDate.parse(birth.getText(), formatter),
+                    birth.getText().isBlank() ? null : LocalDate.parse(birth.getText(), formatter),
                     socialMedias,
                     isPublic.isSelected()
             );
