@@ -15,10 +15,13 @@ public class Egress extends User {
 
     public Egress(
             String name,
-            String email
+            String email,
+            LocalDate startDate,
+            LocalDate endDate
     ) {
         super(name, email);
-
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.firstAccess = true;
         this.trajectory = new Trajectory();
     }
@@ -91,13 +94,18 @@ public class Egress extends User {
         this.firstAccess = firstAccess;
     }
 
-    public void updateData(String name, LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedias, boolean publicProfile) {
+    public void updateData(String name, LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
         setName(name);
         setBirthDate(birthDate);
-        setEndDate(endDate);
-        setStartDate(startDate);
         setSocialMedias(socialMedias);
         setPublicProfile(publicProfile);
+    }
+
+    public void completeProfile(LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
+        setBirthDate(birthDate);
+        setSocialMedias(socialMedias);
+        setPublicProfile(publicProfile);
+        this.firstAccess = false;
     }
 
     @Override

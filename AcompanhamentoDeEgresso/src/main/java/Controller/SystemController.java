@@ -65,7 +65,32 @@ public final class SystemController {
         return message;
     }
 
-    public String createUser(String name, String email, boolean isEgress) {
+    public String createEgress(String name, String email, LocalDate startDate, LocalDate endDate) {
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("Nome", name);
+        fields.put("Email", email);
+        fields.put("Data de ingresso", startDate.toString());
+        fields.put("Data de egresso", endDate.toString());
+
+        String emptyFields = emptyDataCheck(fields);
+        if (!emptyFields.isBlank()) {
+            logger.info("Error: Fields empty");
+            return emptyFields;
+        }
+
+        if (emailExist(email)) {
+            logger.info("Error: Email already exists.");
+            return "Esse email já existe, por favor insira outro.";
+        }
+
+        User user = new Egress(name, email, startDate, endDate);
+
+        logger.log(Level.INFO, "Usuario criado: {0} / {1}", new Object[]{name, email});
+        storage.saveUser(user);
+        return "Egresso criado com sucesso. Acesse com o email e a senha: " + user.getPassword();
+    }
+
+    public String createUser(String name, String email) {
         HashMap<String, String> fields = new HashMap<>();
         fields.put("Nome", name);
         fields.put("Email", email);
@@ -81,12 +106,7 @@ public final class SystemController {
             return "Esse email já existe, por favor insira outro.";
         }
 
-        User user;
-        if (isEgress) {
-            user = new Egress(name, email);
-        } else {
-            user = new User(name, email);
-        }
+        User user = new User(name, email);
 
         logger.log(Level.INFO, "Usuario criado: {0} / {1}", new Object[]{name, email});
         storage.saveUser(user);
@@ -133,12 +153,10 @@ public final class SystemController {
         this.userSession = user;
     }
 
-    public String updateEgress(String name, LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedias, boolean publicProfile) {
+    public String updateEgress(String name, LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
         HashMap<String, String> fields = new HashMap<>();
         fields.put("Nome", name);
         fields.put("Data de nascimento", birthDate.toString());
-        fields.put("Data de ingresso", startDate.toString());
-        fields.put("Data de egresso", endDate.toString());
         fields.put("Primeira social media", socialMedias.get(0));
         fields.put("Perfil público", Boolean.toString(publicProfile));
 
@@ -148,9 +166,29 @@ public final class SystemController {
             return emptyFields;
         }
 
-        ((Egress) userSession).updateData(name, birthDate, startDate, endDate, socialMedias, publicProfile);
+        ((Egress) userSession).updateData(name, birthDate, socialMedias, publicProfile);
         storage.updateUser(userSession);
-        logger.info("Egress updated successfully: " + userSession.getName());
+        logger.log(Level.INFO, "Egress updated successfully: {0}", userSession.getName());
+
+        return "Dados atualizados com sucesso!";
+    }
+    
+    public String completeProfile(LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("Data de nascimento", birthDate.toString());
+        fields.put("Primeira social media", socialMedias.get(0));
+        fields.put("Perfil público", Boolean.toString(publicProfile));
+
+        String emptyFields = emptyDataCheck(fields);
+        if (!emptyFields.isBlank()) {
+            logger.info("Error: Fields empty");
+            return emptyFields;
+        }
+
+        ((Egress) userSession).completeProfile(birthDate, socialMedias, publicProfile);
+
+        storage.updateUser(userSession);
+        logger.log(Level.INFO, "Egress updated successfully: {0}", userSession.getName());
 
         return "Dados atualizados com sucesso!";
     }

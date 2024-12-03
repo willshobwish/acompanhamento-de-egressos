@@ -18,7 +18,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 public class HomeEgress extends javax.swing.JFrame {
 
     private final Egress userSession;
-    SystemController session = SystemController.getInstance();
+    SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form HomeEgress
@@ -28,7 +28,7 @@ public class HomeEgress extends javax.swing.JFrame {
 
         initComponents();
 
-        userSession = session.getEgressByEmail(session.getUserSession().getEmail());
+        userSession = (Egress) controller.getUserSession();
 
         if (userSession.isFirstAccess()) {
             UpdateEgress form = new UpdateEgress(userSession, () -> {
@@ -227,7 +227,7 @@ public class HomeEgress extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        session.logout();
+        controller.logout();
         JFrame frame = new Home();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
