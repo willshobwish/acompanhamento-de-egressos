@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class Administrator extends User {
-    
+
     private ArrayList<PendentMilestone> pendentMilestones;
     private static final Logger logger = Logger.getLogger(Administrator.class.getName());
 
@@ -22,13 +22,13 @@ public class Administrator extends User {
     public void setPendentMilestones(ArrayList<PendentMilestone> pendentMilestones) {
         this.pendentMilestones = pendentMilestones;
     }
-    
-    public void createPendentMilestone(Milestone oldMilestone, Milestone newMilestone, Egress egress) {
+
+    public void createPendentMilestone(Egress egress, Milestone oldMilestone, Milestone newMilestone) {
         PendentMilestone pendentMilestone = new PendentMilestone(egress, newMilestone, oldMilestone, LocalDate.now(), "Pendente");
         addPendentMilestone(pendentMilestone);
     }
-    
-    public void addPendentMilestone(PendentMilestone pendentMilestone){
+
+    public void addPendentMilestone(PendentMilestone pendentMilestone) {
         this.pendentMilestones.add(pendentMilestone);
     }
 

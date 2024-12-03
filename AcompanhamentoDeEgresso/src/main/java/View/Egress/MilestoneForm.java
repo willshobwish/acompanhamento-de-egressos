@@ -223,9 +223,9 @@ public class MilestoneForm extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(current)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
@@ -279,12 +279,12 @@ public class MilestoneForm extends javax.swing.JDialog {
             );
             JOptionPane.showMessageDialog(null, "Marco adicionado com sucesso. Por favor aguarde a validação do Administrador. Você pode acompanhar o status da validação em Trajetória > Atualizações pendentes.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
+           String message = controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
                     LocalDate.from(formatter.parse(startDate.getText())),
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected());
 
-            JOptionPane.showMessageDialog(null, "Marco editado com sucesso. Por favor aguarde a validação do Administrador. Você pode acompanhar o status da validação em Trajetória > Atualizações pendentes.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
 
         }
 

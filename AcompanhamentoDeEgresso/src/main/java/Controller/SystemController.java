@@ -172,7 +172,7 @@ public final class SystemController {
 
         return "Dados atualizados com sucesso!";
     }
-    
+
     public String completeProfile(LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
         HashMap<String, String> fields = new HashMap<>();
         fields.put("Data de nascimento", birthDate.toString());
@@ -210,26 +210,30 @@ public final class SystemController {
     }
 
     // Milestone Management
-    public void createMilestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
-        if (!(userSession instanceof Egress)) {
-            logger.info("Error: Logged-in user is not an Egress.");
-            return;
+    public String createMilestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("Instituição", institution);
+        fields.put("Cargo/atividades", role);
+        fields.put("Descrição das atividades", description);
+        fields.put("Data de ínicio", startDate.toString());
+        if(!current){
+            fields.put("Data de término", finishDate.toString());
+        }
+
+        String emptyFields = emptyDataCheck(fields);
+        if (!emptyFields.isBlank()) {
+            logger.info("Error: Fields empty");
+            return emptyFields;
         }
 
         Egress egress = (Egress) userSession;
 
-        ArrayList<User> users = storage.loadUsers();
-
-        for (User user : users) {
-            if (user instanceof Administrator adm) {
-                adm.createPendentMilestone(
-                        null,
-                        new Milestone(institution, description, role, startDate, finishDate, current),
-                        egress);
-            }
-        }
-
-        logger.info("Milestone created successfully for: " + egress.getName());
+        Administrator adm = (Administrator) storage.findUser("admin", "admin");
+        Milestone newMilestone = new Milestone(institution, description, role, startDate, finishDate, current);
+        adm.createPendentMilestone(egress, null, newMilestone);
+        storage.saveUser(adm);
+        
+        return "Marco criado com sucesso. Por favor aguarde a validação do Administrador. Você pode acompanhar o status da validação em Trajetória > Histórico de atualizações.";
     }
 
     public void updateMilestone(String id, String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
@@ -245,9 +249,10 @@ public final class SystemController {
         for (User user : users) {
             if (user instanceof Administrator adm) {
                 adm.createPendentMilestone(
+                        egress,
                         egress.getTrajectory().getMilestoneById(id),
-                        new Milestone(institution, description, role, startDate, finishDate, current),
-                        egress);
+                        new Milestone(institution, description, role, startDate, finishDate, current)
+                );
             }
         }
 

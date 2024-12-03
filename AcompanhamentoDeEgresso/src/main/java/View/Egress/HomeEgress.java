@@ -160,7 +160,7 @@ public class HomeEgress extends javax.swing.JFrame {
         });
         menuTrajectory.add(jMenuItem6);
 
-        jMenuItem7.setText("Atualizações pendentes");
+        jMenuItem7.setText("Histórico de atualizações");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
