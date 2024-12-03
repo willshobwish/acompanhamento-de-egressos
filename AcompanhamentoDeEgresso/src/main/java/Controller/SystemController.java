@@ -189,11 +189,15 @@ public final class SystemController {
             logger.info("Error: Egress already exists.");
         }
     }
+    
+    private boolean isPasswordValid(String password){
+        return password.length() >= 5;
+    }
 
-    public String updatePassword(String newPassword) {
-        if (userSession == null) {
-            logger.info("Error: No user logged in.");
-            return "Usuário não logado!";
+    public String updatePassword(String newPassword) { 
+        if(!isPasswordValid(newPassword)){
+            logger.info("Error: password invalid");
+            return "A senha deve ter pelo menos cinco caracteres!";
         }
         
         userSession.updatePassword(newPassword);
