@@ -31,6 +31,15 @@ public class SerializableSystem {
         }
         return instance;
     }
+    
+    public void updateUser(User user){
+        ArrayList<User> users = this.loadUsers();
+        users.removeIf((userList) -> 
+            user.getEmail().equals(userList.getEmail())
+        );
+        users.add(user);
+        this.saveUsers(users);
+    }
 
     public void saveUsers(ArrayList<User> users) {
         String filePath = Paths.get("").toAbsolutePath().toString() + "/src/main/java/Files/user.bin";

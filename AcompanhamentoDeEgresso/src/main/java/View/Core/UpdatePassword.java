@@ -80,17 +80,11 @@ public class UpdatePassword extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        SystemController session = SystemController.getInstance();
-        
-        if (passwordField.getText().isEmpty()){
-            System.out.println("campo vazio");
-            JOptionPane.showMessageDialog(null, "Campo em branco, preencha sua senha",
-            "Erro", JOptionPane.ERROR_MESSAGE);
-        } else {
-            session.updatePassword(passwordField.getText());
-            JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        }
-        
+        SystemController controller = SystemController.getInstance();
+
+        String message = controller.updatePassword(passwordField.getText());
+        JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+
         passwordField.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 

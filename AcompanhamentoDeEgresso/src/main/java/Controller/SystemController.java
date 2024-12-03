@@ -190,16 +190,16 @@ public final class SystemController {
         }
     }
 
-    // Password Management
-    public boolean updatePassword(String newPassword) {
+    public String updatePassword(String newPassword) {
         if (userSession == null) {
             logger.info("Error: No user logged in.");
-            return false;
+            return "Usuário não logado!";
         }
         
-        userSession.setPassword(newPassword);
+        userSession.updatePassword(newPassword);
+        storage.updateUser(userSession);
         logger.info("Password updated successfully.");
-        return true;
+        return "Senha atualizada com sucesso!";
     }
 
     // Milestone Management
