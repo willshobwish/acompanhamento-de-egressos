@@ -3,6 +3,7 @@ package Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class User implements Serializable {
 
@@ -11,11 +12,17 @@ public class User implements Serializable {
     private String password;
     private ArrayList<Milestone> milestones;
 
-    public User(String name, String email, String password) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.password = this.generatePassword();
         this.milestones = new ArrayList<>();
+    }
+
+    private String generatePassword() {
+        Random random = new Random();
+        int randomNumber = 10000 + random.nextInt(99999);
+        return String.valueOf(randomNumber);
     }
 
     public String getName() {

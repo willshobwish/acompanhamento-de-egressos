@@ -144,9 +144,9 @@ public class Login extends javax.swing.JDialog {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         SystemController session = SystemController.getInstance();
         
-        session.login(emailField.getText(), passwordField.getText());
+        boolean success = session.login(emailField.getText(), passwordField.getText());
         
-        if(session.getUserSession() == null) {
+        if(!success) {
             JOptionPane.showMessageDialog(null, "Email ou senha incorretos",
             "Não autorizado", JOptionPane.ERROR_MESSAGE);
         }

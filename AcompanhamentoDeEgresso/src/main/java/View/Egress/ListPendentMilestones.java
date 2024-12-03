@@ -98,6 +98,10 @@ public class ListPendentMilestones extends javax.swing.JPanel {
             this.tableModel.addRow(rowData.toArray());
         });
 
+        for (java.awt.event.MouseListener listener : dataTable.getMouseListeners()) {
+            dataTable.removeMouseListener(listener);
+        }
+
         dataTable.addMouseListener(
                 new java.awt.event.MouseAdapter() {
             @Override

@@ -131,22 +131,10 @@ public class CreateUser extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         SystemController session = SystemController.getInstance();
-        
-        if (nameField.getText().isEmpty() || emailField.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campos em branco, preencha o nome e email",
-            "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-        else if (session.emailExist(emailField.getText())){
-            JOptionPane.showMessageDialog(null, "Email ja cadastrado",
-            "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-        else if (userType == 'U'){
-            String password = session.createUser(nameField.getText(), emailField.getText(), 'U');
-            JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso. A senha é: " + password, "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        } else if (userType == 'E'){
-             String password = session.createEgress(nameField.getText(), emailField.getText(), 'E');
-            JOptionPane.showMessageDialog(null, "Egresso cadastrado com sucesso. A senha é: " + password, "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        }
+
+        String message = session.createUser(nameField.getText(), emailField.getText(), userType == 'E');
+        JOptionPane.showMessageDialog(null, message, "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

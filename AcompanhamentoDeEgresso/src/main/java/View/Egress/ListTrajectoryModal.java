@@ -108,6 +108,10 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
             this.tableModel.addRow(rowData.toArray());
         });
 
+        for (java.awt.event.MouseListener listener : dataTable.getMouseListeners()) {
+            dataTable.removeMouseListener(listener);
+        }
+
         dataTable.addMouseListener(
                 new java.awt.event.MouseAdapter() {
             @Override
@@ -124,8 +128,6 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
             }
         });
     }
-    
-    
 
     private void openModalDescription(Milestone milestone) {
         DescriptionModal modal = new DescriptionModal(null, false, milestone.getDescription());
@@ -303,7 +305,7 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
-       clearTable();
+        clearTable();
         ArrayList<Milestone> filtered = new ArrayList<>();
         String filter = filterField.getText();
 

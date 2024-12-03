@@ -188,7 +188,7 @@ public class HomeAdm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        PendentMilestones form = new PendentMilestones();
+        ListPendentMilestones form = new ListPendentMilestones();
         showForm(form);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 

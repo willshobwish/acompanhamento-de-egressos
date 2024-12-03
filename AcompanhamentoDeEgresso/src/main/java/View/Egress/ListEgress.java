@@ -105,7 +105,11 @@ public class ListEgress extends javax.swing.JPanel {
 
             this.tableModel.addRow(rowData.toArray());
         });
-        
+
+        for (java.awt.event.MouseListener listener : dataTable.getMouseListeners()) {
+            dataTable.removeMouseListener(listener);
+        }
+
         dataTable.addMouseListener(
                 new java.awt.event.MouseAdapter() {
             @Override
@@ -123,12 +127,12 @@ public class ListEgress extends javax.swing.JPanel {
                 }
             }
         });
-        
+
         countLabel.setText(Integer.toString(this.tableModel.getRowCount()) + " egressos encontrados");
     }
 
     private void clearTable() {
-        for (int i = this.tableModel.getRowCount()-1; i >= 0; i--) {
+        for (int i = this.tableModel.getRowCount() - 1; i >= 0; i--) {
             this.tableModel.removeRow(i);
         }
     }

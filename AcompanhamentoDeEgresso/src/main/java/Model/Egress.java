@@ -14,21 +14,11 @@ public class Egress extends User {
     private Trajectory trajectory;
 
     public Egress(
-            String name, 
-            String email, 
-            String password, 
-            LocalDate birthDate, 
-            LocalDate startDate, 
-            LocalDate endDate, 
-            ArrayList<String> socialMedias, 
-            boolean isPublic
+            String name,
+            String email
     ) {
-        super(name, email, password);
-        this.birthDate = birthDate;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.socialMedias = socialMedias;
-        this.publicProfile = isPublic;
+        super(name, email);
+
         this.firstAccess = true;
         this.trajectory = new Trajectory();
     }
@@ -100,7 +90,6 @@ public class Egress extends User {
     public void setFirstAccess(boolean firstAccess) {
         this.firstAccess = firstAccess;
     }
-
 
     @Override
     public String toString() {
