@@ -54,13 +54,13 @@ public final class SystemController {
     }
 
     private String emptyDataCheck(HashMap<String, String> fields) {
-        final String message = "";
+        String message = "";
 
-        fields.keySet().forEach((key) -> {
+        for (String key : fields.keySet()) {
             if (fields.get(key).isBlank()) {
-                message.concat("Campo " + key + " não pode ser vazio./n");
+                message += ("Campo " + key + " não pode ser vazio. \n");
             }
-        });
+        }
 
         return message;
     }
