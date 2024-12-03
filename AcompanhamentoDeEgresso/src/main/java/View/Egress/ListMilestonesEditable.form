@@ -57,10 +57,12 @@
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Component id="title" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="filterField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="filterButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="countLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="filterField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="filterButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="scrollTable" min="-2" pref="263" max="-2" attributes="0"/>

@@ -26,7 +26,7 @@ import javax.swing.table.JTableHeader;
  *
  * @author Karol
  */
-public class PendentMilestones extends javax.swing.JPanel {
+public class ListPendentMilestones extends javax.swing.JPanel {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
@@ -35,7 +35,7 @@ public class PendentMilestones extends javax.swing.JPanel {
     /**
      * Creates new form PendentMilestones
      */
-    public PendentMilestones() {
+    public ListPendentMilestones() {
         initComponents();
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         this.scrollTable.getViewport().setBackground(Color.WHITE);
@@ -57,6 +57,10 @@ public class PendentMilestones extends javax.swing.JPanel {
 
             this.tableModel.addRow(rowData.toArray());
         });
+
+        for (java.awt.event.MouseListener listener : dataTable.getMouseListeners()) {
+            dataTable.removeMouseListener(listener);
+        }
 
         dataTable.addMouseListener(
                 new java.awt.event.MouseAdapter() {
