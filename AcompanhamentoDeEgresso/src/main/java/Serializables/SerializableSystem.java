@@ -57,7 +57,7 @@ public class SerializableSystem {
         return false;
     }
 
-    public ArrayList<User> loadUser() {
+    public ArrayList<User> loadUsers() {
         String filePath = Paths.get("").toAbsolutePath().toString() + "/src/main/java/Files/user.bin";
         File file = new File(filePath);
 
@@ -90,5 +90,17 @@ public class SerializableSystem {
 
         return users;
     }
+    
+    public User findUser(String email, String password){
+        
+        ArrayList<User> users = this.loadUsers();
+        for(User userList: users){
+            if(userList.getEmail().equals(email) && userList.getPassword().equals(password)){
+                return userList;
+            }
+        }
+        
+        return null;
+    } 
 
 }

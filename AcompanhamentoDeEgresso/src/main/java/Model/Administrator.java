@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class Administrator extends User {
-
+    
     private ArrayList<PendentMilestone> pendentMilestones;
     private static final Logger logger = Logger.getLogger(Administrator.class.getName());
 

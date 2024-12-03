@@ -10,16 +10,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-// SINGLETON PROTOTYPE, NOT FINAL
 public class SystemController {
 
     private static final Logger logger = Logger.getLogger(SystemController.class.getName());
     private static SystemController instance;
+
     private static final SerializableSystem serializableSystem = SerializableSystem.getInstance();
     private User userSession = null;
-    private final Administrator admin = new Administrator();
 
     private SystemController() {
     }
@@ -40,7 +40,7 @@ public class SystemController {
     }
 
     public ArrayList<Egress> getEgresses() {
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
         ArrayList<Egress> egresses = new ArrayList<>();
         for (User user : users) {
             if (user instanceof Egress) {
@@ -63,7 +63,7 @@ public class SystemController {
             return "";
         }
         String password = generatePassword();
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
         users.add(new User(name, email, password));
         logger.info("Usuario criado: " + name + " / " + email);
         serializableSystem.saveUsers(users);
@@ -71,7 +71,7 @@ public class SystemController {
     }
 
     public Egress getEgressByEmail(String email) {
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
         for (User user : users) {
             if (user instanceof Egress) {
                 if (user.getEmail().equals(email)) {
@@ -99,7 +99,7 @@ public class SystemController {
                 LocalDate.from(formatter.parse("01/01/1899")),
                 lst,
                 false);
-        ArrayList<User> egresses = serializableSystem.loadUser();
+        ArrayList<User> egresses = serializableSystem.loadUsers();
         egresses.add(newUser);
         serializableSystem.saveUsers(egresses);
         logger.info("Usuario criado: " + name + " / " + email);
@@ -121,14 +121,14 @@ public class SystemController {
             return;
         }
         newUser.setFirstAccess(false);
-        ArrayList<User> egresses = serializableSystem.loadUser();
+        ArrayList<User> egresses = serializableSystem.loadUsers();
         egresses.add(newUser);
         serializableSystem.saveUsers(egresses);
         logger.info("Usuario criado: " + name + " / " + email);
     }
 
     public boolean emailExist(String email) {
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
         for (User user : users) {
             if (user instanceof Egress) {
                 if (user.getEmail().equals(email)) {
@@ -139,23 +139,20 @@ public class SystemController {
         return false;
     }
 
-    public void login(String email, String password) {
-        logger.info(email + " " + password);
-        if (admin.getEmail().equals(email) && admin.getPassword().equals(password)) {
-            userSession = admin;
-            logger.info("Administrator Login Successful");
-            return;
+    public boolean login(String email, String password) {
+        logger.log(Level.INFO, "Login: {0} {1}", new Object[]{email, password});
+
+        User user = serializableSystem.findUser(email, password);
+        if (user != null) {
+            setUserSession(user);
+            return true;
         }
-        ArrayList<User> users = serializableSystem.loadUser();
-        for (User user : users) {
-            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                userSession = user;
-                logger.info(userSession.getEmail());
-                logger.info("Login successful for: " + user.getName());
-                return;
-            }
-        }
-        logger.info("Error: Invalid email or password.");
+        logger.info("Login: Invalid email or password.");
+        return false;
+    }
+
+    private void setUserSession(User user) {
+        this.userSession = user;
     }
 
     // Egress Management
@@ -165,7 +162,7 @@ public class SystemController {
             return;
         }
 
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
         Egress existingEgress = getEgressByEmail(userSession.getEmail());
 
         if (existingEgress == null) {
@@ -206,7 +203,7 @@ public class SystemController {
     }
 
     public void saveEgress(Egress egress) {
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
         if (!users.contains(egress)) {
             users.add(egress);
             logger.info("Egress saved successfully.");
@@ -236,7 +233,7 @@ public class SystemController {
 
         Egress egress = (Egress) userSession;
 
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
 
         for (User user : users) {
             if (user instanceof Administrator adm) {
@@ -258,7 +255,7 @@ public class SystemController {
 
         Egress egress = (Egress) userSession;
 
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
 
         for (User user : users) {
             if (user instanceof Administrator adm) {
@@ -300,7 +297,7 @@ public class SystemController {
     }
 
     public ArrayList<PendentMilestone> listPendentsMilestones() {
-        ArrayList<User> users = serializableSystem.loadUser();
+        ArrayList<User> users = serializableSystem.loadUsers();
 
         for (User user : users) {
             if (user instanceof Administrator administrator) {
