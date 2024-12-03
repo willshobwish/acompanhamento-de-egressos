@@ -91,6 +91,15 @@ public class Egress extends User {
         this.firstAccess = firstAccess;
     }
 
+    public void updateData(String name, LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedias, boolean publicProfile) {
+        setName(name);
+        setBirthDate(birthDate);
+        setEndDate(endDate);
+        setStartDate(startDate);
+        setSocialMedias(socialMedias);
+        setPublicProfile(publicProfile);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());

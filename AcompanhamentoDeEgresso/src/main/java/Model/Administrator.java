@@ -11,7 +11,7 @@ public class Administrator extends User {
 
     public Administrator() {
         super("admin", "admin");
-        this.setPassword("admin");
+        this.updatePassword("admin");
         this.pendentMilestones = new ArrayList<>();
     }
 
