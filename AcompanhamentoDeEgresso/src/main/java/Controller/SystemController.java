@@ -9,7 +9,7 @@ import Serializables.SerializableSystem;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,24 +50,44 @@ public class SystemController {
         return egresses;
     }
 
-    public static String generatePassword() {
-        Random random = new Random();
-        int randomNumber = 10000 + random.nextInt(90000);
-        logger.info("Senha gerada: " + randomNumber);
-        return String.valueOf(randomNumber);
+    private String emptyDataCheck(HashMap<String, String> fields) {
+        final String message = "";
+
+        fields.keySet().forEach((key) -> {
+            if (fields.get(key).isBlank()) {
+                message.concat("Campo " + key + " não pode ser vazio./n");
+            }
+        });
+
+        return message;
     }
 
-    public String createUser(String name, String email, char type) {
+    public String createUser(String name, String email, boolean isEgress) {
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("Nome", name);
+        fields.put("Email", email);
+
+        String emptyFields = emptyDataCheck(fields);
+        if (!emptyFields.isBlank()) {
+            logger.info("Error: Fields empty");
+            return emptyFields;
+        }
+
         if (emailExist(email)) {
             logger.info("Error: Email already exists.");
-            return "";
+            return "Esse email já existe, por favor insira outro.";
         }
-        String password = generatePassword();
-        ArrayList<User> users = serializableSystem.loadUsers();
-        users.add(new User(name, email, password));
-        logger.info("Usuario criado: " + name + " / " + email);
-        serializableSystem.saveUsers(users);
-        return password;
+
+        User user;
+        if (isEgress) {
+            user = new Egress(name, email);
+        } else {
+            user = new User(name, email);
+        }
+
+        logger.log(Level.INFO, "Usuario criado: {0} / {1}", new Object[]{name, email});
+        serializableSystem.saveUser(user);
+        return "Usuário criado com sucesso. Acesse com o email e a senha: " + user.getPassword();
     }
 
     public Egress getEgressByEmail(String email) {
@@ -80,51 +100,6 @@ public class SystemController {
             }
         }
         return null;
-    }
-
-    public String createEgress(String name, String email, char type) {
-        if (emailExist(email)) {
-            logger.info("Error: Email already exists.");
-            return "";
-        }
-
-        Egress newUser;
-        String password = generatePassword();
-        ArrayList<String> lst = new ArrayList<>();
-        lst.add(" ");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        newUser = new Egress(name, email, password,
-                LocalDate.from(formatter.parse("01/01/1899")),
-                LocalDate.from(formatter.parse("01/01/1899")),
-                LocalDate.from(formatter.parse("01/01/1899")),
-                lst,
-                false);
-        ArrayList<User> egresses = serializableSystem.loadUsers();
-        egresses.add(newUser);
-        serializableSystem.saveUsers(egresses);
-        logger.info("Usuario criado: " + name + " / " + email);
-        return password;
-    }
-
-    public void createEgressFull(String name, String email, char type, LocalDate birthDate,
-            LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedia, boolean isPublic) {
-        if (emailExist(email)) {
-            logger.info("Error: Email already exists.");
-            return;
-        }
-
-        Egress newUser;
-        if (type == 'E') {
-            newUser = new Egress(name, email, generatePassword(), birthDate, startDate, endDate, socialMedia, isPublic);
-        } else {
-            logger.info("Error: Invalid user type.");
-            return;
-        }
-        newUser.setFirstAccess(false);
-        ArrayList<User> egresses = serializableSystem.loadUsers();
-        egresses.add(newUser);
-        serializableSystem.saveUsers(egresses);
-        logger.info("Usuario criado: " + name + " / " + email);
     }
 
     public boolean emailExist(String email) {

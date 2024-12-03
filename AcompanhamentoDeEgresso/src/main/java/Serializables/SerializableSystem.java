@@ -32,7 +32,7 @@ public class SerializableSystem {
         return instance;
     }
 
-    public boolean saveUsers(ArrayList<User> users) {
+    public void saveUsers(ArrayList<User> users) {
         String filePath = Paths.get("").toAbsolutePath().toString() + "/src/main/java/Files/user.bin";
         File file = new File(filePath);
         try {
@@ -41,20 +41,24 @@ public class SerializableSystem {
                 logger.info("Creating directories: " + parentDir);
                 if (!parentDir.mkdirs()) {
                     logger.log(Level.SEVERE, "Failed to create directories.");
-                    return false;
                 }
             }
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
                 oos.writeObject(users);
                 logger.info("Users saved successfully.");
-                return true;
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Error during serialization: " + e.getMessage());
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Unexpected error: " + e.getMessage());
         }
-        return false;
+    }
+
+    public void saveUser(User user) {
+        ArrayList<User> users = this.loadUsers();
+        users.add(user);
+        this.saveUsers(users);
+        logger.info("Users saved successfully.");
     }
 
     public ArrayList<User> loadUsers() {
@@ -90,17 +94,17 @@ public class SerializableSystem {
 
         return users;
     }
-    
-    public User findUser(String email, String password){
-        
+
+    public User findUser(String email, String password) {
+
         ArrayList<User> users = this.loadUsers();
-        for(User userList: users){
-            if(userList.getEmail().equals(email) && userList.getPassword().equals(password)){
+        for (User userList : users) {
+            if (userList.getEmail().equals(email) && userList.getPassword().equals(password)) {
                 return userList;
             }
         }
-        
+
         return null;
-    } 
+    }
 
 }

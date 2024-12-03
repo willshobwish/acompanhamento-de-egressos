@@ -11,7 +11,7 @@ public class Administrator extends User {
 
     // Constructor
     public Administrator() {
-        super("admin", "admin", "admin");
+        super("admin", "admin");
         this.pendentMilestones = new ArrayList<>();
     }
 
