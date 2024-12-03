@@ -3,19 +3,19 @@ package Model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PendentMilestone implements Serializable {
+public class MilestoneSubmission implements Serializable {
     private Egress egress;
     private Milestone oldMilestone;
     private Milestone newMilestone;
     private LocalDate createdAt;
     private String status;
 
-    public PendentMilestone(Egress egress, Milestone newMilestone, Milestone oldMilestone, LocalDate createdAt, String status) {
+    public MilestoneSubmission(Egress egress, Milestone newMilestone, Milestone oldMilestone) {
         this.egress = egress;
         this.newMilestone = newMilestone;
         this.oldMilestone = oldMilestone;
-        this.createdAt = createdAt;
-        this.status = status;
+        this.createdAt = LocalDate.now();
+        this.status = "Pendente";
     }
 
     public Egress getEgress() {
@@ -58,6 +58,14 @@ public class PendentMilestone implements Serializable {
         this.status = status;
     }
 
+    public boolean isPendent(){
+        return "Pendente".equals(this.status);
+    }
+    
+    public void updateStatus(String status){
+        setStatus(status);
+    }
+    
     // Utility methods (Optional)
     @Override
     public String toString() {

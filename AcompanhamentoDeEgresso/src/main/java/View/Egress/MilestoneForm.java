@@ -14,19 +14,20 @@ import javax.swing.JOptionPane;
 
 public class MilestoneForm extends javax.swing.JDialog {
 
-    private final Milestone initialData;
+    private final Milestone originalMilestone;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form MilestoneForm2
+     *
      * @param parent
      * @param modal
      * @param initialData
      */
     public MilestoneForm(java.awt.Frame parent, boolean modal, Milestone initialData) {
         super(parent, modal);
-        this.initialData = initialData;
+        this.originalMilestone = initialData;
 
         initComponents();
         if (initialData != null) {
@@ -38,12 +39,12 @@ public class MilestoneForm extends javax.swing.JDialog {
     }
 
     private void initData() {
-        role.setText(initialData.getRole());
-        description.setText(initialData.getDescription());
-        startDate.setText(initialData.getStartDate().format(formatter));
-        endDate.setText(initialData.getFinishDate() != null ? initialData.getFinishDate().format(formatter) : "");
-        insituition.setText(initialData.getInstitution());
-        current.setSelected(initialData.isCurrent());
+        role.setText(originalMilestone.getRole());
+        description.setText(originalMilestone.getDescription());
+        startDate.setText(originalMilestone.getStartDate().format(formatter));
+        endDate.setText(originalMilestone.getFinishDate() != null ? originalMilestone.getFinishDate().format(formatter) : "");
+        insituition.setText(originalMilestone.getInstitution());
+        current.setSelected(originalMilestone.isCurrent());
     }
 
     /**
@@ -269,17 +270,16 @@ public class MilestoneForm extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        if (initialData != null) {
-            controller.updateMilestone(
-                    initialData.getId(),
+        if (originalMilestone != null) {
+            String message = controller.updateMilestone(originalMilestone,
                     insituition.getText(), description.getText(), role.getText(),
                     LocalDate.from(formatter.parse(startDate.getText())),
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected()
             );
-            JOptionPane.showMessageDialog(null, "Marco adicionado com sucesso. Por favor aguarde a validação do Administrador. Você pode acompanhar o status da validação em Trajetória > Atualizações pendentes.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
         } else {
-           String message = controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
+            String message = controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
                     LocalDate.from(formatter.parse(startDate.getText())),
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected());
@@ -292,7 +292,9 @@ public class MilestoneForm extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
+        String message = controller.deleteMilestone(originalMilestone);
+        JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     /**

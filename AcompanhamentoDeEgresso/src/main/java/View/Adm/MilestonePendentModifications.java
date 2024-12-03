@@ -7,10 +7,11 @@ package View.Adm;
 import Controller.SystemController;
 import Model.Administrator;
 import Model.Milestone;
-import Model.PendentMilestone;
+import Model.MilestoneSubmission;
 import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,7 +20,8 @@ import java.time.format.DateTimeFormatter;
 public class MilestonePendentModifications extends javax.swing.JDialog {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private final PendentMilestone pendentMilestone;
+    private final MilestoneSubmission pendentMilestone;
+    private final SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form MilestonePendentModifications
@@ -28,7 +30,7 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
      * @param modal
      * @param pendentMilestone
      */
-    public MilestonePendentModifications(java.awt.Frame parent, boolean modal, PendentMilestone pendentMilestone
+    public MilestonePendentModifications(java.awt.Frame parent, boolean modal, MilestoneSubmission pendentMilestone
     ) {
         super(parent, modal);
         initComponents();
@@ -477,11 +479,13 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
     }//GEN-LAST:event_newInstituitionActionPerformed
 
     private void approveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveButtonActionPerformed
-        // TODO add your handling code here:
+        String message = controller.validateMilestone(pendentMilestone, true);
+        JOptionPane.showMessageDialog(null, message, "Marco aprovado", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_approveButtonActionPerformed
 
     private void refuseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refuseButtonActionPerformed
-        // TODO add your handling code here:
+        String message = controller.validateMilestone(pendentMilestone, false);
+        JOptionPane.showMessageDialog(null, message, "Marco recusado", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_refuseButtonActionPerformed
 
     private void newStartDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newStartDateActionPerformed

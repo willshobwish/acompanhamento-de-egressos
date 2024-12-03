@@ -1,5 +1,6 @@
 package Serializables;
 
+import Model.MilestoneSubmission;
 import Model.User;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,11 +32,11 @@ public class SerializableSystem {
         }
         return instance;
     }
-    
-    public void updateUser(User user){
+
+    public void updateUser(User user) {
         ArrayList<User> users = this.loadUsers();
-        users.removeIf((userList) -> 
-            user.getEmail().equals(userList.getEmail())
+        users.removeIf((userList)
+                -> user.getEmail().equals(userList.getEmail())
         );
         users.add(user);
         this.saveUsers(users);
@@ -82,13 +83,11 @@ public class SerializableSystem {
                 logger.info("Creating directories: " + parentDir);
                 if (!parentDir.mkdirs()) {
                     logger.log(Level.SEVERE, "Failed to create directories.");
-                    return users;
                 }
             }
 
             if (!file.exists()) {
                 logger.info("File does not exist: " + filePath);
-                return users;
             }
 
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
@@ -116,4 +115,75 @@ public class SerializableSystem {
         return null;
     }
 
+    public void saveMilestonesSubmissions(ArrayList<MilestoneSubmission> milestones) {
+        String filePath = Paths.get("").toAbsolutePath().toString() + "/src/main/java/Files/milestonesSubmisssion.bin";
+        File file = new File(filePath);
+        try {
+            File parentDir = file.getParentFile();
+            if (!parentDir.exists()) {
+                logger.info("Creating directories: " + parentDir);
+                if (!parentDir.mkdirs()) {
+                    logger.log(Level.SEVERE, "Failed to create directories.");
+                }
+            }
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+                oos.writeObject(milestones);
+                logger.info("Milestones submissions saved successfully.");
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "Error during serialization: " + e.getMessage());
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Unexpected error: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<MilestoneSubmission> loadMilestonesSubmissions() {
+        String filePath = Paths.get("").toAbsolutePath().toString() + "/src/main/java/Files/milestonesSubmisssion.bin";
+        File file = new File(filePath);
+
+        ArrayList<MilestoneSubmission> milestones = new ArrayList<>();
+
+        try {
+            File parentDir = file.getParentFile();
+            if (!parentDir.exists()) {
+                logger.info("Creating directories: " + parentDir);
+                if (!parentDir.mkdirs()) {
+                    logger.log(Level.SEVERE, "Failed to create directories.");
+                }
+            }
+
+            if (!file.exists()) {
+                logger.info("File does not exist: " + filePath);
+            }
+
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                milestones = (ArrayList<MilestoneSubmission>) ois.readObject();
+                logger.info("Objects deserialized successfully.");
+            } catch (IOException | ClassNotFoundException e) {
+                logger.log(Level.SEVERE, "Error during deserialization: " + e.getMessage());
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Unexpected error: " + e.getMessage());
+        }
+
+        return milestones;
+    }
+
+    public void saveMilestoneSubmission(MilestoneSubmission milestone) {
+        ArrayList<MilestoneSubmission> milestones = this.loadMilestonesSubmissions();
+        milestones.add(milestone);
+        this.saveMilestonesSubmissions(milestones);
+        logger.info("Milestone submission saved successfully.");
+    }
+    
+    public ArrayList<MilestoneSubmission> loadPendentMilestonesSubmissions(){
+        ArrayList<MilestoneSubmission> milestones = loadMilestonesSubmissions();
+        ArrayList<MilestoneSubmission> pendentMilestones = new ArrayList<>();
+        for(MilestoneSubmission milestone: milestones){
+            if(milestone.isPendent()){
+                pendentMilestones.add(milestone);
+            }
+        }
+        return pendentMilestones;
+    }
 }

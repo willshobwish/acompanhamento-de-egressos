@@ -263,7 +263,7 @@ public class UpdateEgress extends javax.swing.JPanel {
                     isPublic.isSelected()
             );
             JOptionPane.showMessageDialog(null, message, "Operaçao finalizada", JOptionPane.INFORMATION_MESSAGE);
-
+            
         } else {
             String message = controller.updateEgress(
                     name.getText(),

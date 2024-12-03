@@ -6,7 +6,7 @@ package View.Adm;
 
 import Controller.SystemController;
 import Model.Egress;
-import Model.PendentMilestone;
+import Model.MilestoneSubmission;
 import View.CustomComponents.RoundedBorder;
 import View.Egress.ContactsModal;
 import java.awt.Color;
@@ -45,7 +45,7 @@ public class ListPendentMilestones extends javax.swing.JPanel {
 
     }
 
-    private void populateTable(ArrayList<PendentMilestone> pendentList) {
+    private void populateTable(ArrayList<MilestoneSubmission> pendentList) {
         pendentList.forEach(milestone -> {
 
             ArrayList<Object> rowData = new ArrayList<>();
@@ -133,7 +133,7 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         }
     }
 
-    private void openModifications(PendentMilestone pendentMilestone) {
+    private void openModifications(MilestoneSubmission pendentMilestone) {
         MilestonePendentModifications modal = new MilestonePendentModifications(null, false, pendentMilestone);
         modal.setResizable(false);
         modal.setAlwaysOnTop(false);
@@ -313,10 +313,10 @@ public class ListPendentMilestones extends javax.swing.JPanel {
 
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
         clearTable();
-        ArrayList<PendentMilestone> filtered = new ArrayList<>();
+        ArrayList<MilestoneSubmission> filtered = new ArrayList<>();
         String filter = filterField.getText();
 
-        for (PendentMilestone milestone : controller.listPendentsMilestonesByEgress()) {
+        for (MilestoneSubmission milestone : controller.listPendentsMilestonesByEgress()) {
             if (milestone.getStatus().contains(filter)
                     || milestone.getCreatedAt().format(formatter).contains(filter)) {
                 filtered.add(milestone);

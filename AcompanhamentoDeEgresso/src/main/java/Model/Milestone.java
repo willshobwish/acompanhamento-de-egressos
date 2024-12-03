@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class Milestone implements Serializable {
 
-    private String id;
+    private final String id;
     private String institution;
     private String description;
     private String role;

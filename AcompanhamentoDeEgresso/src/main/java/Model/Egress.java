@@ -66,16 +66,16 @@ public class Egress extends User {
         this.trajectory = trajectory;
     }
 
-    public void createMilestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
-        trajectory.addMilestone(institution, description, role, startDate, finishDate, current);
+    public void addMilestone(Milestone newMilestone) {
+        trajectory.addMilestone(newMilestone);
     }
 
-    public void updateMilestone(String id, String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
-        trajectory.updateMilestone(id, institution, description, role, startDate, finishDate, current);
+    public void updateMilestone(Milestone oldMilestone, Milestone newMilestone) {
+        trajectory.updateMilestone(oldMilestone, newMilestone);
     }
 
-    public void deleteMilestone(String id) {
-        trajectory.deleteMilestone(id);
+    public void deleteMilestone(Milestone milestone) {
+        trajectory.deleteMilestone(milestone);
     }
 
     public boolean isPublic() {
