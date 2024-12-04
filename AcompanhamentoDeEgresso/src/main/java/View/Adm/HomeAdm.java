@@ -39,7 +39,7 @@ public class HomeAdm extends javax.swing.JFrame {
         UIManager.put("Menu.opaque", true);
         UIManager.put("Menu.background", Color.WHITE);
         UIManager.put("Menu.foreground", new Color(36, 36, 36));
-        
+
         UIManager.put("MenuBar.opaque", true);
         UIManager.put("MenuBar.background", Color.WHITE);
         UIManager.put("MenuBar.foreground", new Color(36, 36, 36));
@@ -60,8 +60,10 @@ public class HomeAdm extends javax.swing.JFrame {
         menuNewEgress = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -115,6 +117,14 @@ public class HomeAdm extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem4);
 
+        jMenuItem7.setText("Histórico de marcos validados");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem7);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Usuários");
@@ -126,6 +136,14 @@ public class HomeAdm extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem1);
+
+        jMenuItem6.setText("Listar usuários");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
 
         jMenuBar1.add(jMenu2);
 
@@ -204,6 +222,16 @@ public class HomeAdm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        ListUsers form = new ListUsers();
+        showForm(form);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        ListRecordMilestonesValidated form = new ListRecordMilestonesValidated();
+        showForm(form);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     private void showForm(JPanel form) {
         content.removeAll();
 
@@ -260,6 +288,8 @@ public class HomeAdm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem menuNewEgress;
     // End of variables declaration//GEN-END:variables
 }

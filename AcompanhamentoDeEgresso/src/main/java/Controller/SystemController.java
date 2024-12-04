@@ -21,7 +21,7 @@ public final class SystemController {
     private User userSession = null;
 
     private SystemController() {
-        if (!this.emailExist("admin")) {
+        if (!emailExist("admin")) {
             User adm = new Administrator();
             storage.saveUser(adm);
         }
@@ -128,11 +128,11 @@ public final class SystemController {
     public boolean emailExist(String email) {
         ArrayList<User> users = storage.loadUsers();
         for (User user : users) {
-            if (user instanceof Egress) {
-                if (user.getEmail().equals(email)) {
-                    return true;
-                }
+
+            if (user.getEmail().equals(email)) {
+                return true;
             }
+
         }
         return false;
     }
@@ -302,6 +302,31 @@ public final class SystemController {
     public ArrayList<MilestoneSubmission> listMilestoneSubmissionsByEgress() {
         if (userSession instanceof Egress egress) {
             return storage.loadMilestonesSubmissionsByEgress(egress);
+        }
+        return new ArrayList<>();
+    }
+
+    public ArrayList<User> listAllUsers() {
+        if (userSession instanceof Administrator) {
+            ArrayList<User> users = storage.loadUsers();
+            users.removeIf(user -> user instanceof Administrator);
+            return users;
+        }
+        return new ArrayList<>();
+    }
+
+    public String deleteUser(User user) {
+        if (userSession instanceof Administrator) {
+            storage.deleteUser(user);
+            return "Usuário excluído com sucesso!";
+        }
+        return "Operação não autorizada!";
+    }
+    
+    public ArrayList<MilestoneSubmission> listRegisterMilestonesValidated() {
+          if (userSession instanceof Administrator) {
+           return storage.listRegisterMilestonesValidated();
+       
         }
         return new ArrayList<>();
     }
