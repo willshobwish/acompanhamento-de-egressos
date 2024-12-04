@@ -23,7 +23,7 @@ public class Trajectory implements Serializable{
 
     public void updateMilestone(Milestone oldMilestone, Milestone newMilestone) {
         for (Milestone milestone : milestones) {
-            if (milestone.getId().equals(newMilestone.getId())) {
+            if (milestone.getId().equals(oldMilestone.getId())) {
                 milestone.setInstitution(newMilestone.getInstitution());
                 milestone.setDescription(newMilestone.getDescription());
                 milestone.setRole(newMilestone.getRole());
