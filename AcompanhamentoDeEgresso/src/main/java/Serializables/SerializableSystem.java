@@ -209,4 +209,12 @@ public class SerializableSystem {
 
         return egressMilestoneSubmissions;
     }
+
+    public void deleteUser(User user) {
+        ArrayList<User> users = this.loadUsers();
+        users.removeIf((userList)
+                -> user.getEmail().equals(userList.getEmail())
+        );
+        this.saveUsers(users);
+    }
 }
