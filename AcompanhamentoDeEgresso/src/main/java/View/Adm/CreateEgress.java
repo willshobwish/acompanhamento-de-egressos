@@ -9,6 +9,7 @@ import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
  * @author Karol
  */
 public class CreateEgress extends javax.swing.JPanel {
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
@@ -161,23 +163,26 @@ public class CreateEgress extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         SystemController controller = SystemController.getInstance();
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        if (pattern.matcher(emailField.getText()).matches()) {
+            String message = controller.createEgress(
+                    nameField.getText(),
+                    emailField.getText(),
+                    startDate.getText().isBlank() ? null : LocalDate.parse(startDate.getText(), formatter),
+                    endDate.getText().isBlank() ? null : LocalDate.parse(endDate.getText(), formatter)
+            );
 
-        String message = controller.createEgress(
-                nameField.getText(), 
-                emailField.getText(), 
-                startDate.getText().isBlank() ? null : LocalDate.parse(startDate.getText(), formatter), 
-                endDate.getText().isBlank() ? null : LocalDate.parse(endDate.getText(), formatter)
-        );
-        
-        JOptionPane.showMessageDialog(null, message, "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, message, "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
 
-        nameField.setText("");
-        emailField.setText("");
-        startDate.setText("");
-        endDate.setText("");
-
+            nameField.setText("");
+            emailField.setText("");
+            startDate.setText("");
+            endDate.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "E-mail inserido de forma incorreta, insira um e-mail válido", "E-mail incorreto", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField emailField;

@@ -7,6 +7,7 @@ package View.Adm;
 import Controller.SystemController;
 import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class CreateUser extends javax.swing.JPanel {
@@ -122,15 +123,20 @@ public class CreateUser extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        Pattern pattern = Pattern.compile(emailRegex);
+
         SystemController controller = SystemController.getInstance();
+        if (pattern.matcher(emailField.getText()).matches()) {
+            String message = controller.createUser(nameField.getText(), emailField.getText());
+            JOptionPane.showMessageDialog(null, message, "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
+            nameField.setText("");
+            emailField.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "E-mail inserido de forma incorreta, insira um e-mail válido", "E-mail incorreto", JOptionPane.ERROR_MESSAGE);
+        }
 
-        String message = controller.createUser(nameField.getText(), emailField.getText());
-        JOptionPane.showMessageDialog(null, message, "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
-
-        nameField.setText("");
-        emailField.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField emailField;
