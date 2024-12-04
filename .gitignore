@@ -25,3 +25,5 @@ replay_pid*
 /AcompanhamentoDeEgresso/target/
 nb-configuration.xml
 docker-compose.yaml
+
+*.bin
