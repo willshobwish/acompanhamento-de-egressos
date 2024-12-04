@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -25,7 +26,7 @@ public class ListEgress extends javax.swing.JPanel {
     private final boolean hasAccess;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
-
+    private static final Logger logger = Logger.getLogger(ListEgress.class.getName());
     private final SystemController controller = SystemController.getInstance();
 
     /**
@@ -89,7 +90,7 @@ public class ListEgress extends javax.swing.JPanel {
 
     private void populateTable(ArrayList<Egress> egressList) {
         egressList.forEach(egress -> {
-            System.out.println("user: " + egress.getEmail() + " senha: " + egress.getPassword());
+            logger.info("user: " + egress.getEmail() + " senha: " + egress.getPassword());
             if (egress.isFirstAccess() || (!egress.isPublic() && !hasAccess)) {
                 return;
             }
