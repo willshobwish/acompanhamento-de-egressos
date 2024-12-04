@@ -20,7 +20,7 @@ public class UpdateEgress extends javax.swing.JPanel {
     private final Callback onSuccess;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    SystemController session = SystemController.getInstance();
+    SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form UpdateEgress
@@ -29,7 +29,7 @@ public class UpdateEgress extends javax.swing.JPanel {
      */
     public UpdateEgress(Egress initialData, Callback onSuccess) {
 
-        initialData = session.getEgressByEmail(session.getUserSession().getEmail());
+        initialData = (Egress) controller.getUserSession();
         this.onSuccess = onSuccess;
         this.initialData = initialData;
         initComponents();
@@ -49,6 +49,10 @@ public class UpdateEgress extends javax.swing.JPanel {
         );
         endDate.setText(initialData.getEndDate() != null
                 ? initialData.getEndDate().format(formatter)
+                : ""
+        );
+       birth.setText(initialData.getBirthDate()!= null
+                ? initialData.getBirthDate().format(formatter)
                 : ""
         );
 
@@ -258,12 +262,13 @@ public class UpdateEgress extends javax.swing.JPanel {
 
         if (initialData.isFirstAccess()) {
             String message = controller.completeProfile(
-                    LocalDate.parse(birth.getText(), formatter),
+                    birth.getText().isBlank() ? null : LocalDate.parse(birth.getText(), formatter),
                     socialMedias,
                     isPublic.isSelected()
             );
+
             JOptionPane.showMessageDialog(null, message, "Operaçao finalizada", JOptionPane.INFORMATION_MESSAGE);
-            
+
         } else {
             String message = controller.updateEgress(
                     name.getText(),
@@ -275,7 +280,7 @@ public class UpdateEgress extends javax.swing.JPanel {
 
         }
 
-        onSuccess.execute();
+        if(onSuccess != null) onSuccess.execute();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void social1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_social1ActionPerformed

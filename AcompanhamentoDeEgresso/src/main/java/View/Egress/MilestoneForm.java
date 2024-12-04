@@ -97,15 +97,14 @@ public class MilestoneForm extends javax.swing.JDialog {
         jLabel4.setForeground(new java.awt.Color(36, 36, 36));
         jLabel4.setText("Descrição das atividades, projetos e pesquisas");
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         description.setColumns(20);
         description.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         description.setForeground(new java.awt.Color(36, 36, 36));
-        description.setLineWrap(true);
         description.setRows(5);
-        description.setWrapStyleWord(true);
         description.setBorder(null);
         jScrollPane1.setViewportView(description);
 
@@ -269,26 +268,23 @@ public class MilestoneForm extends javax.swing.JDialog {
     }//GEN-LAST:event_insituitionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String message;
 
         if (originalMilestone != null) {
-            String message = controller.updateMilestone(originalMilestone,
+            message = controller.updateMilestone(originalMilestone,
                     insituition.getText(), description.getText(), role.getText(),
                     !startDate.getText().isBlank() ? LocalDate.from(formatter.parse(startDate.getText())) : null,
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected()
             );
-            JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            String message = controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
+            message = controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
                     !startDate.getText().isBlank() ? LocalDate.from(formatter.parse(startDate.getText())) : null,
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected());
-
-            JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
-
         }
-
-        this.dispose();
+        JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+        if(message.contains("sucesso")) this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed

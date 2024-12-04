@@ -175,7 +175,7 @@ public final class SystemController {
 
     public String completeProfile(LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
         HashMap<String, String> fields = new HashMap<>();
-        fields.put("Data de nascimento", birthDate.toString());
+        fields.put("Data de nascimento",birthDate == null ? "" : birthDate.toString());
         fields.put("Primeira social media", socialMedias.get(0));
         fields.put("Perfil público", Boolean.toString(publicProfile));
 
@@ -215,9 +215,9 @@ public final class SystemController {
         fields.put("Instituição", institution);
         fields.put("Cargo/atividades", role);
         fields.put("Descrição das atividades", description);
-        fields.put("Data de ínicio", startDate.toString());
+        fields.put("Data de ínicio", startDate == null ? "" : startDate.toString());
         if (!current) {
-            fields.put("Data de término", finishDate.toString());
+            fields.put("Data de término", finishDate == null ? "" : finishDate.toString());
         }
 
         String emptyFields = emptyDataCheck(fields);

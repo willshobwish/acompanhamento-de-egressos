@@ -46,6 +46,8 @@ public class ListPendentMilestones extends javax.swing.JPanel {
     }
 
     private void populateTable(ArrayList<MilestoneSubmission> pendentList) {
+        countLabel.setText(pendentList.size() + " atualizações pendentes encontradas");
+        
         pendentList.forEach(milestone -> {
 
             ArrayList<Object> rowData = new ArrayList<>();
@@ -227,6 +229,7 @@ public class ListPendentMilestones extends javax.swing.JPanel {
 
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         countLabel.setForeground(new java.awt.Color(36, 36, 36));
+        countLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         countLabel.setText("Encontrados 45");
 
         filterField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -277,8 +280,8 @@ public class ListPendentMilestones extends javax.swing.JPanel {
                                 .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(filterButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(countLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(countLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -315,8 +318,13 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         clearTable();
         ArrayList<MilestoneSubmission> filtered = new ArrayList<>();
         String filter = filterField.getText();
+        
+        if(filter.isBlank()){
+            populateTable(controller.listPendentsMilestones());
+            return;
+        }
 
-        for (MilestoneSubmission milestone : controller.listPendentsMilestonesByEgress()) {
+        for (MilestoneSubmission milestone : controller.listPendentsMilestones()) {
             if (milestone.getStatus().contains(filter)
                     || milestone.getCreatedAt().format(formatter).contains(filter)) {
                 filtered.add(milestone);

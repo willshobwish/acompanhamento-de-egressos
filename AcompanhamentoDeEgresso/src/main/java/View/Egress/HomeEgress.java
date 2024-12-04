@@ -32,11 +32,13 @@ public class HomeEgress extends javax.swing.JFrame {
 
         if (userSession.isFirstAccess()) {
             UpdateEgress form = new UpdateEgress(userSession, () -> {
-                this.menuAccount.setEnabled(true);
-                this.menuEgress.setEnabled(true);
-                this.menuTrajectory.setEnabled(true);
-                ListEgress formEgress = new ListEgress(true);
-                showForm(formEgress);
+                if (!userSession.isFirstAccess()) {
+                    this.menuAccount.setEnabled(true);
+                    this.menuEgress.setEnabled(true);
+                    this.menuTrajectory.setEnabled(true);
+                    ListEgress formEgress = new ListEgress(true);
+                    showForm(formEgress);
+                }
             });
             showForm(form);
             this.menuAccount.setEnabled(false);
