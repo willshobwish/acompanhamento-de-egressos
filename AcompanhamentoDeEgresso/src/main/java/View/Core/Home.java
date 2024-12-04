@@ -14,6 +14,7 @@ import View.User.HomeCommonUser;
 import View.CustomComponents.RoundedBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -23,12 +24,12 @@ public class Home extends javax.swing.JFrame {
      * Creates new form Home
      */
     SystemController session = SystemController.getInstance();
+    private static final Logger logger = Logger.getLogger(Home.class.getName());
 
     public Home() {
         initComponents();
 
         //RoundedButton.roundedButton(loginButton, 16);
-
         ListEgress form = new ListEgress(false);
         showForm(form);
     }
@@ -177,13 +178,13 @@ public class Home extends javax.swing.JFrame {
         if (session.getUserSession() != null) {
             JFrame userHome;
             if (session.getUserSession() instanceof Administrator) {
-                System.out.println("instance of adm");
+                logger.info("instance of adm");
                 userHome = new HomeAdm();
             } else if (session.getUserSession() instanceof Egress) {
-                System.out.println("instance of egress");
+                logger.info("instance of egress");
                 userHome = new HomeEgress();
             } else {
-                System.out.println("instance of user");
+                logger.info("instance of user");
                 userHome = new HomeCommonUser();
             }
 

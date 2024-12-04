@@ -47,9 +47,9 @@ public final class SystemController {
         ArrayList<Egress> egresses = new ArrayList<>();
         for (User user : users) {
             if (user instanceof Egress) {
-                if (((Egress) user).isPublic() && userSession == null) {
+                if (userSession != null) {
                     egresses.add((Egress) user);
-                } else {
+                } else if (((Egress) user).isPublic()) {
                     egresses.add((Egress) user);
                 }
             }
@@ -326,11 +326,11 @@ public final class SystemController {
         }
         return "Operação não autorizada!";
     }
-    
+
     public ArrayList<MilestoneSubmission> listRegisterMilestonesValidated() {
-          if (userSession instanceof Administrator) {
-           return storage.listRegisterMilestonesValidated();
-       
+        if (userSession instanceof Administrator) {
+            return storage.listRegisterMilestonesValidated();
+
         }
         return new ArrayList<>();
     }

@@ -4,7 +4,6 @@
  */
 package View.Egress;
 
-import Controller.SystemController;
 import Model.Egress;
 import Model.Milestone;
 import View.CustomComponents.RoundedBorder;
@@ -72,7 +71,8 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
         dataTable.getColumnModel().getColumn(4).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             panel.setBackground(Color.WHITE);
-            JButton button = new JButton(value.toString());
+            JButton button = new JButton(value.toString());;
+//            JButton button = new JButton("Ver detalhes");
             button.setBackground(new Color(146, 214, 243));
             button.setForeground(Color.WHITE);
             button.setFocusPainted(false);
@@ -104,7 +104,11 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
             rowData.add(milestone.getInstitution());
             rowData.add(milestone.getRole());
             rowData.add(milestone.getStartDate().format(formatter));
-            rowData.add(milestone.getFinishDate().format(formatter));
+            if (milestone.getFinishDate() != null) {
+                rowData.add(milestone.getFinishDate().format(formatter));
+            } else {
+                rowData.add("Atualmente");
+            }
             rowData.add("Ver detalhes");
 
             this.tableModel.addRow(rowData.toArray());
@@ -292,7 +296,7 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
