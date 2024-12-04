@@ -71,8 +71,7 @@ public class ListTrajectoryModal extends javax.swing.JDialog {
         dataTable.getColumnModel().getColumn(4).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             panel.setBackground(Color.WHITE);
-            JButton button = new JButton(value.toString());;
-//            JButton button = new JButton("Ver detalhes");
+            JButton button = new JButton(value.toString());
             button.setBackground(new Color(146, 214, 243));
             button.setForeground(Color.WHITE);
             button.setFocusPainted(false);
