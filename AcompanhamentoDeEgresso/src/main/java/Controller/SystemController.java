@@ -308,7 +308,9 @@ public final class SystemController {
 
     public ArrayList<User> listAllUsers() {
         if (userSession instanceof Administrator) {
-            return storage.loadUsers();
+            ArrayList<User> users = storage.loadUsers();
+            users.removeIf(user -> user instanceof Administrator);
+            return users;
         }
         return new ArrayList<>();
     }
