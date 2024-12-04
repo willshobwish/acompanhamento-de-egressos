@@ -47,7 +47,11 @@ public final class SystemController {
         ArrayList<Egress> egresses = new ArrayList<>();
         for (User user : users) {
             if (user instanceof Egress) {
-                egresses.add((Egress) user);
+                if (((Egress) user).isPublic() && userSession == null) {
+                    egresses.add((Egress) user);
+                } else {
+                    egresses.add((Egress) user);
+                }
             }
         }
         return egresses;
