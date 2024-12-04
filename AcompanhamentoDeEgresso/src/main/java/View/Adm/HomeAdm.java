@@ -6,23 +6,43 @@ package View.Adm;
 
 import Controller.SystemController;
 import View.Core.Home;
-import View.Egress.ListEgress;
 import View.Core.UpdatePassword;
+import View.Egress.ListEgress;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class HomeAdm extends javax.swing.JFrame {
+
     SystemController session = SystemController.getInstance();
 
     /**
      * Creates new form HomeAdm
      */
     public HomeAdm() {
+        customUIManager();
+
         initComponents();
         ListEgress form = new ListEgress(true);
         showForm(form);
+    }
+
+    private void customUIManager() {
+
+        UIManager.put("MenuItem.opaque", true);
+        UIManager.put("MenuItem.background", Color.WHITE);
+        UIManager.put("MenuItem.foreground", new Color(36, 36, 36));
+
+        UIManager.put("Menu.opaque", true);
+        UIManager.put("Menu.background", Color.WHITE);
+        UIManager.put("Menu.foreground", new Color(36, 36, 36));
+
+        UIManager.put("MenuBar.opaque", true);
+        UIManager.put("MenuBar.background", Color.WHITE);
+        UIManager.put("MenuBar.foreground", new Color(36, 36, 36));
     }
 
     /**
@@ -40,8 +60,10 @@ public class HomeAdm extends javax.swing.JFrame {
         menuNewEgress = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -51,22 +73,25 @@ public class HomeAdm extends javax.swing.JFrame {
         content.setBackground(new java.awt.Color(255, 255, 255));
         content.setMaximumSize(new java.awt.Dimension(610, 328));
         content.setMinimumSize(new java.awt.Dimension(610, 328));
-        content.setPreferredSize(new java.awt.Dimension(610, 328));
+        content.setPreferredSize(new java.awt.Dimension(760, 475));
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGap(0, 760, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 328, Short.MAX_VALUE)
+            .addGap(0, 475, Short.MAX_VALUE)
         );
+
+        jMenuBar1.setBorder(null);
 
         jMenu1.setText("Egressos");
 
         menuNewEgress.setText("Novo Egresso");
+        menuNewEgress.setBorder(null);
         menuNewEgress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuNewEgressActionPerformed(evt);
@@ -75,6 +100,7 @@ public class HomeAdm extends javax.swing.JFrame {
         jMenu1.add(menuNewEgress);
 
         jMenuItem2.setText("Atualizações pendentes");
+        jMenuItem2.setBorder(null);
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -83,12 +109,21 @@ public class HomeAdm extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem4.setText("Listar egressos");
+        jMenuItem4.setBorder(null);
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
             }
         });
         jMenu1.add(jMenuItem4);
+
+        jMenuItem7.setText("Histórico de marcos validados");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem7);
 
         jMenuBar1.add(jMenu1);
 
@@ -101,6 +136,14 @@ public class HomeAdm extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem1);
+
+        jMenuItem6.setText("Listar usuários");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
 
         jMenuBar1.add(jMenu2);
 
@@ -134,19 +177,21 @@ public class HomeAdm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuNewEgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNewEgressActionPerformed
-        CreateUser form = new CreateUser('E');
+        CreateEgress form = new CreateEgress();
         showForm(form);
     }//GEN-LAST:event_menuNewEgressActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        CreateUser form = new CreateUser('U');
+        CreateUser form = new CreateUser();
         showForm(form);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -161,8 +206,8 @@ public class HomeAdm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        //UpdateEgress form = new UpdateEgress();
-        //showForm(form);
+        ListPendentMilestones form = new ListPendentMilestones();
+        showForm(form);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -176,6 +221,16 @@ public class HomeAdm extends javax.swing.JFrame {
 
         this.dispose();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        ListUsers form = new ListUsers();
+        showForm(form);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        ListRecordMilestonesValidated form = new ListRecordMilestonesValidated();
+        showForm(form);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void showForm(JPanel form) {
         content.removeAll();
@@ -194,7 +249,7 @@ public class HomeAdm extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -233,6 +288,8 @@ public class HomeAdm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem menuNewEgress;
     // End of variables declaration//GEN-END:variables
 }

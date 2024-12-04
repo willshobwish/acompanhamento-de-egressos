@@ -6,12 +6,13 @@ import java.util.UUID;
 
 public class Milestone implements Serializable {
 
-    private String id;
+    private final String id;
     private String institution;
     private String description;
     private String role;
     private LocalDate startDate;
     private LocalDate finishDate;
+    private boolean validate;
     private boolean current;
 
     public Milestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
@@ -74,5 +75,13 @@ public class Milestone implements Serializable {
 
     public void setCurrent(boolean current) {
         this.current = current;
+    }
+
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void setValidate(boolean validate) {
+        this.validate = validate;
     }
 }

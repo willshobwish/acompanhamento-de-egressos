@@ -2,45 +2,45 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package View.Egress;
+package View.Adm;
 
 import Controller.SystemController;
 import Model.Egress;
+import Model.User;
 import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-public class ListEgress extends javax.swing.JPanel {
+/**
+ *
+ * @author Karol
+ */
+public class ListUsers extends javax.swing.JPanel {
 
-    private final boolean hasAccess;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DefaultTableModel tableModel;
-    private static final Logger logger = Logger.getLogger(ListEgress.class.getName());
     private final SystemController controller = SystemController.getInstance();
 
     /**
-     * Creates new form ListEgress
-     *
-     * @param hasAccess
+     * Creates new form ListUsers
      */
-    public ListEgress(boolean hasAccess) {
+    public ListUsers() {
         initComponents();
-        this.hasAccess = hasAccess;
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         this.scrollTable.getViewport().setBackground(Color.WHITE);
         initTable();
-        populateTable(controller.getEgresses());
+        populateTable(controller.listAllUsers());
     }
 
     private void initTable() {
@@ -57,11 +57,11 @@ public class ListEgress extends javax.swing.JPanel {
         JTableHeader header = dataTable.getTableHeader();
         header.setDefaultRenderer(headerRenderer);
 
-        dataTable.getColumnModel().getColumn(4).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+        dataTable.getColumnModel().getColumn(2).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             panel.setBackground(Color.WHITE);
             JButton button = new JButton(value.toString());
-            button.setBackground(new Color(146, 214, 243));
+            button.setBackground(Color.RED);
             button.setForeground(Color.WHITE);
             button.setFocusPainted(false);
             button.setPreferredSize(new Dimension(100, 20));
@@ -70,39 +70,18 @@ public class ListEgress extends javax.swing.JPanel {
             return panel;
         });
 
-        dataTable.getColumnModel().getColumn(5).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
-            JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            panel.setBackground(Color.WHITE);
-            JButton button = new JButton(value.toString());
-            button.setBackground(new Color(146, 214, 243));
-            button.setForeground(Color.WHITE);
-            button.setFocusPainted(false);
-            button.setPreferredSize(new Dimension(100, 20));
-            button.setBorder(BorderFactory.createEmptyBorder());
-            panel.add(button);
-            return panel;
-        });
-
-        for (int i = 1; i < dataTable.getColumnCount() - 2; i++) {
+        for (int i = 1; i < dataTable.getColumnCount() - 1; i++) {
             dataTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
 
-    private void populateTable(ArrayList<Egress> egressList) {
-        egressList.forEach(egress -> {
-            logger.info("user: " + egress.getEmail() + " senha: " + egress.getPassword());
-            if (egress.isFirstAccess() || (!egress.isPublic() && !hasAccess)) {
-                return;
-            }
-
+    private void populateTable(ArrayList<User> userList) {
+        userList.forEach(user -> {
             ArrayList<Object> rowData = new ArrayList<>();
 
-            rowData.add(egress.getName());
-            rowData.add(egress.getBirthDate().format(formatter));
-            rowData.add(egress.getStartDate().format(formatter));
-            rowData.add(egress.getEndDate().format(formatter));
-            rowData.add("Ver trajetória");
-            rowData.add("Contatos");
+            rowData.add(user.getName());
+            rowData.add(user.getEmail());
+            rowData.add("Excluir");
 
             this.tableModel.addRow(rowData.toArray());
         });
@@ -119,39 +98,25 @@ public class ListEgress extends javax.swing.JPanel {
                 int row = dataTable.rowAtPoint(evt.getPoint());
                 int col = dataTable.columnAtPoint(evt.getPoint());
                 if (row >= 0) {
-                    if (col == 4) {
-                        openTrajectory(egressList.get(row));
-                    } else if (col == 5) {
-                        openContacts(egressList.get(row));
+                    if (col == 2) {
+                        removeUser(userList.get(row));
                     }
 
                 }
             }
         });
 
-        countLabel.setText(Integer.toString(this.tableModel.getRowCount()) + " egressos encontrados");
+        countLabel.setText(Integer.toString(this.tableModel.getRowCount()) + " usuários encontrados");
     }
 
-    private void clearTable() {
-        for (int i = this.tableModel.getRowCount() - 1; i >= 0; i--) {
-            this.tableModel.removeRow(i);
+    private void removeUser(User user) {
+        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse usuário?", "Confirmação", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            String message = controller.deleteUser(user);
+            JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+            clearTable();
+            populateTable(controller.listAllUsers());
         }
-    }
-
-    private void openTrajectory(Egress egress) {
-        ListTrajectoryModal modal = new ListTrajectoryModal(null, false, egress);
-        modal.setResizable(false);
-        modal.setAlwaysOnTop(false);
-        modal.setLocationRelativeTo(null);
-        modal.setVisible(true);
-    }
-
-    private void openContacts(Egress egress) {
-        ContactsModal modal = new ContactsModal(null, false, egress);
-        modal.setResizable(false);
-        modal.setAlwaysOnTop(false);
-        modal.setLocationRelativeTo(null);
-        modal.setVisible(true);
     }
 
     /**
@@ -169,12 +134,6 @@ public class ListEgress extends javax.swing.JPanel {
         filterField = new javax.swing.JTextField();
         filterButton = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(252, 252, 252));
-        setMaximumSize(new java.awt.Dimension(610, 367));
-        setMinimumSize(new java.awt.Dimension(610, 367));
-        setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(716, 367));
-
         dataTable.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         dataTable.setForeground(new java.awt.Color(36, 36, 36));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -182,14 +141,14 @@ public class ListEgress extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nome", "Nascimento", "Ingresso", "Egresso", "Trajetória", "Entre em contato"
+                "Nome", "Email", "Excluir"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -206,6 +165,7 @@ public class ListEgress extends javax.swing.JPanel {
         dataTable.setSelectionForeground(new java.awt.Color(36, 36, 36));
         scrollTable.setViewportView(dataTable);
 
+        countLabel.setBackground(new java.awt.Color(252, 252, 252));
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         countLabel.setForeground(new java.awt.Color(36, 36, 36));
         countLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -240,12 +200,12 @@ public class ListEgress extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(countLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(4, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(filterField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,20 +219,23 @@ public class ListEgress extends javax.swing.JPanel {
 
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
         clearTable();
-        ArrayList<Egress> filtered = new ArrayList<>();
+        ArrayList<User> filtered = new ArrayList<>();
         String filter = filterField.getText();
 
-        for (Egress egress : controller.getEgresses()) {
-            if (egress.getName().contains(filter)
-                    || egress.getEmail().contains(filter)
-                    || egress.getBirthDate().format(formatter).contains(filter)
-                    || egress.getStartDate().format(formatter).contains(filter)
-                    || egress.getEndDate().format(formatter).contains(filter)) {
-                filtered.add(egress);
+        for (User user : controller.listAllUsers()) {
+            if (user.getName().contains(filter)
+                    || user.getEmail().contains(filter)) {
+                filtered.add(user);
             }
         }
         populateTable(filtered);
     }//GEN-LAST:event_filterButtonActionPerformed
+
+    private void clearTable() {
+        for (int i = this.tableModel.getRowCount() - 1; i >= 0; i--) {
+            this.tableModel.removeRow(i);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel countLabel;

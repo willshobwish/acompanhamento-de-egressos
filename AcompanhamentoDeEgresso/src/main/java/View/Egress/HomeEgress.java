@@ -10,44 +10,35 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import Controller.*;
 import View.Core.Home;
+import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class HomeEgress extends javax.swing.JFrame {
 
-    private Egress userSession;
-    SystemController session = SystemController.getInstance();
+    private final Egress userSession;
+    SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form HomeEgress
      */
     public HomeEgress() {
+        customUIManager();
+
         initComponents();
 
-        // to test
-        userSession = session.getEgressByEmail(session.getUserSession().getEmail());
-        /*
-        userSession = new Egress("teste",
-                "teste@teste.com",
-                "",
-                LocalDate.now(),
-                LocalDate.now(),
-                LocalDate.now(),
-                new ArrayList<>(Arrays.asList("https://linkedin.com/in/karoldm")),
-                true
-        );
-        Trajectory traj = new Trajectory();
-        traj.addMilestone("UNESP", "aprendendendo e se fodendo", "Estudante de ciência da computação", LocalDate.now(), null, true);
-        ((Egress) userSession).setTrajectory(traj);
-         */
+        userSession = (Egress) controller.getUserSession();
 
         if (userSession.isFirstAccess()) {
             UpdateEgress form = new UpdateEgress(userSession, () -> {
-                this.menuAccount.setEnabled(true);
-                this.menuEgress.setEnabled(true);
-                this.menuTrajectory.setEnabled(true);
-                ListEgress formEgress = new ListEgress(true);
-                showForm(formEgress);
+                if (!userSession.isFirstAccess()) {
+                    this.menuAccount.setEnabled(true);
+                    this.menuEgress.setEnabled(true);
+                    this.menuTrajectory.setEnabled(true);
+                    ListEgress formEgress = new ListEgress(true);
+                    showForm(formEgress);
+                }
             });
             showForm(form);
             this.menuAccount.setEnabled(false);
@@ -57,6 +48,20 @@ public class HomeEgress extends javax.swing.JFrame {
             ListEgress form = new ListEgress(true);
             showForm(form);
         }
+    }
+
+    private void customUIManager() {
+        UIManager.put("MenuItem.opaque", true);
+        UIManager.put("MenuItem.background", Color.WHITE);
+        UIManager.put("MenuItem.foreground", new Color(36, 36, 36));
+
+        UIManager.put("Menu.opaque", true);
+        UIManager.put("Menu.background", Color.WHITE);
+        UIManager.put("Menu.foreground", new Color(36, 36, 36));
+
+        UIManager.put("MenuBar.opaque", true);
+        UIManager.put("MenuBar.background", Color.WHITE);
+        UIManager.put("MenuBar.foreground", new Color(36, 36, 36));
     }
 
     /**
@@ -79,22 +84,24 @@ public class HomeEgress extends javax.swing.JFrame {
         menuTrajectory = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         content.setBackground(new java.awt.Color(255, 255, 255));
-        content.setMaximumSize(new java.awt.Dimension(610, 328));
-        content.setMinimumSize(new java.awt.Dimension(610, 328));
+        content.setMaximumSize(new java.awt.Dimension(760, 477));
+        content.setMinimumSize(new java.awt.Dimension(760, 477));
+        content.setPreferredSize(new java.awt.Dimension(760, 477));
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGap(0, 760, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 328, Short.MAX_VALUE)
+            .addGap(0, 477, Short.MAX_VALUE)
         );
 
         menuEgress.setText("Egressos");
@@ -155,6 +162,14 @@ public class HomeEgress extends javax.swing.JFrame {
         });
         menuTrajectory.add(jMenuItem6);
 
+        jMenuItem7.setText("Histórico de atualizações");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        menuTrajectory.add(jMenuItem7);
+
         jMenuBar1.add(menuTrajectory);
 
         setJMenuBar(jMenuBar1);
@@ -167,7 +182,9 @@ public class HomeEgress extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -199,12 +216,12 @@ public class HomeEgress extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        ListMilestones form = new ListMilestones(userSession.getTrajectory().getMilestones(), true);
+        ListMilestonesEditable form = new ListMilestonesEditable(userSession);
         showForm(form);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        MilestoneForm form = new MilestoneForm(null, true, null);
+        MilestoneForm form = new MilestoneForm(null, true, null, null);
         form.setResizable(false);
         form.setAlwaysOnTop(false);
         form.setLocationRelativeTo(null);
@@ -212,7 +229,7 @@ public class HomeEgress extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        session.logout();
+        controller.logout();
         JFrame frame = new Home();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -222,6 +239,11 @@ public class HomeEgress extends javax.swing.JFrame {
 
         this.dispose();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        ListPendentMilestones form = new ListPendentMilestones();
+        showForm(form);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -267,6 +289,7 @@ public class HomeEgress extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenu menuAccount;
     private javax.swing.JMenu menuEgress;
     private javax.swing.JMenu menuTrajectory;

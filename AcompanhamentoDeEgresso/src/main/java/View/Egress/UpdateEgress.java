@@ -7,10 +7,11 @@ package View.Egress;
 import Controller.SystemController;
 import Interface.Callback;
 import Model.Egress;
+import View.CustomComponents.RoundedBorder;
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.text.SimpleDateFormat;  
 import javax.swing.JOptionPane;
 
 public class UpdateEgress extends javax.swing.JPanel {
@@ -19,7 +20,7 @@ public class UpdateEgress extends javax.swing.JPanel {
     private final Callback onSuccess;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    SystemController session = SystemController.getInstance();
+    SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form UpdateEgress
@@ -27,12 +28,17 @@ public class UpdateEgress extends javax.swing.JPanel {
      * @param initialData
      */
     public UpdateEgress(Egress initialData, Callback onSuccess) {
-        
-        initialData = session.getEgressByEmail(session.getUserSession().getEmail());
+
+        initialData = (Egress) controller.getUserSession();
         this.onSuccess = onSuccess;
         this.initialData = initialData;
         initComponents();
         initData();
+
+        if (initialData.isFirstAccess()) {
+            panel.remove(name);
+            panel.remove(nameLabel);
+        }
     }
 
     private void initData() {
@@ -43,6 +49,10 @@ public class UpdateEgress extends javax.swing.JPanel {
         );
         endDate.setText(initialData.getEndDate() != null
                 ? initialData.getEndDate().format(formatter)
+                : ""
+        );
+       birth.setText(initialData.getBirthDate()!= null
+                ? initialData.getBirthDate().format(formatter)
                 : ""
         );
 
@@ -63,70 +73,68 @@ public class UpdateEgress extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        panel = new javax.swing.JPanel();
+        nameLabel = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        startDate = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        endDate = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         social1 = new javax.swing.JTextField();
         social2 = new javax.swing.JTextField();
         social3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         isPublic = new javax.swing.JCheckBox();
+        jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        birth = new javax.swing.JFormattedTextField();
+        startDate = new javax.swing.JFormattedTextField();
+        endDate = new javax.swing.JFormattedTextField();
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        panel.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jLabel1.setText("Nome");
+        nameLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        nameLabel.setForeground(new java.awt.Color(36, 36, 36));
+        nameLabel.setText("Nome");
 
         name.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        name.setForeground(new java.awt.Color(36, 36, 36));
         name.setToolTipText("");
-        name.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
+        name.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(36, 36, 36));
         jLabel2.setText("Data ingresso");
 
-        startDate.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        startDate.setToolTipText("dd/MM/yyyy");
-        startDate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(36, 36, 36));
         jLabel3.setText("Data de egresso");
 
-        endDate.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        endDate.setToolTipText("dd/MM/yyyy");
-        endDate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
-
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(36, 36, 36));
         jLabel4.setText("Redes sociais");
 
         social1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        social1.setForeground(new java.awt.Color(36, 36, 36));
         social1.setToolTipText("");
-        social1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
-
-        social2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        social2.setToolTipText("");
-        social2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
-
-        social3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        social3.setToolTipText("");
-        social3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
-
-        jButton1.setBackground(new java.awt.Color(51, 102, 255));
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Salvar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        social1.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        social1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                social1ActionPerformed(evt);
             }
         });
 
+        social2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        social2.setForeground(new java.awt.Color(36, 36, 36));
+        social2.setToolTipText("");
+        social2.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+
+        social3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        social3.setForeground(new java.awt.Color(36, 36, 36));
+        social3.setToolTipText("");
+        social3.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+
         isPublic.setBackground(new java.awt.Color(255, 255, 255));
         isPublic.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        isPublic.setForeground(new java.awt.Color(36, 36, 36));
         isPublic.setText("Perfil público");
         isPublic.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
         isPublic.addActionListener(new java.awt.event.ActionListener() {
@@ -135,70 +143,107 @@ public class UpdateEgress extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
-                    .addComponent(name)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+        jButton2.setBackground(new java.awt.Color(134, 241, 128));
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Salvar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(36, 36, 36));
+        jLabel5.setText("Datade nascimento");
+
+        birth.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        birth.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        birth.setToolTipText("dd/MM/yyyy");
+
+        startDate.setEditable(false);
+        startDate.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        startDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        startDate.setToolTipText("dd/MM/yyyy");
+
+        endDate.setEditable(false);
+        endDate.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        endDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        endDate.setToolTipText("dd/MM/yyyy");
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(isPublic)
+                            .addComponent(birth, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(endDate, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))
-                    .addComponent(social1)
-                    .addComponent(social2)
-                    .addComponent(social3)
-                    .addComponent(isPublic)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                            .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nameLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(name, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                            .addComponent(social2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(social1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(social3, javax.swing.GroupLayout.Alignment.LEADING))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(nameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(birth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(social1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(social2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(social3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(isPublic)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -206,45 +251,57 @@ public class UpdateEgress extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_isPublicActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //controller.updateEgress(name.getText()....);
-        // não esqueça de mostrar se deu sucesso ou não com o joptionpanel
-        // não esqueça dentro de updateEgress de setar isFirstAccess como falso caso seja true
-        // chamar apenas se o update foi um sucesso!
-        if(startDate.getText().isEmpty() || endDate.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Preencha as datas inicial e final",
-            "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-        else {
-            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            ArrayList<String> list1 = new ArrayList<>();
-            list1.add(social1.getText());
-            list1.add(social2.getText());
-            list1.add(social3.getText());
-            session.updateEgress(LocalDate.now(), LocalDate.from(formatter1.parse(startDate.getText())),
-                    LocalDate.from(formatter1.parse(endDate.getText())), list1, isPublic.isSelected());
-           
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SystemController controller = SystemController.getInstance();
 
-            if (onSuccess != null) {
-                onSuccess.execute();
-            }
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+        ArrayList<String> socialMedias = new ArrayList<>();
 
+        socialMedias.add(social1.getText());
+        socialMedias.add(social2.getText());
+        socialMedias.add(social3.getText());
+
+        if (initialData.isFirstAccess()) {
+            String message = controller.completeProfile(
+                    birth.getText().isBlank() ? null : LocalDate.parse(birth.getText(), formatter),
+                    socialMedias,
+                    isPublic.isSelected()
+            );
+
+            JOptionPane.showMessageDialog(null, message, "Operaçao finalizada", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            String message = controller.updateEgress(
+                    name.getText(),
+                    birth.getText().isBlank() ? null : LocalDate.parse(birth.getText(), formatter),
+                    socialMedias,
+                    isPublic.isSelected()
+            );
+            JOptionPane.showMessageDialog(null, message, "Operaçao finalizada", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+
+        if(onSuccess != null) onSuccess.execute();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void social1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_social1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_social1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField endDate;
+    private javax.swing.JFormattedTextField birth;
+    private javax.swing.JFormattedTextField endDate;
     private javax.swing.JCheckBox isPublic;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField name;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JPanel panel;
     private javax.swing.JTextField social1;
     private javax.swing.JTextField social2;
     private javax.swing.JTextField social3;
-    private javax.swing.JTextField startDate;
+    private javax.swing.JFormattedTextField startDate;
     // End of variables declaration//GEN-END:variables
 }

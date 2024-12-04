@@ -5,38 +5,49 @@
 package View.Egress;
 
 import Controller.SystemController;
+import Interface.Callback;
 import java.time.LocalDate;
-import Model.*;
 import Model.Milestone;
+import View.CustomComponents.RoundedBorder;
+import java.awt.Color;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 
 public class MilestoneForm extends javax.swing.JDialog {
 
-    private final Milestone initialData;
+    private final Milestone originalMilestone;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    SystemController session = SystemController.getInstance();
+    SystemController controller = SystemController.getInstance();
+    private Callback onConfirm;
 
     /**
      * Creates new form MilestoneForm2
+     *
+     * @param parent
+     * @param modal
+     * @param initialData
      */
-    public MilestoneForm(java.awt.Frame parent, boolean modal, Milestone initialData) {
+    public MilestoneForm(java.awt.Frame parent, boolean modal, Milestone initialData, Callback onConfirm) {
         super(parent, modal);
-        this.initialData = initialData;
-
+        this.originalMilestone = initialData;
+        this.onConfirm = onConfirm;
         initComponents();
         if (initialData != null) {
             title.setText("Editar marco");
             initData();
+        } else {
+            panel.remove(deleteButton);
         }
     }
 
     private void initData() {
-        role.setText(initialData.getRole());
-        description.setText(initialData.getDescription());
-        startDate.setText(initialData.getStartDate().format(formatter));
-        endDate.setText(initialData.getFinishDate() != null ? initialData.getFinishDate().format(formatter) : "");
-        insituition.setText(initialData.getInstitution());
-        current.setSelected(initialData.isCurrent());
+        role.setText(originalMilestone.getRole());
+        description.setText(originalMilestone.getDescription());
+        startDate.setText(originalMilestone.getStartDate().format(formatter));
+        endDate.setText(originalMilestone.getFinishDate() != null ? originalMilestone.getFinishDate().format(formatter) : "");
+        insituition.setText(originalMilestone.getInstitution());
+        current.setSelected(originalMilestone.isCurrent());
     }
 
     /**
@@ -48,13 +59,11 @@ public class MilestoneForm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        panel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         role = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        startDate = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        endDate = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         description = new javax.swing.JTextArea();
@@ -63,35 +72,47 @@ public class MilestoneForm extends javax.swing.JDialog {
         insituition = new javax.swing.JTextField();
         title = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        startDate = new javax.swing.JFormattedTextField();
+        endDate = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        panel.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Cargo ou  principal atividade");
 
         role.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        role.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        role.setForeground(new java.awt.Color(36, 36, 36));
+        role.setBorder(new RoundedBorder(8, new Color(193,193,193)));
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(36, 36, 36));
         jLabel2.setText("Data de início");
 
-        startDate.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        startDate.setToolTipText("dd/MM/yyyy");
-        startDate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(36, 36, 36));
         jLabel3.setText("Data de término/saída");
 
-        endDate.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        endDate.setToolTipText("dd/MM/yyyy");
-        endDate.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(36, 36, 36));
         jLabel4.setText("Descrição das atividades, projetos e pesquisas");
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         description.setColumns(20);
+        description.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        description.setForeground(new java.awt.Color(36, 36, 36));
         description.setRows(5);
-        description.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
+        description.setBorder(null);
         jScrollPane1.setViewportView(description);
 
+        current.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        current.setForeground(new java.awt.Color(36, 36, 36));
         current.setText("Atualmente");
         current.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,11 +120,14 @@ public class MilestoneForm extends javax.swing.JDialog {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(36, 36, 36));
         jLabel5.setText("Instituição/Empresa/Entidade");
 
         insituition.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        insituition.setForeground(new java.awt.Color(36, 36, 36));
         insituition.setToolTipText("");
-        insituition.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 255), 1, true));
+        insituition.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         insituition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insituitionActionPerformed(evt);
@@ -111,9 +135,10 @@ public class MilestoneForm extends javax.swing.JDialog {
         });
 
         title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        title.setForeground(new java.awt.Color(36, 36, 36));
         title.setText("Novo marco");
 
-        jButton1.setBackground(new java.awt.Color(51, 102, 255));
+        jButton1.setBackground(new java.awt.Color(134, 241, 128));
         jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Salvar");
@@ -124,71 +149,93 @@ public class MilestoneForm extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel4)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+        deleteButton.setBackground(new java.awt.Color(193, 193, 193));
+        deleteButton.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
+        deleteButton.setText("Excluir");
+        deleteButton.setBorder(null);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        startDate.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        startDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+
+        endDate.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        endDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(title, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(endDate, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)))
                             .addComponent(role, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(insituition, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(current, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(32, Short.MAX_VALUE))))
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(109, 109, 109)
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelLayout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE))
+                                    .addComponent(endDate))))
+                        .addGap(32, 32, 32))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
                 .addComponent(title)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(role, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(insituition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(current)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -199,16 +246,16 @@ public class MilestoneForm extends javax.swing.JDialog {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
+            .addGap(0, 496, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -224,23 +271,43 @@ public class MilestoneForm extends javax.swing.JDialog {
     }//GEN-LAST:event_insituitionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Trajectory traj = session.getEgressByEmail(session.getUserSession().getEmail()).getTrajectory();
+        String message;
 
-        if (initialData != null) {
-            //update here
+        if (originalMilestone != null) {
+            message = controller.updateMilestone(originalMilestone,
+                    insituition.getText(), description.getText(), role.getText(),
+                    !startDate.getText().isBlank() ? LocalDate.from(formatter.parse(startDate.getText())) : null,
+                    !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
+                    current.isSelected()
+            );
         } else {
-            traj.addMilestone(insituition.getText(), description.getText(), role.getText(),
-                    LocalDate.from(formatter.parse(startDate.getText())),
+            message = controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
+                    !startDate.getText().isBlank() ? LocalDate.from(formatter.parse(startDate.getText())) : null,
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected());
-            ((Egress) session.getEgressByEmail(session.getUserSession().getEmail())).setTrajectory(traj);
+        }
+        JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+        if (message.contains("sucesso")) {
+            if (onConfirm != null) {
+                onConfirm.execute();
+            }
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+
+        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar esse marco?", "Confirmação", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            String message = controller.deleteMilestone(originalMilestone);
+            JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+            if (onConfirm != null) {
+                onConfirm.execute();
+            }
             this.dispose();
         }
 
-        // avisar o usuário que após edição deve esperar o adm validar e pa
-        // e que quando ele entrar no sistema os dados apareceram atualizados caso o 
-        // adm tenha aprovado
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -273,7 +340,7 @@ public class MilestoneForm extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MilestoneForm dialog = new MilestoneForm(new javax.swing.JFrame(), true, null);
+                MilestoneForm dialog = new MilestoneForm(new javax.swing.JFrame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -287,8 +354,9 @@ public class MilestoneForm extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox current;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JTextArea description;
-    private javax.swing.JTextField endDate;
+    private javax.swing.JFormattedTextField endDate;
     private javax.swing.JTextField insituition;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -296,10 +364,10 @@ public class MilestoneForm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panel;
     private javax.swing.JTextField role;
-    private javax.swing.JTextField startDate;
+    private javax.swing.JFormattedTextField startDate;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
