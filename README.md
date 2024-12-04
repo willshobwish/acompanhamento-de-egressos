@@ -5,6 +5,6 @@ Projeto para acompanhar a trajetória academico e profissional dos egressos do c
 ## Requisitos
 
 - Maven
-- JDK 17
+- JDK 21
 - SonarQube
 - SonarLint
