@@ -165,6 +165,7 @@ public class ListUsers extends javax.swing.JPanel {
         dataTable.setSelectionForeground(new java.awt.Color(36, 36, 36));
         scrollTable.setViewportView(dataTable);
 
+        countLabel.setBackground(new java.awt.Color(252, 252, 252));
         countLabel.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         countLabel.setForeground(new java.awt.Color(36, 36, 36));
         countLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
