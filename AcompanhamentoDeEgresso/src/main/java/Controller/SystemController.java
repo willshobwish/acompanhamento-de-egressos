@@ -283,8 +283,8 @@ public final class SystemController {
             egress.updateMilestone(oldMilestone, newMilestone);
         }
 
-        storage.saveUser(userSession);
-        storage.saveMilestoneSubmission(pendentMilestone);
+        storage.updateUser(egress);
+        storage.updateMilestoneSubmission(pendentMilestone);
 
         logger.log(Level.INFO, "Milestone deleted successfully for: {0}", egress.getName());
         return "Marco validado com sucesso!";
@@ -299,17 +299,17 @@ public final class SystemController {
     }
 
     public ArrayList<MilestoneSubmission> listPendentsMilestonesByEgress() {
-        ArrayList<MilestoneSubmission> egressPendentMilestones = new ArrayList<>();
+        ArrayList<MilestoneSubmission> egressMilestoneSubmissions = new ArrayList<>();
 
-        ArrayList<MilestoneSubmission> allPendentMilestones = listPendentsMilestones();
+        ArrayList<MilestoneSubmission> allMilestonesSubmission = storage.loadMilestonesSubmissions();
 
-        for (MilestoneSubmission milestone : allPendentMilestones) {
+        for (MilestoneSubmission milestone : allMilestonesSubmission) {
             if (milestone.getEgress().getEmail().equals(this.userSession.getEmail())) {
-                egressPendentMilestones.add(milestone);
+                egressMilestoneSubmissions.add(milestone);
             }
         }
 
-        return egressPendentMilestones;
+        return egressMilestoneSubmissions;
     }
 
 }

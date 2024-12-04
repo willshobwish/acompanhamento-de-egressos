@@ -5,6 +5,7 @@
 package View.Adm;
 
 import Controller.SystemController;
+import Interface.Callback;
 import Model.Administrator;
 import Model.Milestone;
 import Model.MilestoneSubmission;
@@ -22,6 +23,7 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final MilestoneSubmission pendentMilestone;
     private final SystemController controller = SystemController.getInstance();
+    Callback onClose;
 
     /**
      * Creates new form MilestonePendentModifications
@@ -30,10 +32,12 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
      * @param modal
      * @param pendentMilestone
      */
-    public MilestonePendentModifications(java.awt.Frame parent, boolean modal, MilestoneSubmission pendentMilestone
+    public MilestonePendentModifications(java.awt.Frame parent, boolean modal, MilestoneSubmission pendentMilestone,
+            Callback onClose
     ) {
         super(parent, modal);
         initComponents();
+        this.onClose = onClose;
 
         this.pendentMilestone = pendentMilestone;
         initData();
@@ -153,13 +157,16 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
         jLabel24.setForeground(new java.awt.Color(36, 36, 36));
         jLabel24.setText("Descrição das atividades, projetos e pesquisas");
 
+        jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane5.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+
         newDescription.setEditable(false);
         newDescription.setBackground(new java.awt.Color(255, 255, 255));
         newDescription.setColumns(20);
         newDescription.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         newDescription.setForeground(new java.awt.Color(36, 36, 36));
         newDescription.setRows(5);
-        newDescription.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        newDescription.setBorder(null);
         jScrollPane5.setViewportView(newDescription);
 
         newCurrent.setBackground(new java.awt.Color(255, 255, 255));
@@ -276,7 +283,7 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
                     .addComponent(newStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(newCurrent)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(approveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(refuseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -321,13 +328,16 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
         jLabel19.setForeground(new java.awt.Color(36, 36, 36));
         jLabel19.setText("Descrição das atividades, projetos e pesquisas");
 
+        jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane4.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+
         oldDescription.setEditable(false);
         oldDescription.setBackground(new java.awt.Color(255, 255, 255));
         oldDescription.setColumns(20);
         oldDescription.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         oldDescription.setForeground(new java.awt.Color(36, 36, 36));
         oldDescription.setRows(5);
-        oldDescription.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        oldDescription.setBorder(null);
         jScrollPane4.setViewportView(oldDescription);
 
         oldCurrent.setBackground(new java.awt.Color(255, 255, 255));
@@ -484,11 +494,19 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
     private void approveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveButtonActionPerformed
         String message = controller.validateMilestone(pendentMilestone, true);
         JOptionPane.showMessageDialog(null, message, "Marco aprovado", JOptionPane.INFORMATION_MESSAGE);
+        if (onClose != null) {
+            onClose.execute();
+        }
+        this.dispose();
     }//GEN-LAST:event_approveButtonActionPerformed
 
     private void refuseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refuseButtonActionPerformed
         String message = controller.validateMilestone(pendentMilestone, false);
         JOptionPane.showMessageDialog(null, message, "Marco recusado", JOptionPane.INFORMATION_MESSAGE);
+        if (onClose != null) {
+            onClose.execute();
+        }
+        this.dispose();
     }//GEN-LAST:event_refuseButtonActionPerformed
 
     private void newStartDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newStartDateActionPerformed
@@ -525,7 +543,7 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MilestonePendentModifications dialog = new MilestonePendentModifications(new javax.swing.JFrame(), true, null);
+                MilestonePendentModifications dialog = new MilestonePendentModifications(new javax.swing.JFrame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

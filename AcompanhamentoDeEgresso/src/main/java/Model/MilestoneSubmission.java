@@ -2,13 +2,16 @@ package Model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class MilestoneSubmission implements Serializable {
+
     private Egress egress;
     private Milestone oldMilestone;
     private Milestone newMilestone;
     private LocalDate createdAt;
     private String status;
+    private final String id;
 
     public MilestoneSubmission(Egress egress, Milestone newMilestone, Milestone oldMilestone) {
         this.egress = egress;
@@ -16,6 +19,12 @@ public class MilestoneSubmission implements Serializable {
         this.oldMilestone = oldMilestone;
         this.createdAt = LocalDate.now();
         this.status = "Pendente";
+        this.id = UUID.randomUUID().toString(); // Generate a unique ID
+
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Egress getEgress() {
@@ -58,20 +67,20 @@ public class MilestoneSubmission implements Serializable {
         this.status = status;
     }
 
-    public boolean isPendent(){
+    public boolean isPendent() {
         return "Pendente".equals(this.status);
     }
-    
-    public void updateStatus(String status){
+
+    public void updateStatus(String status) {
         setStatus(status);
     }
-    
+
     // Utility methods (Optional)
     @Override
     public String toString() {
-        return "PendentMilestone{" +
-                "egress=" + (egress != null ? egress.getName() : "null") +
-                ", newMilestone=" + (newMilestone != null ? newMilestone.getDescription() : "null") +
-                '}';
+        return "PendentMilestone{"
+                + "egress=" + (egress != null ? egress.getName() : "null")
+                + ", newMilestone=" + (newMilestone != null ? newMilestone.getDescription() : "null")
+                + '}';
     }
 }

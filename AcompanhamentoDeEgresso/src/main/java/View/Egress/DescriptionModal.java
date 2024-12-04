@@ -4,23 +4,27 @@
  */
 package View.Egress;
 
+import View.CustomComponents.RoundedBorder;
+import java.awt.Color;
+
 /**
  *
  * @author Karol
  */
 public class DescriptionModal extends javax.swing.JDialog {
-     
-    
+
     /**
      * Creates new form DescriptionModal
+     *
      * @param parent
      * @param modal
      * @param description
      */
     public DescriptionModal(java.awt.Frame parent, boolean modal, String description) {
         super(parent, modal);
-        this.field.setText(description);
         initComponents();
+        this.fieldDescription.setText(description);
+
     }
 
     /**
@@ -35,7 +39,7 @@ public class DescriptionModal extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        field = new javax.swing.JTextArea();
+        fieldDescription = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -46,14 +50,18 @@ public class DescriptionModal extends javax.swing.JDialog {
         jLabel1.setForeground(new java.awt.Color(36, 36, 36));
         jLabel1.setText("Descrição das atividades");
 
-        field.setEditable(false);
-        field.setBackground(new java.awt.Color(255, 255, 255));
-        field.setColumns(20);
-        field.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        field.setForeground(new java.awt.Color(36, 36, 36));
-        field.setRows(5);
-        field.setDisabledTextColor(new java.awt.Color(36, 36, 36));
-        jScrollPane1.setViewportView(field);
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+
+        fieldDescription.setEditable(false);
+        fieldDescription.setBackground(new java.awt.Color(255, 255, 255));
+        fieldDescription.setColumns(20);
+        fieldDescription.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        fieldDescription.setForeground(new java.awt.Color(36, 36, 36));
+        fieldDescription.setRows(5);
+        fieldDescription.setBorder(null);
+        fieldDescription.setDisabledTextColor(new java.awt.Color(36, 36, 36));
+        jScrollPane1.setViewportView(fieldDescription);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,7 +141,7 @@ public class DescriptionModal extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea field;
+    private javax.swing.JTextArea fieldDescription;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

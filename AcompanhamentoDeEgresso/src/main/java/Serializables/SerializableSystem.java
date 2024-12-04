@@ -175,12 +175,21 @@ public class SerializableSystem {
         this.saveMilestonesSubmissions(milestones);
         logger.info("Milestone submission saved successfully.");
     }
-    
-    public ArrayList<MilestoneSubmission> loadPendentMilestonesSubmissions(){
+
+    public void updateMilestoneSubmission(MilestoneSubmission milestone) {
+        ArrayList<MilestoneSubmission> milestones = this.loadMilestonesSubmissions();
+        milestones.removeIf((milestoneList)
+                -> milestoneList.getId().equals(milestone.getId())
+        );
+        milestones.add(milestone);
+        this.saveMilestonesSubmissions(milestones);
+    }
+
+    public ArrayList<MilestoneSubmission> loadPendentMilestonesSubmissions() {
         ArrayList<MilestoneSubmission> milestones = loadMilestonesSubmissions();
         ArrayList<MilestoneSubmission> pendentMilestones = new ArrayList<>();
-        for(MilestoneSubmission milestone: milestones){
-            if(milestone.isPendent()){
+        for (MilestoneSubmission milestone : milestones) {
+            if (milestone.isPendent()) {
                 pendentMilestones.add(milestone);
             }
         }
