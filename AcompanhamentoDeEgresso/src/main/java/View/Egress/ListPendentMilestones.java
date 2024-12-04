@@ -39,7 +39,7 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         initComponents();
         this.tableModel = (DefaultTableModel) dataTable.getModel();
         initPendentList();
-        populateTable(controller.listPendentsMilestonesByEgress());
+        populateTable(controller.listMilestoneSubmissionsByEgress());
     }
 
     private void initPendentList() {
@@ -269,7 +269,7 @@ public class ListPendentMilestones extends javax.swing.JPanel {
         ArrayList<MilestoneSubmission> filtered = new ArrayList<>();
         String filter = filterField.getText();
 
-        for (MilestoneSubmission milestone : controller.listPendentsMilestonesByEgress()) {
+        for (MilestoneSubmission milestone : controller.listMilestoneSubmissionsByEgress()) {
             if (milestone.getStatus().contains(filter)
                     || milestone.getCreatedAt().format(formatter).contains(filter)) {
                 filtered.add(milestone);

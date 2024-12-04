@@ -1,5 +1,6 @@
 package Serializables;
 
+import Model.Egress;
 import Model.MilestoneSubmission;
 import Model.User;
 import java.io.File;
@@ -194,5 +195,18 @@ public class SerializableSystem {
             }
         }
         return pendentMilestones;
+    }
+
+    public ArrayList<MilestoneSubmission> loadMilestonesSubmissionsByEgress(Egress egress) {
+        ArrayList<MilestoneSubmission> allMilestonesSubmission = loadMilestonesSubmissions();
+        ArrayList<MilestoneSubmission> egressMilestoneSubmissions = new ArrayList<>();
+
+        for (MilestoneSubmission milestone : allMilestonesSubmission) {
+            if (milestone.getEgress().getEmail().equals(egress.getEmail())) {
+                egressMilestoneSubmissions.add(milestone);
+            }
+        }
+
+        return egressMilestoneSubmissions;
     }
 }

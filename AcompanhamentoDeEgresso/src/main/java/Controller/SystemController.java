@@ -175,7 +175,7 @@ public final class SystemController {
 
     public String completeProfile(LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
         HashMap<String, String> fields = new HashMap<>();
-        fields.put("Data de nascimento",birthDate == null ? "" : birthDate.toString());
+        fields.put("Data de nascimento", birthDate == null ? "" : birthDate.toString());
         fields.put("Primeira social media", socialMedias.get(0));
         fields.put("Perfil público", Boolean.toString(publicProfile));
 
@@ -299,18 +299,11 @@ public final class SystemController {
         }
     }
 
-    public ArrayList<MilestoneSubmission> listPendentsMilestonesByEgress() {
-        ArrayList<MilestoneSubmission> egressMilestoneSubmissions = new ArrayList<>();
-
-        ArrayList<MilestoneSubmission> allMilestonesSubmission = storage.loadMilestonesSubmissions();
-
-        for (MilestoneSubmission milestone : allMilestonesSubmission) {
-            if (milestone.getEgress().getEmail().equals(this.userSession.getEmail())) {
-                egressMilestoneSubmissions.add(milestone);
-            }
+    public ArrayList<MilestoneSubmission> listMilestoneSubmissionsByEgress() {
+        if (userSession instanceof Egress egress) {
+            return storage.loadMilestonesSubmissionsByEgress(egress);
         }
-
-        return egressMilestoneSubmissions;
+        return new ArrayList<>();
     }
 
 }
