@@ -73,7 +73,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Atualiza&#xe7;&#xf5;es pendentes"/>
+                <Property name="text" type="java.lang.String" value="Hist&#xf3;rico de atualiza&#xe7;&#xf5;es"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem7ActionPerformed"/>

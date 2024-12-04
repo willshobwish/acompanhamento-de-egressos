@@ -15,12 +15,16 @@ public class Egress extends User {
 
     public Egress(
             String name,
-            String email
+            String email,
+            LocalDate startDate,
+            LocalDate endDate
     ) {
         super(name, email);
-
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.firstAccess = true;
         this.trajectory = new Trajectory();
+        this.socialMedias = new ArrayList<>();
     }
 
     public LocalDate getBirthDate() {
@@ -63,16 +67,16 @@ public class Egress extends User {
         this.trajectory = trajectory;
     }
 
-    public void createMilestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
-        trajectory.addMilestone(institution, description, role, startDate, finishDate, current);
+    public void addMilestone(Milestone newMilestone) {
+        trajectory.addMilestone(newMilestone);
     }
 
-    public void updateMilestone(String id, String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
-        trajectory.updateMilestone(id, institution, description, role, startDate, finishDate, current);
+    public void updateMilestone(Milestone oldMilestone, Milestone newMilestone) {
+        trajectory.updateMilestone(oldMilestone, newMilestone);
     }
 
-    public void deleteMilestone(String id) {
-        trajectory.deleteMilestone(id);
+    public void deleteMilestone(Milestone milestone) {
+        trajectory.deleteMilestone(milestone);
     }
 
     public boolean isPublic() {
@@ -91,13 +95,18 @@ public class Egress extends User {
         this.firstAccess = firstAccess;
     }
 
-    public void updateData(String name, LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedias, boolean publicProfile) {
+    public void updateData(String name, LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
         setName(name);
         setBirthDate(birthDate);
-        setEndDate(endDate);
-        setStartDate(startDate);
         setSocialMedias(socialMedias);
         setPublicProfile(publicProfile);
+    }
+
+    public void completeProfile(LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
+        setBirthDate(birthDate);
+        setSocialMedias(socialMedias);
+        setPublicProfile(publicProfile);
+        this.firstAccess = false;
     }
 
     @Override

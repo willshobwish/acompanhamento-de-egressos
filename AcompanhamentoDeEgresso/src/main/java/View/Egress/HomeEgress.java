@@ -18,7 +18,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 public class HomeEgress extends javax.swing.JFrame {
 
     private final Egress userSession;
-    SystemController session = SystemController.getInstance();
+    SystemController controller = SystemController.getInstance();
 
     /**
      * Creates new form HomeEgress
@@ -28,15 +28,17 @@ public class HomeEgress extends javax.swing.JFrame {
 
         initComponents();
 
-        userSession = session.getEgressByEmail(session.getUserSession().getEmail());
+        userSession = (Egress) controller.getUserSession();
 
         if (userSession.isFirstAccess()) {
             UpdateEgress form = new UpdateEgress(userSession, () -> {
-                this.menuAccount.setEnabled(true);
-                this.menuEgress.setEnabled(true);
-                this.menuTrajectory.setEnabled(true);
-                ListEgress formEgress = new ListEgress(true);
-                showForm(formEgress);
+                if (!userSession.isFirstAccess()) {
+                    this.menuAccount.setEnabled(true);
+                    this.menuEgress.setEnabled(true);
+                    this.menuTrajectory.setEnabled(true);
+                    ListEgress formEgress = new ListEgress(true);
+                    showForm(formEgress);
+                }
             });
             showForm(form);
             this.menuAccount.setEnabled(false);
@@ -160,7 +162,7 @@ public class HomeEgress extends javax.swing.JFrame {
         });
         menuTrajectory.add(jMenuItem6);
 
-        jMenuItem7.setText("Atualizações pendentes");
+        jMenuItem7.setText("Histórico de atualizações");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
@@ -219,7 +221,7 @@ public class HomeEgress extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        MilestoneForm form = new MilestoneForm(null, true, null);
+        MilestoneForm form = new MilestoneForm(null, true, null, null);
         form.setResizable(false);
         form.setAlwaysOnTop(false);
         form.setLocationRelativeTo(null);
@@ -227,7 +229,7 @@ public class HomeEgress extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        session.logout();
+        controller.logout();
         JFrame frame = new Home();
         frame.setResizable(false);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);

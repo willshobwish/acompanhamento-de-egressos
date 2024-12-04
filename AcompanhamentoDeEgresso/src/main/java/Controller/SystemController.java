@@ -3,7 +3,7 @@ package Controller;
 import Model.Administrator;
 import Model.Egress;
 import Model.Milestone;
-import Model.PendentMilestone;
+import Model.MilestoneSubmission;
 import Model.User;
 import Serializables.SerializableSystem;
 import java.time.LocalDate;
@@ -54,18 +54,43 @@ public final class SystemController {
     }
 
     private String emptyDataCheck(HashMap<String, String> fields) {
-        final String message = "";
+        String message = "";
 
-        fields.keySet().forEach((key) -> {
+        for (String key : fields.keySet()) {
             if (fields.get(key).isBlank()) {
-                message.concat("Campo " + key + " não pode ser vazio./n");
+                message += ("Campo " + key + " não pode ser vazio. \n");
             }
-        });
+        }
 
         return message;
     }
 
-    public String createUser(String name, String email, boolean isEgress) {
+    public String createEgress(String name, String email, LocalDate startDate, LocalDate endDate) {
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("Nome", name);
+        fields.put("Email", email);
+        fields.put("Data de ingresso", startDate == null ? "" : startDate.toString());
+        fields.put("Data de egresso", endDate == null ? "" : endDate.toString());
+
+        String emptyFields = emptyDataCheck(fields);
+        if (!emptyFields.isBlank()) {
+            logger.info("Error: Fields empty");
+            return emptyFields;
+        }
+
+        if (emailExist(email)) {
+            logger.info("Error: Email already exists.");
+            return "Esse email já existe, por favor insira outro.";
+        }
+
+        User user = new Egress(name, email, startDate, endDate);
+
+        logger.log(Level.INFO, "Usuario criado: {0} / {1}", new Object[]{name, email});
+        storage.saveUser(user);
+        return "Egresso criado com sucesso. Acesse com o email e a senha: " + user.getPassword();
+    }
+
+    public String createUser(String name, String email) {
         HashMap<String, String> fields = new HashMap<>();
         fields.put("Nome", name);
         fields.put("Email", email);
@@ -81,12 +106,7 @@ public final class SystemController {
             return "Esse email já existe, por favor insira outro.";
         }
 
-        User user;
-        if (isEgress) {
-            user = new Egress(name, email);
-        } else {
-            user = new User(name, email);
-        }
+        User user = new User(name, email);
 
         logger.log(Level.INFO, "Usuario criado: {0} / {1}", new Object[]{name, email});
         storage.saveUser(user);
@@ -133,12 +153,10 @@ public final class SystemController {
         this.userSession = user;
     }
 
-    public String updateEgress(String name, LocalDate birthDate, LocalDate startDate, LocalDate endDate, ArrayList<String> socialMedias, boolean publicProfile) {
+    public String updateEgress(String name, LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
         HashMap<String, String> fields = new HashMap<>();
         fields.put("Nome", name);
-        fields.put("Data de nascimento", birthDate.toString());
-        fields.put("Data de ingresso", startDate.toString());
-        fields.put("Data de egresso", endDate.toString());
+        fields.put("Data de nascimento", birthDate == null ? "" : birthDate.toString());
         fields.put("Primeira social media", socialMedias.get(0));
         fields.put("Perfil público", Boolean.toString(publicProfile));
 
@@ -148,9 +166,29 @@ public final class SystemController {
             return emptyFields;
         }
 
-        ((Egress) userSession).updateData(name, birthDate, startDate, endDate, socialMedias, publicProfile);
+        ((Egress) userSession).updateData(name, birthDate, socialMedias, publicProfile);
         storage.updateUser(userSession);
-        logger.info("Egress updated successfully: " + userSession.getName());
+        logger.log(Level.INFO, "Egress updated successfully: {0}", userSession.getName());
+
+        return "Dados atualizados com sucesso!";
+    }
+
+    public String completeProfile(LocalDate birthDate, ArrayList<String> socialMedias, boolean publicProfile) {
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("Data de nascimento", birthDate == null ? "" : birthDate.toString());
+        fields.put("Primeira social media", socialMedias.get(0));
+        fields.put("Perfil público", Boolean.toString(publicProfile));
+
+        String emptyFields = emptyDataCheck(fields);
+        if (!emptyFields.isBlank()) {
+            logger.info("Error: Fields empty");
+            return emptyFields;
+        }
+
+        ((Egress) userSession).completeProfile(birthDate, socialMedias, publicProfile);
+
+        storage.updateUser(userSession);
+        logger.log(Level.INFO, "Egress updated successfully: {0}", userSession.getName());
 
         return "Dados atualizados com sucesso!";
     }
@@ -172,105 +210,100 @@ public final class SystemController {
     }
 
     // Milestone Management
-    public void createMilestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
-        if (!(userSession instanceof Egress)) {
-            logger.info("Error: Logged-in user is not an Egress.");
-            return;
+    public String createMilestone(String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("Instituição", institution);
+        fields.put("Cargo/atividades", role);
+        fields.put("Descrição das atividades", description);
+        fields.put("Data de ínicio", startDate == null ? "" : startDate.toString());
+        if (!current) {
+            fields.put("Data de término", finishDate == null ? "" : finishDate.toString());
+        }
+
+        String emptyFields = emptyDataCheck(fields);
+        if (!emptyFields.isBlank()) {
+            logger.info("Error: Fields empty");
+            return emptyFields;
         }
 
         Egress egress = (Egress) userSession;
 
-        ArrayList<User> users = storage.loadUsers();
+        Milestone newMilestone = new Milestone(institution, description, role, startDate, finishDate, current);
+        MilestoneSubmission newMilestoneSubmission = new MilestoneSubmission(egress, newMilestone, null);
+        storage.saveMilestoneSubmission(newMilestoneSubmission);
 
-        for (User user : users) {
-            if (user instanceof Administrator adm) {
-                adm.createPendentMilestone(
-                        null,
-                        new Milestone(institution, description, role, startDate, finishDate, current),
-                        egress);
-            }
-        }
-
-        logger.info("Milestone created successfully for: " + egress.getName());
+        return "Marco criado com sucesso. Por favor aguarde a validação do Administrador. Você pode acompanhar o status da validação em Trajetória > Histórico de atualizações.";
     }
 
-    public void updateMilestone(String id, String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
-        if (!(userSession instanceof Egress)) {
-            logger.info("Error: Logged-in user is not an Egress.");
-            return;
+    public String updateMilestone(Milestone originalMilestone, String institution, String description, String role, LocalDate startDate, LocalDate finishDate, boolean current) {
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("Instituição", institution);
+        fields.put("Cargo/atividades", role);
+        fields.put("Descrição das atividades", description);
+        fields.put("Data de ínicio", startDate == null ? "" : startDate.toString());
+        if (!current) {
+            fields.put("Data de término", finishDate == null ? "" : finishDate.toString());
+        }
+
+        String emptyFields = emptyDataCheck(fields);
+        if (!emptyFields.isBlank()) {
+            logger.info("Error: Fields empty");
+            return emptyFields;
         }
 
         Egress egress = (Egress) userSession;
 
-        ArrayList<User> users = storage.loadUsers();
+        Milestone newMilestone = new Milestone(institution, description, role, startDate, finishDate, current);
+        MilestoneSubmission newMilestoneSubmission = new MilestoneSubmission(egress, newMilestone, originalMilestone);
+        storage.saveMilestoneSubmission(newMilestoneSubmission);
 
-        for (User user : users) {
-            if (user instanceof Administrator adm) {
-                adm.createPendentMilestone(
-                        egress.getTrajectory().getMilestoneById(id),
-                        new Milestone(institution, description, role, startDate, finishDate, current),
-                        egress);
-            }
-        }
+        return "Marco atualizado com sucesso. Por favor aguarde a validação do Administrador. Você pode acompanhar o status da validação em Trajetória > Histórico de atualizações.";
 
-        logger.info("Milestone updated successfully for: " + egress.getName());
     }
 
-    public void deleteMilestone(String id) {
-        if (!(userSession instanceof Egress)) {
-            logger.info("Error: Logged-in user is not an Egress.");
-            return;
-        }
-
+    public String deleteMilestone(Milestone milestone) {
         Egress egress = (Egress) userSession;
-        egress.getTrajectory().deleteMilestone(id);
-        logger.info("Milestone deleted successfully for: " + egress.getName());
+        egress.deleteMilestone(milestone);
+        storage.updateUser(userSession);
+        logger.log(Level.INFO, "Milestone deleted successfully for: {0}", egress.getName());
+        return "Milestone excluída com sucesso!";
     }
 
-    // Validation and Pending Milestone Management
-    public void validateMilestone(Milestone newMilestone, Egress egress, boolean approved) {
-        if (egress == null || newMilestone == null) {
-            logger.info("Error: Invalid Egress or Milestone.");
-            return;
+    public String validateMilestone(MilestoneSubmission pendentMilestone, boolean approved) {
+
+        pendentMilestone.updateStatus(approved ? "Aprovado" : "Recusado");
+        Milestone newMilestone = pendentMilestone.getNewMilestone();
+        Milestone oldMilestone = pendentMilestone.getOldMilestone();
+        Egress egress = pendentMilestone.getEgress();
+
+        if (approved && oldMilestone == null) {
+            egress.addMilestone(newMilestone);
         }
 
-        if (approved) {
-            egress.getTrajectory().setMilestone(newMilestone);
-            logger.info("Milestone approved for: " + egress.getName());
+        if (approved && oldMilestone != null) {
+            egress.updateMilestone(oldMilestone, newMilestone);
+        }
+
+        storage.updateUser(egress);
+        storage.updateMilestoneSubmission(pendentMilestone);
+
+        logger.log(Level.INFO, "Milestone deleted successfully for: {0}", egress.getName());
+        return "Marco validado com sucesso!";
+    }
+
+    public ArrayList<MilestoneSubmission> listPendentsMilestones() {
+        if (userSession instanceof Administrator) {
+            return storage.loadPendentMilestonesSubmissions();
         } else {
-            logger.info("Milestone rejected for: " + egress.getName());
+            return new ArrayList<>();
         }
-//        pendentMilestones.removeIf(pm -> pm.getNewMilestone().equals(newMilestone));
     }
 
-    public ArrayList<PendentMilestone> listPendentsMilestones() {
-        ArrayList<User> users = storage.loadUsers();
-
-        for (User user : users) {
-            if (user instanceof Administrator administrator) {
-                return administrator.getPendentMilestones();
-            }
+    public ArrayList<MilestoneSubmission> listMilestoneSubmissionsByEgress() {
+        if (userSession instanceof Egress egress) {
+            return storage.loadMilestonesSubmissionsByEgress(egress);
         }
-
         return new ArrayList<>();
     }
 
-    public ArrayList<PendentMilestone> listPendentsMilestonesByEgress() {
-        ArrayList<PendentMilestone> egressPendentMilestones = new ArrayList<>();
-
-        ArrayList<PendentMilestone> allPendentMilestones = listPendentsMilestones();
-
-        for (PendentMilestone milestone : allPendentMilestones) {
-            if (milestone.getEgress().getEmail().equals(this.userSession.getEmail())) {
-                egressPendentMilestones.add(milestone);
-            }
-        }
-
-        return egressPendentMilestones;
-    }
-
-    public void removePendentMilestoneFromList(Milestone milestone) {
-//        pendentMilestones.removeIf(pm -> pm.getNewMilestone().equals(milestone));
-        logger.info("Milestone removed from pending list.");
-    }
 }

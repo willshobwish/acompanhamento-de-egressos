@@ -5,29 +5,33 @@
 package View.Egress;
 
 import Controller.SystemController;
+import Interface.Callback;
 import java.time.LocalDate;
 import Model.Milestone;
 import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 
 public class MilestoneForm extends javax.swing.JDialog {
 
-    private final Milestone initialData;
+    private final Milestone originalMilestone;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     SystemController controller = SystemController.getInstance();
+    private Callback onConfirm;
 
     /**
      * Creates new form MilestoneForm2
+     *
      * @param parent
      * @param modal
      * @param initialData
      */
-    public MilestoneForm(java.awt.Frame parent, boolean modal, Milestone initialData) {
+    public MilestoneForm(java.awt.Frame parent, boolean modal, Milestone initialData, Callback onConfirm) {
         super(parent, modal);
-        this.initialData = initialData;
-
+        this.originalMilestone = initialData;
+        this.onConfirm = onConfirm;
         initComponents();
         if (initialData != null) {
             title.setText("Editar marco");
@@ -38,12 +42,12 @@ public class MilestoneForm extends javax.swing.JDialog {
     }
 
     private void initData() {
-        role.setText(initialData.getRole());
-        description.setText(initialData.getDescription());
-        startDate.setText(initialData.getStartDate().format(formatter));
-        endDate.setText(initialData.getFinishDate() != null ? initialData.getFinishDate().format(formatter) : "");
-        insituition.setText(initialData.getInstitution());
-        current.setSelected(initialData.isCurrent());
+        role.setText(originalMilestone.getRole());
+        description.setText(originalMilestone.getDescription());
+        startDate.setText(originalMilestone.getStartDate().format(formatter));
+        endDate.setText(originalMilestone.getFinishDate() != null ? originalMilestone.getFinishDate().format(formatter) : "");
+        insituition.setText(originalMilestone.getInstitution());
+        current.setSelected(originalMilestone.isCurrent());
     }
 
     /**
@@ -96,15 +100,14 @@ public class MilestoneForm extends javax.swing.JDialog {
         jLabel4.setForeground(new java.awt.Color(36, 36, 36));
         jLabel4.setText("Descrição das atividades, projetos e pesquisas");
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(new RoundedBorder(8, new Color(193,193,193)));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         description.setColumns(20);
         description.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         description.setForeground(new java.awt.Color(36, 36, 36));
-        description.setLineWrap(true);
         description.setRows(5);
-        description.setWrapStyleWord(true);
         description.setBorder(null);
         jScrollPane1.setViewportView(description);
 
@@ -223,9 +226,9 @@ public class MilestoneForm extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(current)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
@@ -268,31 +271,42 @@ public class MilestoneForm extends javax.swing.JDialog {
     }//GEN-LAST:event_insituitionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String message;
 
-        if (initialData != null) {
-            controller.updateMilestone(
-                    initialData.getId(),
+        if (originalMilestone != null) {
+            message = controller.updateMilestone(originalMilestone,
                     insituition.getText(), description.getText(), role.getText(),
-                    LocalDate.from(formatter.parse(startDate.getText())),
+                    !startDate.getText().isBlank() ? LocalDate.from(formatter.parse(startDate.getText())) : null,
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected()
             );
-            JOptionPane.showMessageDialog(null, "Marco adicionado com sucesso. Por favor aguarde a validação do Administrador. Você pode acompanhar o status da validação em Trajetória > Atualizações pendentes.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
-                    LocalDate.from(formatter.parse(startDate.getText())),
+            message = controller.createMilestone(insituition.getText(), description.getText(), role.getText(),
+                    !startDate.getText().isBlank() ? LocalDate.from(formatter.parse(startDate.getText())) : null,
                     !endDate.getText().isBlank() ? LocalDate.from(formatter.parse(endDate.getText())) : null,
                     current.isSelected());
-
-            JOptionPane.showMessageDialog(null, "Marco editado com sucesso. Por favor aguarde a validação do Administrador. Você pode acompanhar o status da validação em Trajetória > Atualizações pendentes.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-
         }
-
-        this.dispose();
+        JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+        if (message.contains("sucesso")) {
+            if (onConfirm != null) {
+                onConfirm.execute();
+            }
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
+
+        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar esse marco?", "Confirmação", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            String message = controller.deleteMilestone(originalMilestone);
+            JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+            if (onConfirm != null) {
+                onConfirm.execute();
+            }
+            this.dispose();
+        }
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     /**
@@ -326,7 +340,7 @@ public class MilestoneForm extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MilestoneForm dialog = new MilestoneForm(new javax.swing.JFrame(), true, null);
+                MilestoneForm dialog = new MilestoneForm(new javax.swing.JFrame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

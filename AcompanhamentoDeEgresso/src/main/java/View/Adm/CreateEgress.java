@@ -7,18 +7,22 @@ package View.Adm;
 import Controller.SystemController;
 import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 
-public class CreateUser extends javax.swing.JPanel {
+/**
+ *
+ * @author Karol
+ */
+public class CreateEgress extends javax.swing.JPanel {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
-     * Creates new form NewEgress
-     *
-     * @param userType
+     * Creates new form CreateEgress
      */
-    public CreateUser() {
+    public CreateEgress() {
         initComponents();
-
     }
 
     /**
@@ -37,6 +41,10 @@ public class CreateUser extends javax.swing.JPanel {
         emailField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         title = new javax.swing.JLabel();
+        startDate = new javax.swing.JFormattedTextField();
+        startDateLabel = new javax.swing.JLabel();
+        endDateLabel = new javax.swing.JLabel();
+        endDate = new javax.swing.JFormattedTextField();
 
         panel.setBackground(new java.awt.Color(255, 255, 255));
         panel.setPreferredSize(new java.awt.Dimension(760, 266));
@@ -60,7 +68,7 @@ public class CreateUser extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(134, 241, 128));
         jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Criar usuário");
+        jButton1.setText("Criar egresso");
         jButton1.setBorder(null);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +78,23 @@ public class CreateUser extends javax.swing.JPanel {
 
         title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         title.setForeground(new java.awt.Color(36, 36, 36));
-        title.setText("Novo Usuário");
+        title.setText("Novo Egresso ");
+
+        startDate.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        startDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        startDate.setToolTipText("dd/MM/yyyy");
+
+        startDateLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        startDateLabel.setForeground(new java.awt.Color(36, 36, 36));
+        startDateLabel.setText("Data ingresso");
+
+        endDateLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        endDateLabel.setForeground(new java.awt.Color(36, 36, 36));
+        endDateLabel.setText("Data de egresso");
+
+        endDate.setBorder(new RoundedBorder(8, new Color(193,193,193)));
+        endDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        endDate.setToolTipText("dd/MM/yyyy");
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -83,16 +107,22 @@ public class CreateUser extends javax.swing.JPanel {
                     .addComponent(title)
                     .addComponent(jLabel1)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(startDateLabel)
+                            .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(endDateLabel)
+                            .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(emailField)
                     .addComponent(nameField))
-                .addGap(218, 218, 218))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(59, Short.MAX_VALUE)
                 .addComponent(title)
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
@@ -103,8 +133,16 @@ public class CreateUser extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startDateLabel)
+                    .addComponent(endDateLabel))
+                .addGap(12, 12, 12)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -117,28 +155,41 @@ public class CreateUser extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         SystemController controller = SystemController.getInstance();
 
-        String message = controller.createUser(nameField.getText(), emailField.getText());
+        String message = controller.createEgress(
+                nameField.getText(), 
+                emailField.getText(), 
+                startDate.getText().isBlank() ? null : LocalDate.parse(startDate.getText(), formatter), 
+                endDate.getText().isBlank() ? null : LocalDate.parse(endDate.getText(), formatter)
+        );
+        
         JOptionPane.showMessageDialog(null, message, "Operação concluída", JOptionPane.INFORMATION_MESSAGE);
 
         nameField.setText("");
         emailField.setText("");
+        startDate.setText("");
+        endDate.setText("");
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField emailField;
+    private javax.swing.JFormattedTextField endDate;
+    private javax.swing.JLabel endDateLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField nameField;
     private javax.swing.JPanel panel;
+    private javax.swing.JFormattedTextField startDate;
+    private javax.swing.JLabel startDateLabel;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
