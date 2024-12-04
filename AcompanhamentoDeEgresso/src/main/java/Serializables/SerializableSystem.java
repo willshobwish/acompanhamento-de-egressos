@@ -209,4 +209,25 @@ public class SerializableSystem {
 
         return egressMilestoneSubmissions;
     }
+
+    public ArrayList<MilestoneSubmission> listRegisterMilestonesValidated() {
+        ArrayList<MilestoneSubmission> allMilestonesSubmission = loadMilestonesSubmissions();
+        ArrayList<MilestoneSubmission> egressMilestoneSubmissions = new ArrayList<>();
+
+        for (MilestoneSubmission milestone : allMilestonesSubmission) {
+            if (!"Pendente".equals(milestone.getStatus())) {
+                egressMilestoneSubmissions.add(milestone);
+            }
+        }
+
+        return egressMilestoneSubmissions;
+    }
+
+    public void deleteUser(User user) {
+        ArrayList<User> users = this.loadUsers();
+        users.removeIf((userList)
+                -> user.getEmail().equals(userList.getEmail())
+        );
+        this.saveUsers(users);
+    }
 }
