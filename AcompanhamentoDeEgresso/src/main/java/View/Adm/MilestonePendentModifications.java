@@ -31,6 +31,7 @@ public class MilestonePendentModifications extends javax.swing.JDialog {
      * @param parent
      * @param modal
      * @param pendentMilestone
+     * @param onClose
      */
     public MilestonePendentModifications(java.awt.Frame parent, boolean modal, MilestoneSubmission pendentMilestone,
             Callback onClose

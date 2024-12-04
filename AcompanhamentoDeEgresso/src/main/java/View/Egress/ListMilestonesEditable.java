@@ -152,7 +152,10 @@ public class ListMilestonesEditable extends javax.swing.JPanel {
     }
 
     private void openModalEdit(Milestone milestone) {
-        MilestoneForm modal = new MilestoneForm(null, false, milestone);
+        MilestoneForm modal = new MilestoneForm(null, false, milestone, () -> {
+            clearTable();
+            populateTable(egress.getTrajectory().getMilestones());
+        });
         modal.setResizable(false);
         modal.setAlwaysOnTop(false);
         modal.setLocationRelativeTo(null);

@@ -264,6 +264,7 @@ public final class SystemController {
     public String deleteMilestone(Milestone milestone) {
         Egress egress = (Egress) userSession;
         egress.deleteMilestone(milestone);
+        storage.updateUser(userSession);
         logger.log(Level.INFO, "Milestone deleted successfully for: {0}", egress.getName());
         return "Milestone excluída com sucesso!";
     }

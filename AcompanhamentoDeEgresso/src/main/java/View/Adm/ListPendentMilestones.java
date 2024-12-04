@@ -137,6 +137,7 @@ public class ListPendentMilestones extends javax.swing.JPanel {
 
     private void openModifications(MilestoneSubmission pendentMilestone) {
         MilestonePendentModifications modal = new MilestonePendentModifications(null, false, pendentMilestone, () -> {
+            clearTable();
             populateTable(controller.listPendentsMilestones());
         });
         modal.setResizable(false);

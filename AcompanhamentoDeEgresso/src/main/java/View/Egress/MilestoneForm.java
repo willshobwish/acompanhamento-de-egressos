@@ -5,18 +5,21 @@
 package View.Egress;
 
 import Controller.SystemController;
+import Interface.Callback;
 import java.time.LocalDate;
 import Model.Milestone;
 import View.CustomComponents.RoundedBorder;
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 
 public class MilestoneForm extends javax.swing.JDialog {
 
     private final Milestone originalMilestone;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     SystemController controller = SystemController.getInstance();
+    private Callback onConfirm;
 
     /**
      * Creates new form MilestoneForm2
@@ -25,10 +28,10 @@ public class MilestoneForm extends javax.swing.JDialog {
      * @param modal
      * @param initialData
      */
-    public MilestoneForm(java.awt.Frame parent, boolean modal, Milestone initialData) {
+    public MilestoneForm(java.awt.Frame parent, boolean modal, Milestone initialData, Callback onConfirm) {
         super(parent, modal);
         this.originalMilestone = initialData;
-
+        this.onConfirm = onConfirm;
         initComponents();
         if (initialData != null) {
             title.setText("Editar marco");
@@ -284,12 +287,25 @@ public class MilestoneForm extends javax.swing.JDialog {
                     current.isSelected());
         }
         JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
-        if(message.contains("sucesso")) this.dispose();
+        if (message.contains("sucesso")) {
+            if (onConfirm != null) {
+                onConfirm.execute();
+            }
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        String message = controller.deleteMilestone(originalMilestone);
-        JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+
+        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar esse marco?", "Confirmação", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            String message = controller.deleteMilestone(originalMilestone);
+            JOptionPane.showMessageDialog(null, message, "Operação finalizada", JOptionPane.INFORMATION_MESSAGE);
+            if (onConfirm != null) {
+                onConfirm.execute();
+            }
+            this.dispose();
+        }
 
     }//GEN-LAST:event_deleteButtonActionPerformed
 
@@ -324,7 +340,7 @@ public class MilestoneForm extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MilestoneForm dialog = new MilestoneForm(new javax.swing.JFrame(), true, null);
+                MilestoneForm dialog = new MilestoneForm(new javax.swing.JFrame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
