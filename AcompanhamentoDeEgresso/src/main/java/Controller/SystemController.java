@@ -322,5 +322,13 @@ public final class SystemController {
         }
         return "Operação não autorizada!";
     }
+    
+    public ArrayList<MilestoneSubmission> listRegisterMilestonesValidated() {
+          if (userSession instanceof Administrator) {
+           return storage.listRegisterMilestonesValidated();
+       
+        }
+        return new ArrayList<>();
+    }
 
 }
